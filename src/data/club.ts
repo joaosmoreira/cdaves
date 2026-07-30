@@ -94,14 +94,154 @@ export const NEWS = [
   { slug: "parceria-energia", title: "Novo parceiro oficial de energia", date: "01 Jul 2026", category: "Corporate", excerpt: "Acordo de três épocas que reforça a sustentabilidade do estádio." },
 ];
 
-export const MODALIDADES = [
-  { name: "Futsal", athletes: 68, desc: "Seniores masculinos e femininos e cinco escalões de formação." },
-  { name: "Andebol", athletes: 92, desc: "Uma das modalidades históricas do clube, com presença nacional." },
-  { name: "Basquetebol", athletes: 74, desc: "Formação forte e equipa sénior nos campeonatos distritais." },
-  { name: "Atletismo", athletes: 55, desc: "Pista e estrada, com atletas presentes em provas internacionais." },
-  { name: "Natação", athletes: 130, desc: "Escola de natação e equipa de competição na piscina municipal." },
-  { name: "Ténis de Mesa", athletes: 31, desc: "Núcleo competitivo com títulos regionais em várias categorias." },
+export type Athlete = {
+  slug: string;
+  name: string;
+  fullName: string;
+  number: number;
+  position: string;
+  age: number;
+  birth: string;
+  nationality: string;
+  height: string;
+  since: string;
+  photo: string;
+  bio: string;
+};
+
+export type Modalidade = {
+  slug: string;
+  name: string;
+  athletes: number;
+  desc: string;
+  coach: string;
+  competition: string;
+  venue: string;
+  roster: Athlete[];
+};
+
+function athlete(
+  modalidade: string,
+  name: string,
+  fullName: string,
+  number: number,
+  position: string,
+  age: number,
+  nationality = "Portugal",
+): Athlete {
+  return {
+    slug: name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]+/g, "-"),
+    name,
+    fullName,
+    number,
+    position,
+    age,
+    birth: `${2026 - age}`,
+    nationality,
+    height: `1,${68 + (number % 20)} m`,
+    since: `${2018 + (number % 8)}`,
+    photo: photos[number % photos.length],
+    bio: `${name} representa o ${CLUB.name} no ${modalidade} e é um dos atletas de referência do plantel. Formado nos escalões jovens da região, destaca-se pela entrega competitiva e pela ligação ao clube.`,
+  };
+}
+
+export const MODALIDADES: Modalidade[] = [
+  {
+    slug: "futsal",
+    name: "Futsal",
+    athletes: 68,
+    desc: "Seniores masculinos e femininos e cinco escalões de formação.",
+    coach: "Ricardo Bastos",
+    competition: "Campeonato Nacional de Futsal",
+    venue: "Pavilhão Municipal do Aurirrubro",
+    roster: [
+      athlete("futsal", "André Faria", "André Miguel Faria", 1, "Guarda-redes", 29),
+      athlete("futsal", "Tiago Melo", "Tiago Sousa Melo", 5, "Fixo", 26),
+      athlete("futsal", "Rafa Duarte", "Rafael Duarte Nunes", 7, "Ala", 23),
+      athlete("futsal", "Léo Prado", "Leonardo Prado", 9, "Ala", 27, "Brasil"),
+      athlete("futsal", "Miguel Antunes", "Miguel Ângelo Antunes", 10, "Pivô", 31),
+      athlete("futsal", "Zé Rocha", "José Maria Rocha", 12, "Universal", 21),
+    ],
+  },
+  {
+    slug: "andebol",
+    name: "Andebol",
+    athletes: 92,
+    desc: "Uma das modalidades históricas do clube, com presença nacional.",
+    coach: "Marta Vilela",
+    competition: "Campeonato Nacional de Andebol",
+    venue: "Pavilhão Municipal do Aurirrubro",
+    roster: [
+      athlete("andebol", "Pedro Vaz", "Pedro Nuno Vaz", 1, "Guarda-redes", 30),
+      athlete("andebol", "Hugo Lima", "Hugo Alexandre Lima", 4, "Central", 25),
+      athlete("andebol", "Nelson Braga", "Nelson Braga Cunha", 6, "Lateral esquerdo", 28),
+      athlete("andebol", "Ivan Petrov", "Ivan Petrov", 8, "Lateral direito", 24, "Bulgária"),
+      athlete("andebol", "Filipe Nogueira", "Filipe Nogueira Sousa", 11, "Pivô", 27),
+      athlete("andebol", "Duarte Reis", "Duarte Reis Antunes", 13, "Ponta", 22),
+    ],
+  },
+  {
+    slug: "basquetebol",
+    name: "Basquetebol",
+    athletes: 74,
+    desc: "Formação forte e equipa sénior nos campeonatos distritais.",
+    coach: "Carlos Bento",
+    competition: "Campeonato Distrital de Basquetebol",
+    venue: "Pavilhão Municipal do Aurirrubro",
+    roster: [
+      athlete("basquetebol", "Rui Cordeiro", "Rui Manuel Cordeiro", 3, "Base", 26),
+      athlete("basquetebol", "Jamal Owens", "Jamal Owens", 5, "Extremo", 28, "EUA"),
+      athlete("basquetebol", "Vasco Neto", "Vasco Neto Ribeiro", 8, "Poste", 24),
+      athlete("basquetebol", "Tomé Aguiar", "Tomé Aguiar Silva", 11, "Ala-poste", 22),
+      athlete("basquetebol", "Bruno Pires", "Bruno Pires Gomes", 14, "Base", 20),
+    ],
+  },
+  {
+    slug: "atletismo",
+    name: "Atletismo",
+    athletes: 55,
+    desc: "Pista e estrada, com atletas presentes em provas internacionais.",
+    coach: "Isabel Freire",
+    competition: "Campeonatos Nacionais de Pista e Estrada",
+    venue: "Pista Municipal do Aurirrubro",
+    roster: [
+      athlete("atletismo", "Ana Salgado", "Ana Rita Salgado", 2, "Meio-fundo", 24),
+      athlete("atletismo", "Luís Grilo", "Luís Miguel Grilo", 6, "Velocidade", 23),
+      athlete("atletismo", "Sara Peixoto", "Sara Peixoto Lopes", 9, "Fundo", 27),
+      athlete("atletismo", "Élio Tavares", "Élio Tavares Correia", 12, "Salto em comprimento", 21),
+    ],
+  },
+  {
+    slug: "natacao",
+    name: "Natação",
+    athletes: 130,
+    desc: "Escola de natação e equipa de competição na piscina municipal.",
+    coach: "Nuno Cardoso",
+    competition: "Circuito Nacional de Natação",
+    venue: "Piscina Municipal do Aurirrubro",
+    roster: [
+      athlete("natacao", "Inês Mota", "Inês Mota Ferreira", 1, "Estilos", 22),
+      athlete("natacao", "Gonçalo Vieira", "Gonçalo Vieira Pinto", 4, "Livres", 25),
+      athlete("natacao", "Beatriz Lourenço", "Beatriz Lourenço Dias", 7, "Costas", 19),
+      athlete("natacao", "Martim Sousa", "Martim Sousa Andrade", 10, "Bruços", 20),
+    ],
+  },
+  {
+    slug: "tenis-de-mesa",
+    name: "Ténis de Mesa",
+    athletes: 31,
+    desc: "Núcleo competitivo com títulos regionais em várias categorias.",
+    coach: "Jorge Amaral",
+    competition: "Campeonato Regional de Ténis de Mesa",
+    venue: "Pavilhão Municipal do Aurirrubro",
+    roster: [
+      athlete("tenis-de-mesa", "Paulo Ventura", "Paulo Ventura Matos", 2, "Singulares", 30),
+      athlete("tenis-de-mesa", "Carlos Nunes", "Carlos Nunes Ferraz", 5, "Singulares", 26),
+      athlete("tenis-de-mesa", "Rita Bastos", "Rita Bastos Neves", 8, "Singulares e pares", 23),
+    ],
+  },
 ];
+
 
 export const PARTNERS = [
   { name: "Nortenergia", tier: "Main Sponsor" },
@@ -114,15 +254,57 @@ export const PARTNERS = [
   { name: "Café Central", tier: "Parceiro Local" },
 ];
 
-export const MEMBERSHIPS = [
-  { name: "Sócio Base", price: "5€/mês", perks: ["Cartão de sócio digital", "Descontos na loja oficial", "Newsletter exclusiva"] },
-  { name: "Sócio Aurirrubro", price: "12€/mês", perks: ["Tudo do Base", "Prioridade em jogos fora", "Visita guiada ao estádio", "Desconto no lugar anual"] },
-  { name: "Sócio Fundador", price: "25€/mês", perks: ["Tudo do Aurirrubro", "Convites para eventos do clube", "Acesso à sala de sócios", "Merchandising anual"] },
+export const MONTHLY_FEE = 8;
+
+export const MEMBER_PERKS = [
+  "Cartão de sócio digital",
+  "Descontos na loja oficial e bilheteira",
+  "Prioridade na compra de bilhetes",
+  "Newsletter e conteúdos exclusivos",
+  "Direito de voto na Assembleia Geral",
 ];
 
-export const SEATS = [
-  { zone: "Bancada Nascente", price: "180€", desc: "Central, coberta, a melhor vista de jogo." },
-  { zone: "Bancada Poente", price: "150€", desc: "Coberta, junto às zonas de aquecimento." },
-  { zone: "Topo Norte", price: "95€", desc: "A casa da claque, ambiente garantido." },
-  { zone: "Topo Sul", price: "95€", desc: "Zona familiar com preços reduzidos para jovens." },
+export type PaymentPlan = {
+  name: string;
+  months: number;
+  discount: number;
+  note: string;
+};
+
+export const PAYMENT_PLANS: PaymentPlan[] = [
+  { name: "Mensal", months: 1, discount: 0, note: "Pagamento mês a mês por débito direto." },
+  { name: "Trimestral", months: 3, discount: 0.05, note: "Três meses pagos de uma só vez." },
+  { name: "Semestral", months: 6, discount: 0.1, note: "Seis meses pagos de uma só vez." },
+  { name: "Anual", months: 12, discount: 0.15, note: "Ano completo pago de uma só vez." },
 ];
+
+export function planTotals(plan: PaymentPlan) {
+  const gross = MONTHLY_FEE * plan.months;
+  const total = gross * (1 - plan.discount);
+  return { gross, total, saving: gross - total, perMonth: total / plan.months };
+}
+
+export const SEATS = [
+  {
+    slug: "futebol-11",
+    zone: "Lugar Anual Futebol 11",
+    stand: "Bancada Central Coberta",
+    price: "180€",
+    desc: "Todos os jogos em casa do futebol de 11: campeonato e Taça da Liga.",
+    includes: ["Campeonato — jogos em casa", "Taça da Liga — jogos em casa", "Lugar fixo na bancada central coberta", "Prioridade de renovação"],
+  },
+  {
+    slug: "clube-total",
+    zone: "Lugar Anual Clube Total",
+    stand: "Bancada Central Coberta",
+    price: "260€",
+    desc: "Todas as competições do clube, incluindo as modalidades com jogos pagos no pavilhão.",
+    includes: [
+      "Tudo o que inclui o Futebol 11",
+      "Todas as competições do futebol de 11",
+      "Modalidades no pavilhão com bilhete pago",
+      "Lugar fixo na bancada central coberta",
+    ],
+  },
+];
+

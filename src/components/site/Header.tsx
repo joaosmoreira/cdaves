@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo-cd.png";
+
 
 const NAV = [
   { to: "/noticias", label: "Notícias" },
@@ -20,11 +22,10 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4">
         <Link to="/" className="flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-sm bg-primary font-display text-lg text-primary-foreground">
-            CD
-          </span>
+          <img src={logo} alt="Emblema do CD Aurirrubro" width={816} height={816} className="h-11 w-11 object-contain" />
           <span className="font-display text-lg uppercase leading-none tracking-tight">Aurirrubro</span>
         </Link>
+
 
         <nav className="hidden items-center gap-6 lg:flex">
           {NAV.map((item) => (

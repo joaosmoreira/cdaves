@@ -76,7 +76,7 @@ export function Footer() {
 
           {COLUMNS.map((col) => (
             <div key={col.title}>
-              <h3 className="font-display text-sm uppercase tracking-widest text-accent">{col.title}</h3>
+              <h3 className="font-display text-sm uppercase tracking-widest text-background">{col.title}</h3>
               <ul className="mt-4 space-y-2 text-sm opacity-75">
                 {col.links.map((l, i) => (
                   <li key={i}>

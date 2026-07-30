@@ -25,7 +25,7 @@ function Noticias() {
 
       <section className="mx-auto max-w-7xl px-4 py-14">
         <article className="border border-border">
-          <div className="h-2 w-full bg-accent" />
+          <div className="h-2 w-full bg-primary" />
           <div className="p-8">
             <p className="text-[11px] font-bold uppercase tracking-widest text-primary">{lead.category} · {lead.date}</p>
             <h2 className="mt-3 font-display text-3xl uppercase leading-tight md:text-5xl">{lead.title}</h2>

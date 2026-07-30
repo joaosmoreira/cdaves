@@ -43,7 +43,7 @@ function Plantel() {
           if (!players.length) return null;
           return (
             <div key={g} className="mb-12">
-              <h2 className="mb-6 border-b-2 border-accent pb-2 font-display text-2xl uppercase">{g}s</h2>
+              <h2 className="mb-6 border-b-2 border-primary pb-2 font-display text-2xl uppercase">{g}s</h2>
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {players.map((p) => (
                   <Link

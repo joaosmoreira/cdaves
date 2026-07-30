@@ -17,8 +17,17 @@ import { Route as MultimediaRouteImport } from './routes/multimedia'
 import { Route as NoticiasRouteImport } from './routes/noticias'
 import { Route as SociosRouteImport } from './routes/socios'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminCorporateRouteImport } from './routes/admin.corporate'
+import { Route as AdminNoticiasRouteImport } from './routes/admin.noticias'
 import { Route as FutebolIndexRouteImport } from './routes/futebol.index'
 import { Route as ModalidadesIndexRouteImport } from './routes/modalidades.index'
+import { Route as AdminFutebolAtletasRouteImport } from './routes/admin.futebol.atletas'
+import { Route as AdminFutebolEquipasRouteImport } from './routes/admin.futebol.equipas'
+import { Route as AdminModalidadesIndexRouteImport } from './routes/admin.modalidades.index'
+import { Route as AdminModalidadesAtletasRouteImport } from './routes/admin.modalidades.atletas'
+import { Route as AdminModalidadesEquipasRouteImport } from './routes/admin.modalidades.equipas'
+import { Route as AdminMultimediaIndexRouteImport } from './routes/admin.multimedia.index'
+import { Route as AdminMultimediaCategoriasRouteImport } from './routes/admin.multimedia.categorias'
 import { Route as FutebolEquipaIndexRouteImport } from './routes/futebol.$equipa.index'
 import { Route as FutebolEquipaJogadorRouteImport } from './routes/futebol.$equipa.$jogador'
 import { Route as ModalidadesModalidadeIndexRouteImport } from './routes/modalidades.$modalidade.index'
@@ -64,6 +73,16 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCorporateRoute = AdminCorporateRouteImport.update({
+  id: '/corporate',
+  path: '/corporate',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNoticiasRoute = AdminNoticiasRouteImport.update({
+  id: '/noticias',
+  path: '/noticias',
+  getParentRoute: () => AdminRoute,
+} as any)
 const FutebolIndexRoute = FutebolIndexRouteImport.update({
   id: '/futebol/',
   path: '/futebol/',
@@ -74,6 +93,42 @@ const ModalidadesIndexRoute = ModalidadesIndexRouteImport.update({
   path: '/modalidades/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminFutebolAtletasRoute = AdminFutebolAtletasRouteImport.update({
+  id: '/futebol/atletas',
+  path: '/futebol/atletas',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFutebolEquipasRoute = AdminFutebolEquipasRouteImport.update({
+  id: '/futebol/equipas',
+  path: '/futebol/equipas',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminModalidadesIndexRoute = AdminModalidadesIndexRouteImport.update({
+  id: '/modalidades/',
+  path: '/modalidades/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminModalidadesAtletasRoute = AdminModalidadesAtletasRouteImport.update({
+  id: '/modalidades/atletas',
+  path: '/modalidades/atletas',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminModalidadesEquipasRoute = AdminModalidadesEquipasRouteImport.update({
+  id: '/modalidades/equipas',
+  path: '/modalidades/equipas',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMultimediaIndexRoute = AdminMultimediaIndexRouteImport.update({
+  id: '/multimedia/',
+  path: '/multimedia/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMultimediaCategoriasRoute =
+  AdminMultimediaCategoriasRouteImport.update({
+    id: '/multimedia/categorias',
+    path: '/multimedia/categorias',
+    getParentRoute: () => AdminRoute,
+  } as any)
 const FutebolEquipaIndexRoute = FutebolEquipaIndexRouteImport.update({
   id: '/futebol/$equipa/',
   path: '/futebol/$equipa/',
@@ -105,11 +160,20 @@ export interface FileRoutesByFullPath {
   '/multimedia': typeof MultimediaRoute
   '/noticias': typeof NoticiasRoute
   '/socios': typeof SociosRoute
+  '/admin/corporate': typeof AdminCorporateRoute
+  '/admin/noticias': typeof AdminNoticiasRoute
   '/admin/': typeof AdminIndexRoute
   '/futebol/': typeof FutebolIndexRoute
   '/modalidades/': typeof ModalidadesIndexRoute
+  '/admin/futebol/atletas': typeof AdminFutebolAtletasRoute
+  '/admin/futebol/equipas': typeof AdminFutebolEquipasRoute
+  '/admin/modalidades/atletas': typeof AdminModalidadesAtletasRoute
+  '/admin/modalidades/equipas': typeof AdminModalidadesEquipasRoute
+  '/admin/multimedia/categorias': typeof AdminMultimediaCategoriasRoute
   '/futebol/$equipa/$jogador': typeof FutebolEquipaJogadorRoute
   '/modalidades/$modalidade/$atleta': typeof ModalidadesModalidadeAtletaRoute
+  '/admin/modalidades/': typeof AdminModalidadesIndexRoute
+  '/admin/multimedia/': typeof AdminMultimediaIndexRoute
   '/futebol/$equipa/': typeof FutebolEquipaIndexRoute
   '/modalidades/$modalidade/': typeof ModalidadesModalidadeIndexRoute
 }
@@ -120,11 +184,20 @@ export interface FileRoutesByTo {
   '/multimedia': typeof MultimediaRoute
   '/noticias': typeof NoticiasRoute
   '/socios': typeof SociosRoute
+  '/admin/corporate': typeof AdminCorporateRoute
+  '/admin/noticias': typeof AdminNoticiasRoute
   '/admin': typeof AdminIndexRoute
   '/futebol': typeof FutebolIndexRoute
   '/modalidades': typeof ModalidadesIndexRoute
+  '/admin/futebol/atletas': typeof AdminFutebolAtletasRoute
+  '/admin/futebol/equipas': typeof AdminFutebolEquipasRoute
+  '/admin/modalidades/atletas': typeof AdminModalidadesAtletasRoute
+  '/admin/modalidades/equipas': typeof AdminModalidadesEquipasRoute
+  '/admin/multimedia/categorias': typeof AdminMultimediaCategoriasRoute
   '/futebol/$equipa/$jogador': typeof FutebolEquipaJogadorRoute
   '/modalidades/$modalidade/$atleta': typeof ModalidadesModalidadeAtletaRoute
+  '/admin/modalidades': typeof AdminModalidadesIndexRoute
+  '/admin/multimedia': typeof AdminMultimediaIndexRoute
   '/futebol/$equipa': typeof FutebolEquipaIndexRoute
   '/modalidades/$modalidade': typeof ModalidadesModalidadeIndexRoute
 }
@@ -137,11 +210,20 @@ export interface FileRoutesById {
   '/multimedia': typeof MultimediaRoute
   '/noticias': typeof NoticiasRoute
   '/socios': typeof SociosRoute
+  '/admin/corporate': typeof AdminCorporateRoute
+  '/admin/noticias': typeof AdminNoticiasRoute
   '/admin/': typeof AdminIndexRoute
   '/futebol/': typeof FutebolIndexRoute
   '/modalidades/': typeof ModalidadesIndexRoute
+  '/admin/futebol/atletas': typeof AdminFutebolAtletasRoute
+  '/admin/futebol/equipas': typeof AdminFutebolEquipasRoute
+  '/admin/modalidades/atletas': typeof AdminModalidadesAtletasRoute
+  '/admin/modalidades/equipas': typeof AdminModalidadesEquipasRoute
+  '/admin/multimedia/categorias': typeof AdminMultimediaCategoriasRoute
   '/futebol/$equipa/$jogador': typeof FutebolEquipaJogadorRoute
   '/modalidades/$modalidade/$atleta': typeof ModalidadesModalidadeAtletaRoute
+  '/admin/modalidades/': typeof AdminModalidadesIndexRoute
+  '/admin/multimedia/': typeof AdminMultimediaIndexRoute
   '/futebol/$equipa/': typeof FutebolEquipaIndexRoute
   '/modalidades/$modalidade/': typeof ModalidadesModalidadeIndexRoute
 }
@@ -155,11 +237,20 @@ export interface FileRouteTypes {
     | '/multimedia'
     | '/noticias'
     | '/socios'
+    | '/admin/corporate'
+    | '/admin/noticias'
     | '/admin/'
     | '/futebol/'
     | '/modalidades/'
+    | '/admin/futebol/atletas'
+    | '/admin/futebol/equipas'
+    | '/admin/modalidades/atletas'
+    | '/admin/modalidades/equipas'
+    | '/admin/multimedia/categorias'
     | '/futebol/$equipa/$jogador'
     | '/modalidades/$modalidade/$atleta'
+    | '/admin/modalidades/'
+    | '/admin/multimedia/'
     | '/futebol/$equipa/'
     | '/modalidades/$modalidade/'
   fileRoutesByTo: FileRoutesByTo
@@ -170,11 +261,20 @@ export interface FileRouteTypes {
     | '/multimedia'
     | '/noticias'
     | '/socios'
+    | '/admin/corporate'
+    | '/admin/noticias'
     | '/admin'
     | '/futebol'
     | '/modalidades'
+    | '/admin/futebol/atletas'
+    | '/admin/futebol/equipas'
+    | '/admin/modalidades/atletas'
+    | '/admin/modalidades/equipas'
+    | '/admin/multimedia/categorias'
     | '/futebol/$equipa/$jogador'
     | '/modalidades/$modalidade/$atleta'
+    | '/admin/modalidades'
+    | '/admin/multimedia'
     | '/futebol/$equipa'
     | '/modalidades/$modalidade'
   id:
@@ -186,11 +286,20 @@ export interface FileRouteTypes {
     | '/multimedia'
     | '/noticias'
     | '/socios'
+    | '/admin/corporate'
+    | '/admin/noticias'
     | '/admin/'
     | '/futebol/'
     | '/modalidades/'
+    | '/admin/futebol/atletas'
+    | '/admin/futebol/equipas'
+    | '/admin/modalidades/atletas'
+    | '/admin/modalidades/equipas'
+    | '/admin/multimedia/categorias'
     | '/futebol/$equipa/$jogador'
     | '/modalidades/$modalidade/$atleta'
+    | '/admin/modalidades/'
+    | '/admin/multimedia/'
     | '/futebol/$equipa/'
     | '/modalidades/$modalidade/'
   fileRoutesById: FileRoutesById
@@ -269,6 +378,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/corporate': {
+      id: '/admin/corporate'
+      path: '/corporate'
+      fullPath: '/admin/corporate'
+      preLoaderRoute: typeof AdminCorporateRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/noticias': {
+      id: '/admin/noticias'
+      path: '/noticias'
+      fullPath: '/admin/noticias'
+      preLoaderRoute: typeof AdminNoticiasRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/futebol/': {
       id: '/futebol/'
       path: '/futebol'
@@ -282,6 +405,55 @@ declare module '@tanstack/react-router' {
       fullPath: '/modalidades/'
       preLoaderRoute: typeof ModalidadesIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/futebol/atletas': {
+      id: '/admin/futebol/atletas'
+      path: '/futebol/atletas'
+      fullPath: '/admin/futebol/atletas'
+      preLoaderRoute: typeof AdminFutebolAtletasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/futebol/equipas': {
+      id: '/admin/futebol/equipas'
+      path: '/futebol/equipas'
+      fullPath: '/admin/futebol/equipas'
+      preLoaderRoute: typeof AdminFutebolEquipasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/modalidades/': {
+      id: '/admin/modalidades/'
+      path: '/modalidades'
+      fullPath: '/admin/modalidades/'
+      preLoaderRoute: typeof AdminModalidadesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/modalidades/atletas': {
+      id: '/admin/modalidades/atletas'
+      path: '/modalidades/atletas'
+      fullPath: '/admin/modalidades/atletas'
+      preLoaderRoute: typeof AdminModalidadesAtletasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/modalidades/equipas': {
+      id: '/admin/modalidades/equipas'
+      path: '/modalidades/equipas'
+      fullPath: '/admin/modalidades/equipas'
+      preLoaderRoute: typeof AdminModalidadesEquipasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/multimedia/': {
+      id: '/admin/multimedia/'
+      path: '/multimedia'
+      fullPath: '/admin/multimedia/'
+      preLoaderRoute: typeof AdminMultimediaIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/multimedia/categorias': {
+      id: '/admin/multimedia/categorias'
+      path: '/multimedia/categorias'
+      fullPath: '/admin/multimedia/categorias'
+      preLoaderRoute: typeof AdminMultimediaCategoriasRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/futebol/$equipa/': {
       id: '/futebol/$equipa/'
@@ -315,11 +487,29 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminCorporateRoute: typeof AdminCorporateRoute
+  AdminNoticiasRoute: typeof AdminNoticiasRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminFutebolAtletasRoute: typeof AdminFutebolAtletasRoute
+  AdminFutebolEquipasRoute: typeof AdminFutebolEquipasRoute
+  AdminModalidadesAtletasRoute: typeof AdminModalidadesAtletasRoute
+  AdminModalidadesEquipasRoute: typeof AdminModalidadesEquipasRoute
+  AdminMultimediaCategoriasRoute: typeof AdminMultimediaCategoriasRoute
+  AdminModalidadesIndexRoute: typeof AdminModalidadesIndexRoute
+  AdminMultimediaIndexRoute: typeof AdminMultimediaIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCorporateRoute: AdminCorporateRoute,
+  AdminNoticiasRoute: AdminNoticiasRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminFutebolAtletasRoute: AdminFutebolAtletasRoute,
+  AdminFutebolEquipasRoute: AdminFutebolEquipasRoute,
+  AdminModalidadesAtletasRoute: AdminModalidadesAtletasRoute,
+  AdminModalidadesEquipasRoute: AdminModalidadesEquipasRoute,
+  AdminMultimediaCategoriasRoute: AdminMultimediaCategoriasRoute,
+  AdminModalidadesIndexRoute: AdminModalidadesIndexRoute,
+  AdminMultimediaIndexRoute: AdminMultimediaIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)

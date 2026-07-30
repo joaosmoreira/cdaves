@@ -16,7 +16,7 @@ export const Route = createFileRoute("/admin/multimedia/")({
 });
 
 function MultimediaAdmin() {
-  const categorias = useAdmin((s) => s.mediaCategorias.map((c) => String(c.nome)));
+  const categorias = useAdmin((s) => s.mediaCategorias).map((c) => String(c.nome));
 
   return (
     <ResourceManager

@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { NewsletterCTA } from "@/components/site/CTA";
 import { NEWS } from "@/data/club";
 
-export const Route = createFileRoute("/noticias")({
+export const Route = createFileRoute("/noticias/")({
   head: () => ({
     meta: [
       { title: "Notícias — CD Aurirrubro" },

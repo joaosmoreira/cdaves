@@ -16,7 +16,7 @@ export const Route = createFileRoute("/admin/futebol/atletas")({
 });
 
 function FutebolAtletas() {
-  const equipas = useAdmin((s) => s.equipas.map((e) => String(e.nome)));
+  const equipas = useAdmin((s) => s.equipas).map((e) => String(e.nome));
 
   return (
     <ResourceManager

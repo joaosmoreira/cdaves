@@ -16,8 +16,8 @@ export const Route = createFileRoute("/admin/modalidades/atletas")({
 });
 
 function ModalidadeAtletas() {
-  const modalidades = useAdmin((s) => s.modalidades.map((m) => String(m.nome)));
-  const equipas = useAdmin((s) => s.modalidadeEquipas.map((e) => String(e.nome)));
+  const modalidades = useAdmin((s) => s.modalidades).map((m) => String(m.nome));
+  const equipas = useAdmin((s) => s.modalidadeEquipas).map((e) => String(e.nome));
 
   return (
     <ResourceManager

@@ -10,7 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContactosRouteImport } from './routes/contactos'
+import { Route as CorporateRouteImport } from './routes/corporate'
+import { Route as ModalidadesRouteImport } from './routes/modalidades'
+import { Route as MultimediaRouteImport } from './routes/multimedia'
 import { Route as NoticiasRouteImport } from './routes/noticias'
+import { Route as SociosRouteImport } from './routes/socios'
 import { Route as FutebolIndexRouteImport } from './routes/futebol.index'
 import { Route as FutebolEquipaIndexRouteImport } from './routes/futebol.$equipa.index'
 import { Route as FutebolEquipaJogadorRouteImport } from './routes/futebol.$equipa.$jogador'
@@ -20,9 +25,34 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactosRoute = ContactosRouteImport.update({
+  id: '/contactos',
+  path: '/contactos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CorporateRoute = CorporateRouteImport.update({
+  id: '/corporate',
+  path: '/corporate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModalidadesRoute = ModalidadesRouteImport.update({
+  id: '/modalidades',
+  path: '/modalidades',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MultimediaRoute = MultimediaRouteImport.update({
+  id: '/multimedia',
+  path: '/multimedia',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NoticiasRoute = NoticiasRouteImport.update({
   id: '/noticias',
   path: '/noticias',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SociosRoute = SociosRouteImport.update({
+  id: '/socios',
+  path: '/socios',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FutebolIndexRoute = FutebolIndexRouteImport.update({
@@ -43,14 +73,24 @@ const FutebolEquipaJogadorRoute = FutebolEquipaJogadorRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contactos': typeof ContactosRoute
+  '/corporate': typeof CorporateRoute
+  '/modalidades': typeof ModalidadesRoute
+  '/multimedia': typeof MultimediaRoute
   '/noticias': typeof NoticiasRoute
+  '/socios': typeof SociosRoute
   '/futebol/': typeof FutebolIndexRoute
   '/futebol/$equipa/$jogador': typeof FutebolEquipaJogadorRoute
   '/futebol/$equipa/': typeof FutebolEquipaIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contactos': typeof ContactosRoute
+  '/corporate': typeof CorporateRoute
+  '/modalidades': typeof ModalidadesRoute
+  '/multimedia': typeof MultimediaRoute
   '/noticias': typeof NoticiasRoute
+  '/socios': typeof SociosRoute
   '/futebol': typeof FutebolIndexRoute
   '/futebol/$equipa/$jogador': typeof FutebolEquipaJogadorRoute
   '/futebol/$equipa': typeof FutebolEquipaIndexRoute
@@ -58,7 +98,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contactos': typeof ContactosRoute
+  '/corporate': typeof CorporateRoute
+  '/modalidades': typeof ModalidadesRoute
+  '/multimedia': typeof MultimediaRoute
   '/noticias': typeof NoticiasRoute
+  '/socios': typeof SociosRoute
   '/futebol/': typeof FutebolIndexRoute
   '/futebol/$equipa/$jogador': typeof FutebolEquipaJogadorRoute
   '/futebol/$equipa/': typeof FutebolEquipaIndexRoute
@@ -67,21 +112,36 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/contactos'
+    | '/corporate'
+    | '/modalidades'
+    | '/multimedia'
     | '/noticias'
+    | '/socios'
     | '/futebol/'
     | '/futebol/$equipa/$jogador'
     | '/futebol/$equipa/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/contactos'
+    | '/corporate'
+    | '/modalidades'
+    | '/multimedia'
     | '/noticias'
+    | '/socios'
     | '/futebol'
     | '/futebol/$equipa/$jogador'
     | '/futebol/$equipa'
   id:
     | '__root__'
     | '/'
+    | '/contactos'
+    | '/corporate'
+    | '/modalidades'
+    | '/multimedia'
     | '/noticias'
+    | '/socios'
     | '/futebol/'
     | '/futebol/$equipa/$jogador'
     | '/futebol/$equipa/'
@@ -89,7 +149,12 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactosRoute: typeof ContactosRoute
+  CorporateRoute: typeof CorporateRoute
+  ModalidadesRoute: typeof ModalidadesRoute
+  MultimediaRoute: typeof MultimediaRoute
   NoticiasRoute: typeof NoticiasRoute
+  SociosRoute: typeof SociosRoute
   FutebolIndexRoute: typeof FutebolIndexRoute
   FutebolEquipaJogadorRoute: typeof FutebolEquipaJogadorRoute
   FutebolEquipaIndexRoute: typeof FutebolEquipaIndexRoute
@@ -104,11 +169,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contactos': {
+      id: '/contactos'
+      path: '/contactos'
+      fullPath: '/contactos'
+      preLoaderRoute: typeof ContactosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/corporate': {
+      id: '/corporate'
+      path: '/corporate'
+      fullPath: '/corporate'
+      preLoaderRoute: typeof CorporateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/modalidades': {
+      id: '/modalidades'
+      path: '/modalidades'
+      fullPath: '/modalidades'
+      preLoaderRoute: typeof ModalidadesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/multimedia': {
+      id: '/multimedia'
+      path: '/multimedia'
+      fullPath: '/multimedia'
+      preLoaderRoute: typeof MultimediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/noticias': {
       id: '/noticias'
       path: '/noticias'
       fullPath: '/noticias'
       preLoaderRoute: typeof NoticiasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/socios': {
+      id: '/socios'
+      path: '/socios'
+      fullPath: '/socios'
+      preLoaderRoute: typeof SociosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/futebol/': {
@@ -137,7 +237,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactosRoute: ContactosRoute,
+  CorporateRoute: CorporateRoute,
+  ModalidadesRoute: ModalidadesRoute,
+  MultimediaRoute: MultimediaRoute,
   NoticiasRoute: NoticiasRoute,
+  SociosRoute: SociosRoute,
   FutebolIndexRoute: FutebolIndexRoute,
   FutebolEquipaJogadorRoute: FutebolEquipaJogadorRoute,
   FutebolEquipaIndexRoute: FutebolEquipaIndexRoute,

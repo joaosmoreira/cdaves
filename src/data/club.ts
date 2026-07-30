@@ -85,14 +85,231 @@ export const TEAMS = [
   { slug: "feminino", name: "Equipa Feminina", competition: "Liga Feminina", coach: "Rita Camacho", players: 22 },
 ];
 
-export const NEWS = [
-  { slug: "vitoria-classico", title: "Vitória no clássico com casa cheia", date: "28 Jul 2026", category: "Equipa A", excerpt: "Triunfo por 2-1 num estádio esgotado, com golos de Henrique Sá e Marco Leal." },
-  { slug: "reforco-medio", title: "Kevin Mendes renova até 2029", date: "24 Jul 2026", category: "Mercado", excerpt: "O médio internacional prolongou o vínculo com o clube por mais três temporadas." },
-  { slug: "modalidades-andebol", title: "Andebol garante subida de divisão", date: "19 Jul 2026", category: "Modalidades", excerpt: "A equipa sénior de andebol conquistou a promoção a duas jornadas do fim." },
-  { slug: "lugares-anuais", title: "Campanha de lugares anuais 2026/27", date: "12 Jul 2026", category: "Sócios", excerpt: "Renovações abertas com condições especiais para sócios com quota em dia." },
-  { slug: "academia-obras", title: "Nova ala da academia inaugurada", date: "05 Jul 2026", category: "Clube", excerpt: "Mais dois campos relvados e um ginásio dedicado à formação." },
-  { slug: "parceria-energia", title: "Novo parceiro oficial de energia", date: "01 Jul 2026", category: "Corporate", excerpt: "Acordo de três épocas que reforça a sustentabilidade do estádio." },
+export type NewsKind = "jogo" | "geral" | "administracao";
+
+export type NewsItem = {
+  slug: string;
+  title: string;
+  date: string;
+  category: string;
+  kind: NewsKind;
+  image: string;
+  excerpt: string;
+  body: string[];
+  match?: {
+    home: string;
+    away: string;
+    score: string;
+    competition: string;
+    venue: string;
+    scorers: string[];
+  };
+};
+
+export const NEWS: NewsItem[] = [
+  {
+    slug: "vitoria-classico",
+    title: "Vitória no clássico com casa cheia",
+    date: "28 Jul 2026",
+    category: "Equipa A",
+    kind: "jogo",
+    image: newsMatch,
+    excerpt: "Triunfo por 2-1 num estádio esgotado, com golos de Henrique Sá e Marco Leal.",
+    body: [
+      "O CD Aurirrubro venceu o clássico da jornada diante de mais de 12 mil adeptos, num jogo decidido na segunda parte.",
+      "Henrique Sá abriu o marcador aos 54 minutos e Marco Leal fechou a contagem já perto do apito final. O adversário reduziu nos descontos.",
+      "Com este resultado, a equipa consolida a posição na primeira metade da tabela e prepara agora a deslocação da próxima jornada.",
+    ],
+    match: {
+      home: "CD Aurirrubro",
+      away: "SC Marítimo do Vale",
+      score: "2-1",
+      competition: "Liga Portugal",
+      venue: "Estádio Municipal do Aurirrubro",
+      scorers: ["Henrique Sá 54'", "Marco Leal 78'", "R. Fontes 90+3' (adv.)"],
+    },
+  },
+  {
+    slug: "empate-fora-taca",
+    title: "Empate na deslocação a Vila Real",
+    date: "21 Jul 2026",
+    category: "Equipa A",
+    kind: "jogo",
+    image: newsMatch,
+    excerpt: "1-1 fora de casa para a Taça de Portugal, com eliminatória decidida no desempate.",
+    body: [
+      "Jogo equilibrado fora de portas, com o clube a chegar à igualdade ainda antes do intervalo.",
+      "João Serra assistiu para o golo do empate e a equipa segurou o resultado até final.",
+    ],
+    match: {
+      home: "AD Vila Real",
+      away: "CD Aurirrubro",
+      score: "1-1",
+      competition: "Taça de Portugal",
+      venue: "Estádio do Vale Norte",
+      scorers: ["P. Moutinho 22' (adv.)", "Iker Navarro 41'"],
+    },
+  },
+  {
+    slug: "goleada-taca-liga",
+    title: "Goleada na estreia da Taça da Liga",
+    date: "14 Jul 2026",
+    category: "Equipa A",
+    kind: "jogo",
+    image: newsMatch,
+    excerpt: "3-0 em casa, com Henrique Sá bisar e Kevin Mendes a fechar a contagem.",
+    body: [
+      "Exibição de autoridade na estreia da competição, com a equipa a resolver o jogo ainda na primeira parte.",
+      "O treinador aproveitou o resultado para dar minutos aos mais jovens do plantel.",
+    ],
+    match: {
+      home: "CD Aurirrubro",
+      away: "FC Serra Alta",
+      score: "3-0",
+      competition: "Taça da Liga",
+      venue: "Estádio Municipal do Aurirrubro",
+      scorers: ["Henrique Sá 12'", "Henrique Sá 36'", "Kevin Mendes 65'"],
+    },
+  },
+  {
+    slug: "reforco-medio",
+    title: "Kevin Mendes renova até 2029",
+    date: "24 Jul 2026",
+    category: "Mercado",
+    kind: "geral",
+    image: newsGeneral,
+    excerpt: "O médio internacional prolongou o vínculo com o clube por mais três temporadas.",
+    body: [
+      "O médio assinou a renovação na sede do clube, na presença do presidente e do director desportivo.",
+      "Chegado em 2022, soma já mais de cem jogos oficiais pelo emblema aurirrubro.",
+    ],
+  },
+  {
+    slug: "modalidades-andebol",
+    title: "Andebol garante subida de divisão",
+    date: "19 Jul 2026",
+    category: "Modalidades",
+    kind: "geral",
+    image: newsGeneral,
+    excerpt: "A equipa sénior de andebol conquistou a promoção a duas jornadas do fim.",
+    body: [
+      "A equipa orientada por Marta Vilela assegurou matematicamente a subida com duas jornadas de antecedência.",
+      "O pavilhão encheu para festejar com os atletas no final do encontro.",
+    ],
+  },
+  {
+    slug: "academia-obras",
+    title: "Nova ala da academia inaugurada",
+    date: "05 Jul 2026",
+    category: "Clube",
+    kind: "geral",
+    image: newsGeneral,
+    excerpt: "Mais dois campos relvados e um ginásio dedicado à formação.",
+    body: [
+      "A nova ala da academia acrescenta dois campos relvados, balneários e um ginásio exclusivo para os escalões de formação.",
+      "O investimento foi suportado por receitas próprias e apoio dos parceiros oficiais.",
+    ],
+  },
+  {
+    slug: "parceria-energia",
+    title: "Novo parceiro oficial de energia",
+    date: "01 Jul 2026",
+    category: "Corporate",
+    kind: "geral",
+    image: newsGeneral,
+    excerpt: "Acordo de três épocas que reforça a sustentabilidade do estádio.",
+    body: [
+      "O acordo prevê a instalação de painéis solares na cobertura da bancada central.",
+      "É o maior contrato de patrocínio de sempre celebrado pelo clube fora do sector desportivo.",
+    ],
+  },
+  {
+    slug: "assembleia-geral-setembro",
+    title: "Convocatória: Assembleia Geral Ordinária",
+    date: "26 Jul 2026",
+    category: "Administração",
+    kind: "administracao",
+    image: newsAdmin,
+    excerpt: "Assembleia marcada para 12 de setembro, na sede do clube, com quatro pontos na ordem de trabalhos.",
+    body: [
+      "Nos termos dos Estatutos, são convocados todos os sócios com quota em dia para a Assembleia Geral Ordinária.",
+      "Ordem de trabalhos: 1) Informações da Direção; 2) Apreciação e votação do relatório e contas; 3) Plano de atividades; 4) Outros assuntos.",
+      "Os documentos ficam disponíveis para consulta na secretaria durante os quinze dias anteriores à assembleia.",
+    ],
+  },
+  {
+    slug: "relatorio-contas-2025-26",
+    title: "Relatório e Contas da época 2025/26",
+    date: "18 Jul 2026",
+    category: "Administração",
+    kind: "administracao",
+    image: newsAdmin,
+    excerpt: "Documento aprovado pelo Conselho Fiscal já disponível para consulta dos sócios.",
+    body: [
+      "O relatório apresenta um resultado líquido positivo pela segunda época consecutiva.",
+      "A redução do passivo e o crescimento das receitas de sócios são os principais destaques do exercício.",
+    ],
+  },
+  {
+    slug: "nova-modalidade-voleibol",
+    title: "Clube cria secção de voleibol",
+    date: "10 Jul 2026",
+    category: "Administração",
+    kind: "administracao",
+    image: newsAdmin,
+    excerpt: "A nova modalidade arranca na época 2026/27 com escalões de formação e equipa sénior feminina.",
+    body: [
+      "A Direção aprovou a criação da secção de voleibol, que passa a ser a sétima modalidade do clube.",
+      "As inscrições abrem em setembro no pavilhão municipal.",
+    ],
+  },
+  {
+    slug: "encerramento-seccao-xadrez",
+    title: "Encerramento da secção de xadrez",
+    date: "02 Jul 2026",
+    category: "Administração",
+    kind: "administracao",
+    image: newsAdmin,
+    excerpt: "A secção é suspensa por falta de atletas inscritos, com reavaliação prevista para 2027.",
+    body: [
+      "A Direção decidiu suspender a atividade competitiva da secção de xadrez a partir do final da presente época.",
+      "Os atletas inscritos serão apoiados no processo de transferência para núcleos da região.",
+    ],
+  },
+  {
+    slug: "lugares-anuais",
+    title: "Campanha de lugares anuais 2026/27",
+    date: "12 Jul 2026",
+    category: "Sócios",
+    kind: "geral",
+    image: newsGeneral,
+    excerpt: "Renovações abertas com condições especiais para sócios com quota em dia.",
+    body: [
+      "A campanha decorre até 31 de agosto, com prioridade de renovação para quem já teve lugar anual na época passada.",
+      "Estão disponíveis duas modalidades, ambas na bancada central coberta.",
+    ],
+  },
 ];
+
+export const MATCH_INFO = {
+  next: {
+    opponent: "SC Marítimo do Vale",
+    place: "Casa",
+    date: "09 Ago 2026",
+    time: "20:30",
+    venue: "Estádio Municipal do Aurirrubro",
+    competition: "Liga Portugal",
+  },
+  last: {
+    opponent: "FC Serra Alta",
+    place: "Fora",
+    score: "2-1",
+    venue: "Estádio da Serra",
+    competition: "Liga Portugal",
+    date: "28 Jul 2026",
+  },
+};
+
 
 export type Athlete = {
   slug: string;

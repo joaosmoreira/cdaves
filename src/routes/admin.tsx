@@ -34,6 +34,7 @@ const MENU: { label: string; icon: typeof Newspaper; items: { to: string; label:
     items: [
       { to: "/admin/futebol/equipas", label: "Equipas" },
       { to: "/admin/futebol/atletas", label: "Atletas" },
+      { to: "/admin/jogos", label: "Jogos e resultados" },
     ],
   },
   {

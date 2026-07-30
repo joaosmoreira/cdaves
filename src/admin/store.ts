@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import { CLUB, MODALIDADES, NEWS, PARTNERS, PAYMENT_PLANS, SEATS, SQUAD, TEAMS } from "@/data/club";
+import { CLUB, MATCH_INFO, MODALIDADES, NEWS, PARTNERS, PAYMENT_PLANS, SEATS, SQUAD, TEAMS } from "@/data/club";
 
 export type Row = { id: string } & Record<string, string | number | undefined>;
 
@@ -11,6 +11,7 @@ export type AdminState = {
   modalidadeEquipas: Row[];
   atletas: Row[];
   patrocinios: Row[];
+  jogos: Row[];
   mediaCategorias: Row[];
   media: Row[];
   planos: Row[];
@@ -77,6 +78,32 @@ const initial: AdminState = {
     })),
   ),
   patrocinios: PARTNERS.map((p) => ({ id: id(), nome: p.name, tipo: p.tier, site: "", logotipo: "" })),
+  jogos: [
+    {
+      id: id(),
+      tipo: "Próximo jogo",
+      adversario: MATCH_INFO.next.opponent,
+      logo: "",
+      local: MATCH_INFO.next.place,
+      data: MATCH_INFO.next.date,
+      hora: MATCH_INFO.next.time,
+      estadio: MATCH_INFO.next.venue,
+      competicao: MATCH_INFO.next.competition,
+      resultado: "",
+    },
+    {
+      id: id(),
+      tipo: "Último jogo",
+      adversario: MATCH_INFO.last.opponent,
+      logo: "",
+      local: MATCH_INFO.last.place,
+      data: MATCH_INFO.last.date,
+      hora: "",
+      estadio: MATCH_INFO.last.venue,
+      competicao: MATCH_INFO.last.competition,
+      resultado: MATCH_INFO.last.score,
+    },
+  ],
   mediaCategorias: [
     { id: id(), nome: "Institucional", descricao: "Conteúdos oficiais do clube." },
     { id: id(), nome: "Assembleias", descricao: "Registo de assembleias gerais." },

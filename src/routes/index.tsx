@@ -3,6 +3,7 @@ import { ArrowRight, Calendar, Trophy, Users } from "lucide-react";
 import heroImg from "@/assets/hero-stadium.jpg";
 import teamImg from "@/assets/team-photo.jpg";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { MatchStrip } from "@/components/site/MatchStrip";
 import { CTA, NewsletterCTA } from "@/components/site/CTA";
 import { Button } from "@/components/ui/button";
 import { CLUB, NEWS, MODALIDADES } from "@/data/club";
@@ -34,7 +35,7 @@ function Index() {
         <div className="relative mx-auto w-full max-w-7xl px-4 pb-20">
           <p className="text-xs font-bold uppercase tracking-[0.35em] text-accent">Desde {CLUB.founded}</p>
           <h1 className="mt-4 max-w-4xl font-display text-5xl uppercase leading-[0.85] tracking-tight text-background md:text-8xl">
-            Vermelho e amarelo <span className="text-accent">no coração</span>
+            Vermelho e branco <span className="text-accent">no coração</span>
           </h1>
           <p className="mt-5 max-w-xl text-sm text-background/80 md:text-lg">
             {CLUB.fullName}. Uma cidade, um clube, milhares de famílias. Junta-te a nós na bancada.
@@ -49,6 +50,8 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <MatchStrip />
 
       <Breadcrumbs items={[{ label: "Início" }]} />
 
@@ -76,14 +79,15 @@ function Index() {
             Ver todas <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
-          {NEWS.slice(0, 3).map((n) => (
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {NEWS.slice(0, 9).map((n) => (
             <Link
               key={n.slug}
-              to="/noticias"
+              to="/noticias/$slug"
+              params={{ slug: n.slug }}
               className="group border border-border transition-colors hover:border-primary"
             >
-              <div className="h-2 w-full bg-primary transition-colors group-hover:bg-accent" />
+              <img src={n.image} alt={n.title} width={1600} height={900} loading="lazy" className="h-44 w-full object-cover" />
               <div className="p-6">
                 <p className="text-[11px] font-bold uppercase tracking-widest text-primary">{n.category} · {n.date}</p>
                 <h3 className="mt-3 font-display text-xl uppercase leading-tight">{n.title}</h3>

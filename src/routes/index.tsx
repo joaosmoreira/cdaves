@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
       { title: "CD Aurirrubro — Site Oficial do Clube" },
       { name: "description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo Aurirrubro." },
       { property: "og:title", content: "CD Aurirrubro — Site Oficial do Clube" },
-      { property: "og:description", content: "Vermelho e amarelo desde 1919. Vive o clube com a família aurirrubra." },
+      { property: "og:description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo Aurirrubro." },
     ],
   }),
   component: Index,

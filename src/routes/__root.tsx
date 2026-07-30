@@ -82,10 +82,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "CD Aurirrubro — Clube Desportivo" },
-      { name: "description", content: "Site oficial do CD Aurirrubro: notícias, futebol, modalidades, sócios e lugares anuais." },
+      { title: "CD Aurirrubro — Site Oficial do Clube" },
+      { name: "description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo Aurirrubro." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "CD Aurirrubro — Site Oficial do Clube" },
+      { name: "twitter:title", content: "CD Aurirrubro — Site Oficial do Clube" },
+      { property: "og:description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo Aurirrubro." },
+      { name: "twitter:description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo Aurirrubro." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0ac9eb82-054b-4eec-be2e-db62a2b766b1/id-preview-c77184d8--452e5cc6-8b82-44d2-8c87-dadc57ffd8bd.lovable.app-1785438895196.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0ac9eb82-054b-4eec-be2e-db62a2b766b1/id-preview-c77184d8--452e5cc6-8b82-44d2-8c87-dadc57ffd8bd.lovable.app-1785438895196.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactosRouteImport } from './routes/contactos'
 import { Route as CorporateRouteImport } from './routes/corporate'
-import { Route as ModalidadesRouteImport } from './routes/modalidades'
 import { Route as MultimediaRouteImport } from './routes/multimedia'
 import { Route as NoticiasRouteImport } from './routes/noticias'
 import { Route as SociosRouteImport } from './routes/socios'
@@ -38,11 +37,6 @@ const CorporateRoute = CorporateRouteImport.update({
   path: '/corporate',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ModalidadesRoute = ModalidadesRouteImport.update({
-  id: '/modalidades',
-  path: '/modalidades',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MultimediaRoute = MultimediaRouteImport.update({
   id: '/multimedia',
   path: '/multimedia',
@@ -64,9 +58,9 @@ const FutebolIndexRoute = FutebolIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ModalidadesIndexRoute = ModalidadesIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ModalidadesRoute,
+  id: '/modalidades/',
+  path: '/modalidades/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const FutebolEquipaIndexRoute = FutebolEquipaIndexRouteImport.update({
   id: '/futebol/$equipa/',
@@ -80,22 +74,21 @@ const FutebolEquipaJogadorRoute = FutebolEquipaJogadorRouteImport.update({
 } as any)
 const ModalidadesModalidadeIndexRoute =
   ModalidadesModalidadeIndexRouteImport.update({
-    id: '/$modalidade/',
-    path: '/$modalidade/',
-    getParentRoute: () => ModalidadesRoute,
+    id: '/modalidades/$modalidade/',
+    path: '/modalidades/$modalidade/',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const ModalidadesModalidadeAtletaRoute =
   ModalidadesModalidadeAtletaRouteImport.update({
-    id: '/$modalidade/$atleta',
-    path: '/$modalidade/$atleta',
-    getParentRoute: () => ModalidadesRoute,
+    id: '/modalidades/$modalidade/$atleta',
+    path: '/modalidades/$modalidade/$atleta',
+    getParentRoute: () => rootRouteImport,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contactos': typeof ContactosRoute
   '/corporate': typeof CorporateRoute
-  '/modalidades': typeof ModalidadesRouteWithChildren
   '/multimedia': typeof MultimediaRoute
   '/noticias': typeof NoticiasRoute
   '/socios': typeof SociosRoute
@@ -125,7 +118,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/contactos': typeof ContactosRoute
   '/corporate': typeof CorporateRoute
-  '/modalidades': typeof ModalidadesRouteWithChildren
   '/multimedia': typeof MultimediaRoute
   '/noticias': typeof NoticiasRoute
   '/socios': typeof SociosRoute
@@ -142,7 +134,6 @@ export interface FileRouteTypes {
     | '/'
     | '/contactos'
     | '/corporate'
-    | '/modalidades'
     | '/multimedia'
     | '/noticias'
     | '/socios'
@@ -171,7 +162,6 @@ export interface FileRouteTypes {
     | '/'
     | '/contactos'
     | '/corporate'
-    | '/modalidades'
     | '/multimedia'
     | '/noticias'
     | '/socios'
@@ -187,13 +177,15 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactosRoute: typeof ContactosRoute
   CorporateRoute: typeof CorporateRoute
-  ModalidadesRoute: typeof ModalidadesRouteWithChildren
   MultimediaRoute: typeof MultimediaRoute
   NoticiasRoute: typeof NoticiasRoute
   SociosRoute: typeof SociosRoute
   FutebolIndexRoute: typeof FutebolIndexRoute
+  ModalidadesIndexRoute: typeof ModalidadesIndexRoute
   FutebolEquipaJogadorRoute: typeof FutebolEquipaJogadorRoute
+  ModalidadesModalidadeAtletaRoute: typeof ModalidadesModalidadeAtletaRoute
   FutebolEquipaIndexRoute: typeof FutebolEquipaIndexRoute
+  ModalidadesModalidadeIndexRoute: typeof ModalidadesModalidadeIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -217,13 +209,6 @@ declare module '@tanstack/react-router' {
       path: '/corporate'
       fullPath: '/corporate'
       preLoaderRoute: typeof CorporateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/modalidades': {
-      id: '/modalidades'
-      path: '/modalidades'
-      fullPath: '/modalidades'
-      preLoaderRoute: typeof ModalidadesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/multimedia': {
@@ -256,10 +241,10 @@ declare module '@tanstack/react-router' {
     }
     '/modalidades/': {
       id: '/modalidades/'
-      path: '/'
+      path: '/modalidades'
       fullPath: '/modalidades/'
       preLoaderRoute: typeof ModalidadesIndexRouteImport
-      parentRoute: typeof ModalidadesRoute
+      parentRoute: typeof rootRouteImport
     }
     '/futebol/$equipa/': {
       id: '/futebol/$equipa/'
@@ -277,48 +262,34 @@ declare module '@tanstack/react-router' {
     }
     '/modalidades/$modalidade/': {
       id: '/modalidades/$modalidade/'
-      path: '/$modalidade'
+      path: '/modalidades/$modalidade'
       fullPath: '/modalidades/$modalidade/'
       preLoaderRoute: typeof ModalidadesModalidadeIndexRouteImport
-      parentRoute: typeof ModalidadesRoute
+      parentRoute: typeof rootRouteImport
     }
     '/modalidades/$modalidade/$atleta': {
       id: '/modalidades/$modalidade/$atleta'
-      path: '/$modalidade/$atleta'
+      path: '/modalidades/$modalidade/$atleta'
       fullPath: '/modalidades/$modalidade/$atleta'
       preLoaderRoute: typeof ModalidadesModalidadeAtletaRouteImport
-      parentRoute: typeof ModalidadesRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
-
-interface ModalidadesRouteChildren {
-  ModalidadesIndexRoute: typeof ModalidadesIndexRoute
-  ModalidadesModalidadeAtletaRoute: typeof ModalidadesModalidadeAtletaRoute
-  ModalidadesModalidadeIndexRoute: typeof ModalidadesModalidadeIndexRoute
-}
-
-const ModalidadesRouteChildren: ModalidadesRouteChildren = {
-  ModalidadesIndexRoute: ModalidadesIndexRoute,
-  ModalidadesModalidadeAtletaRoute: ModalidadesModalidadeAtletaRoute,
-  ModalidadesModalidadeIndexRoute: ModalidadesModalidadeIndexRoute,
-}
-
-const ModalidadesRouteWithChildren = ModalidadesRoute._addFileChildren(
-  ModalidadesRouteChildren,
-)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactosRoute: ContactosRoute,
   CorporateRoute: CorporateRoute,
-  ModalidadesRoute: ModalidadesRouteWithChildren,
   MultimediaRoute: MultimediaRoute,
   NoticiasRoute: NoticiasRoute,
   SociosRoute: SociosRoute,
   FutebolIndexRoute: FutebolIndexRoute,
+  ModalidadesIndexRoute: ModalidadesIndexRoute,
   FutebolEquipaJogadorRoute: FutebolEquipaJogadorRoute,
+  ModalidadesModalidadeAtletaRoute: ModalidadesModalidadeAtletaRoute,
   FutebolEquipaIndexRoute: FutebolEquipaIndexRoute,
+  ModalidadesModalidadeIndexRoute: ModalidadesModalidadeIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

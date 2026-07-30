@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { CTA, NewsletterCTA } from "@/components/site/CTA";
-import { NEWS } from "@/data/club";
+import { NEWS, type NewsItem } from "@/data/club";
 
 export const Route = createFileRoute("/noticias/$slug")({
   loader: ({ params }) => {
@@ -47,7 +47,7 @@ const KIND_LABEL = {
 } as const;
 
 function Noticia() {
-  const { item } = Route.useLoaderData();
+  const { item } = Route.useLoaderData() as { item: NewsItem };
   const related = NEWS.filter((n) => n.slug !== item.slug && n.kind === item.kind).slice(0, 3);
 
   return (

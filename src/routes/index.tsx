@@ -3,6 +3,7 @@ import { ArrowRight, Calendar, Trophy, Users } from "lucide-react";
 import heroImg from "@/assets/hero-stadium.jpg";
 import teamImg from "@/assets/team-photo.jpg";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { MatchStrip } from "@/components/site/MatchStrip";
 import { CTA, NewsletterCTA } from "@/components/site/CTA";
 import { Button } from "@/components/ui/button";
 import { CLUB, NEWS, MODALIDADES } from "@/data/club";
@@ -34,7 +35,7 @@ function Index() {
         <div className="relative mx-auto w-full max-w-7xl px-4 pb-20">
           <p className="text-xs font-bold uppercase tracking-[0.35em] text-accent">Desde {CLUB.founded}</p>
           <h1 className="mt-4 max-w-4xl font-display text-5xl uppercase leading-[0.85] tracking-tight text-background md:text-8xl">
-            Vermelho e amarelo <span className="text-accent">no coração</span>
+            Vermelho e branco <span className="text-accent">no coração</span>
           </h1>
           <p className="mt-5 max-w-xl text-sm text-background/80 md:text-lg">
             {CLUB.fullName}. Uma cidade, um clube, milhares de famílias. Junta-te a nós na bancada.
@@ -49,6 +50,8 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <MatchStrip />
 
       <Breadcrumbs items={[{ label: "Início" }]} />
 

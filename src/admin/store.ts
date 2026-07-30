@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 import { CLUB, MODALIDADES, NEWS, PARTNERS, PAYMENT_PLANS, SEATS, SQUAD, TEAMS } from "@/data/club";
 
-export type Row = { id: string } & Record<string, string | number>;
+export type Row = { id: string } & Record<string, string | number | undefined>;
 
 export type AdminState = {
   noticias: Row[];

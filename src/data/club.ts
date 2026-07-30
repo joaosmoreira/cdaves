@@ -254,15 +254,57 @@ export const PARTNERS = [
   { name: "Café Central", tier: "Parceiro Local" },
 ];
 
-export const MEMBERSHIPS = [
-  { name: "Sócio Base", price: "5€/mês", perks: ["Cartão de sócio digital", "Descontos na loja oficial", "Newsletter exclusiva"] },
-  { name: "Sócio Aurirrubro", price: "12€/mês", perks: ["Tudo do Base", "Prioridade em jogos fora", "Visita guiada ao estádio", "Desconto no lugar anual"] },
-  { name: "Sócio Fundador", price: "25€/mês", perks: ["Tudo do Aurirrubro", "Convites para eventos do clube", "Acesso à sala de sócios", "Merchandising anual"] },
+export const MONTHLY_FEE = 8;
+
+export const MEMBER_PERKS = [
+  "Cartão de sócio digital",
+  "Descontos na loja oficial e bilheteira",
+  "Prioridade na compra de bilhetes",
+  "Newsletter e conteúdos exclusivos",
+  "Direito de voto na Assembleia Geral",
 ];
 
-export const SEATS = [
-  { zone: "Bancada Nascente", price: "180€", desc: "Central, coberta, a melhor vista de jogo." },
-  { zone: "Bancada Poente", price: "150€", desc: "Coberta, junto às zonas de aquecimento." },
-  { zone: "Topo Norte", price: "95€", desc: "A casa da claque, ambiente garantido." },
-  { zone: "Topo Sul", price: "95€", desc: "Zona familiar com preços reduzidos para jovens." },
+export type PaymentPlan = {
+  name: string;
+  months: number;
+  discount: number;
+  note: string;
+};
+
+export const PAYMENT_PLANS: PaymentPlan[] = [
+  { name: "Mensal", months: 1, discount: 0, note: "Pagamento mês a mês por débito direto." },
+  { name: "Trimestral", months: 3, discount: 0.05, note: "Três meses pagos de uma só vez." },
+  { name: "Semestral", months: 6, discount: 0.1, note: "Seis meses pagos de uma só vez." },
+  { name: "Anual", months: 12, discount: 0.15, note: "Ano completo pago de uma só vez." },
 ];
+
+export function planTotals(plan: PaymentPlan) {
+  const gross = MONTHLY_FEE * plan.months;
+  const total = gross * (1 - plan.discount);
+  return { gross, total, saving: gross - total, perMonth: total / plan.months };
+}
+
+export const SEATS = [
+  {
+    slug: "futebol-11",
+    zone: "Lugar Anual Futebol 11",
+    stand: "Bancada Central Coberta",
+    price: "180€",
+    desc: "Todos os jogos em casa do futebol de 11: campeonato e Taça da Liga.",
+    includes: ["Campeonato — jogos em casa", "Taça da Liga — jogos em casa", "Lugar fixo na bancada central coberta", "Prioridade de renovação"],
+  },
+  {
+    slug: "clube-total",
+    zone: "Lugar Anual Clube Total",
+    stand: "Bancada Central Coberta",
+    price: "260€",
+    desc: "Todas as competições do clube, incluindo as modalidades com jogos pagos no pavilhão.",
+    includes: [
+      "Tudo o que inclui o Futebol 11",
+      "Todas as competições do futebol de 11",
+      "Modalidades no pavilhão com bilhete pago",
+      "Lugar fixo na bancada central coberta",
+    ],
+  },
+];
+

@@ -22,6 +22,10 @@ import { Route as AdminContactosRouteImport } from './routes/admin.contactos'
 import { Route as AdminCorporateRouteImport } from './routes/admin.corporate'
 import { Route as AdminNoticiasRouteImport } from './routes/admin.noticias'
 import { Route as AdminSociosRouteImport } from './routes/admin.socios'
+import { Route as ClubeEstadioRouteImport } from './routes/clube.estadio'
+import { Route as ClubeHistoriaRouteImport } from './routes/clube.historia'
+import { Route as ClubeInstitucionalRouteImport } from './routes/clube.institucional'
+import { Route as ClubePresidenteRouteImport } from './routes/clube.presidente'
 import { Route as FutebolIndexRouteImport } from './routes/futebol.index'
 import { Route as ModalidadesIndexRouteImport } from './routes/modalidades.index'
 import { Route as AdminFutebolAtletasRouteImport } from './routes/admin.futebol.atletas'
@@ -100,6 +104,26 @@ const AdminSociosRoute = AdminSociosRouteImport.update({
   id: '/socios',
   path: '/socios',
   getParentRoute: () => AdminRoute,
+} as any)
+const ClubeEstadioRoute = ClubeEstadioRouteImport.update({
+  id: '/clube/estadio',
+  path: '/clube/estadio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClubeHistoriaRoute = ClubeHistoriaRouteImport.update({
+  id: '/clube/historia',
+  path: '/clube/historia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClubeInstitucionalRoute = ClubeInstitucionalRouteImport.update({
+  id: '/clube/institucional',
+  path: '/clube/institucional',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClubePresidenteRoute = ClubePresidenteRouteImport.update({
+  id: '/clube/presidente',
+  path: '/clube/presidente',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const FutebolIndexRoute = FutebolIndexRouteImport.update({
   id: '/futebol/',
@@ -183,6 +207,10 @@ export interface FileRoutesByFullPath {
   '/admin/corporate': typeof AdminCorporateRoute
   '/admin/noticias': typeof AdminNoticiasRoute
   '/admin/socios': typeof AdminSociosRoute
+  '/clube/estadio': typeof ClubeEstadioRoute
+  '/clube/historia': typeof ClubeHistoriaRoute
+  '/clube/institucional': typeof ClubeInstitucionalRoute
+  '/clube/presidente': typeof ClubePresidenteRoute
   '/admin/': typeof AdminIndexRoute
   '/futebol/': typeof FutebolIndexRoute
   '/modalidades/': typeof ModalidadesIndexRoute
@@ -210,6 +238,10 @@ export interface FileRoutesByTo {
   '/admin/corporate': typeof AdminCorporateRoute
   '/admin/noticias': typeof AdminNoticiasRoute
   '/admin/socios': typeof AdminSociosRoute
+  '/clube/estadio': typeof ClubeEstadioRoute
+  '/clube/historia': typeof ClubeHistoriaRoute
+  '/clube/institucional': typeof ClubeInstitucionalRoute
+  '/clube/presidente': typeof ClubePresidenteRoute
   '/admin': typeof AdminIndexRoute
   '/futebol': typeof FutebolIndexRoute
   '/modalidades': typeof ModalidadesIndexRoute
@@ -239,6 +271,10 @@ export interface FileRoutesById {
   '/admin/corporate': typeof AdminCorporateRoute
   '/admin/noticias': typeof AdminNoticiasRoute
   '/admin/socios': typeof AdminSociosRoute
+  '/clube/estadio': typeof ClubeEstadioRoute
+  '/clube/historia': typeof ClubeHistoriaRoute
+  '/clube/institucional': typeof ClubeInstitucionalRoute
+  '/clube/presidente': typeof ClubePresidenteRoute
   '/admin/': typeof AdminIndexRoute
   '/futebol/': typeof FutebolIndexRoute
   '/modalidades/': typeof ModalidadesIndexRoute
@@ -269,6 +305,10 @@ export interface FileRouteTypes {
     | '/admin/corporate'
     | '/admin/noticias'
     | '/admin/socios'
+    | '/clube/estadio'
+    | '/clube/historia'
+    | '/clube/institucional'
+    | '/clube/presidente'
     | '/admin/'
     | '/futebol/'
     | '/modalidades/'
@@ -296,6 +336,10 @@ export interface FileRouteTypes {
     | '/admin/corporate'
     | '/admin/noticias'
     | '/admin/socios'
+    | '/clube/estadio'
+    | '/clube/historia'
+    | '/clube/institucional'
+    | '/clube/presidente'
     | '/admin'
     | '/futebol'
     | '/modalidades'
@@ -324,6 +368,10 @@ export interface FileRouteTypes {
     | '/admin/corporate'
     | '/admin/noticias'
     | '/admin/socios'
+    | '/clube/estadio'
+    | '/clube/historia'
+    | '/clube/institucional'
+    | '/clube/presidente'
     | '/admin/'
     | '/futebol/'
     | '/modalidades/'
@@ -348,6 +396,10 @@ export interface RootRouteChildren {
   MultimediaRoute: typeof MultimediaRoute
   NoticiasRoute: typeof NoticiasRoute
   SociosRoute: typeof SociosRoute
+  ClubeEstadioRoute: typeof ClubeEstadioRoute
+  ClubeHistoriaRoute: typeof ClubeHistoriaRoute
+  ClubeInstitucionalRoute: typeof ClubeInstitucionalRoute
+  ClubePresidenteRoute: typeof ClubePresidenteRoute
   FutebolIndexRoute: typeof FutebolIndexRoute
   ModalidadesIndexRoute: typeof ModalidadesIndexRoute
   FutebolEquipaJogadorRoute: typeof FutebolEquipaJogadorRoute
@@ -448,6 +500,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/socios'
       preLoaderRoute: typeof AdminSociosRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/clube/estadio': {
+      id: '/clube/estadio'
+      path: '/clube/estadio'
+      fullPath: '/clube/estadio'
+      preLoaderRoute: typeof ClubeEstadioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clube/historia': {
+      id: '/clube/historia'
+      path: '/clube/historia'
+      fullPath: '/clube/historia'
+      preLoaderRoute: typeof ClubeHistoriaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clube/institucional': {
+      id: '/clube/institucional'
+      path: '/clube/institucional'
+      fullPath: '/clube/institucional'
+      preLoaderRoute: typeof ClubeInstitucionalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clube/presidente': {
+      id: '/clube/presidente'
+      path: '/clube/presidente'
+      fullPath: '/clube/presidente'
+      preLoaderRoute: typeof ClubePresidenteRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/futebol/': {
       id: '/futebol/'
@@ -585,6 +665,10 @@ const rootRouteChildren: RootRouteChildren = {
   MultimediaRoute: MultimediaRoute,
   NoticiasRoute: NoticiasRoute,
   SociosRoute: SociosRoute,
+  ClubeEstadioRoute: ClubeEstadioRoute,
+  ClubeHistoriaRoute: ClubeHistoriaRoute,
+  ClubeInstitucionalRoute: ClubeInstitucionalRoute,
+  ClubePresidenteRoute: ClubePresidenteRoute,
   FutebolIndexRoute: FutebolIndexRoute,
   ModalidadesIndexRoute: ModalidadesIndexRoute,
   FutebolEquipaJogadorRoute: FutebolEquipaJogadorRoute,

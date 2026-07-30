@@ -1,9 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo-cd.png";
 
+
+const CLUBE = [
+  { to: "/clube/historia", label: "História" },
+  { to: "/clube/estadio", label: "Estádio" },
+  { to: "/clube/presidente", label: "Presidente" },
+  { to: "/clube/institucional", label: "Institucional" },
+];
 
 const NAV = [
   { to: "/noticias", label: "Notícias" },
@@ -28,6 +35,25 @@ export function Header() {
 
 
         <nav className="hidden items-center gap-6 lg:flex">
+          <div className="group relative">
+            <button className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-foreground transition-colors hover:text-primary">
+              Clube
+              <ChevronDown className="h-3.5 w-3.5" />
+            </button>
+            <div className="invisible absolute left-0 top-full z-50 w-56 border border-border bg-background opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+              {CLUBE.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  activeProps={{ className: "text-primary" }}
+                  className="block border-b border-border px-4 py-3 text-xs font-bold uppercase tracking-widest last:border-0 hover:bg-secondary hover:text-primary"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
           {NAV.map((item) => (
             <Link
               key={item.to}
@@ -57,6 +83,17 @@ export function Header() {
       {open && (
         <nav className="border-t border-border bg-background lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col px-4 py-2">
+            <p className="pt-3 text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Clube</p>
+            {CLUBE.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                onClick={() => setOpen(false)}
+                className="border-b border-border py-3 pl-3 text-xs font-bold uppercase tracking-widest"
+              >
+                {item.label}
+              </Link>
+            ))}
             {NAV.map((item) => (
               <Link
                 key={item.to}

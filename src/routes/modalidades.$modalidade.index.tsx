@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { PageHeader } from "@/components/site/PageHeader";
 import { CTA } from "@/components/site/CTA";
-import { MODALIDADES } from "@/data/club";
+import { MODALIDADES, type Athlete } from "@/data/club";
 
 export const Route = createFileRoute("/modalidades/$modalidade/")({
   loader: ({ params }) => {
@@ -41,7 +41,7 @@ function ModalidadeEquipa() {
       <section className="mx-auto max-w-7xl px-4 py-14">
         <h2 className="mb-6 border-b-2 border-primary pb-2 font-display text-2xl uppercase">Plantel sénior</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {modalidade.roster.map((a) => (
+          {modalidade.roster.map((a: Athlete) => (
             <Link
               key={a.slug}
               to="/modalidades/$modalidade/$atleta"

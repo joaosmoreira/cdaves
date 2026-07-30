@@ -50,6 +50,7 @@ const MENU: { label: string; icon: typeof Newspaper; items: { to: string; label:
     icon: Building2,
     items: [
       { to: "/admin/clube", label: "Páginas e institucional" },
+      { to: "/admin/jogos", label: "Jogos" },
     ],
   },
   { label: "Corporate", icon: Users, items: [{ to: "/admin/corporate", label: "Patrocínios" }] },

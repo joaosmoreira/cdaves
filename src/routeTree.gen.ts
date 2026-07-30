@@ -17,8 +17,11 @@ import { Route as MultimediaRouteImport } from './routes/multimedia'
 import { Route as NoticiasRouteImport } from './routes/noticias'
 import { Route as SociosRouteImport } from './routes/socios'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminClubeRouteImport } from './routes/admin.clube'
+import { Route as AdminContactosRouteImport } from './routes/admin.contactos'
 import { Route as AdminCorporateRouteImport } from './routes/admin.corporate'
 import { Route as AdminNoticiasRouteImport } from './routes/admin.noticias'
+import { Route as AdminSociosRouteImport } from './routes/admin.socios'
 import { Route as FutebolIndexRouteImport } from './routes/futebol.index'
 import { Route as ModalidadesIndexRouteImport } from './routes/modalidades.index'
 import { Route as AdminFutebolAtletasRouteImport } from './routes/admin.futebol.atletas'
@@ -73,6 +76,16 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminClubeRoute = AdminClubeRouteImport.update({
+  id: '/clube',
+  path: '/clube',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContactosRoute = AdminContactosRouteImport.update({
+  id: '/contactos',
+  path: '/contactos',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCorporateRoute = AdminCorporateRouteImport.update({
   id: '/corporate',
   path: '/corporate',
@@ -81,6 +94,11 @@ const AdminCorporateRoute = AdminCorporateRouteImport.update({
 const AdminNoticiasRoute = AdminNoticiasRouteImport.update({
   id: '/noticias',
   path: '/noticias',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSociosRoute = AdminSociosRouteImport.update({
+  id: '/socios',
+  path: '/socios',
   getParentRoute: () => AdminRoute,
 } as any)
 const FutebolIndexRoute = FutebolIndexRouteImport.update({
@@ -160,8 +178,11 @@ export interface FileRoutesByFullPath {
   '/multimedia': typeof MultimediaRoute
   '/noticias': typeof NoticiasRoute
   '/socios': typeof SociosRoute
+  '/admin/clube': typeof AdminClubeRoute
+  '/admin/contactos': typeof AdminContactosRoute
   '/admin/corporate': typeof AdminCorporateRoute
   '/admin/noticias': typeof AdminNoticiasRoute
+  '/admin/socios': typeof AdminSociosRoute
   '/admin/': typeof AdminIndexRoute
   '/futebol/': typeof FutebolIndexRoute
   '/modalidades/': typeof ModalidadesIndexRoute
@@ -184,8 +205,11 @@ export interface FileRoutesByTo {
   '/multimedia': typeof MultimediaRoute
   '/noticias': typeof NoticiasRoute
   '/socios': typeof SociosRoute
+  '/admin/clube': typeof AdminClubeRoute
+  '/admin/contactos': typeof AdminContactosRoute
   '/admin/corporate': typeof AdminCorporateRoute
   '/admin/noticias': typeof AdminNoticiasRoute
+  '/admin/socios': typeof AdminSociosRoute
   '/admin': typeof AdminIndexRoute
   '/futebol': typeof FutebolIndexRoute
   '/modalidades': typeof ModalidadesIndexRoute
@@ -210,8 +234,11 @@ export interface FileRoutesById {
   '/multimedia': typeof MultimediaRoute
   '/noticias': typeof NoticiasRoute
   '/socios': typeof SociosRoute
+  '/admin/clube': typeof AdminClubeRoute
+  '/admin/contactos': typeof AdminContactosRoute
   '/admin/corporate': typeof AdminCorporateRoute
   '/admin/noticias': typeof AdminNoticiasRoute
+  '/admin/socios': typeof AdminSociosRoute
   '/admin/': typeof AdminIndexRoute
   '/futebol/': typeof FutebolIndexRoute
   '/modalidades/': typeof ModalidadesIndexRoute
@@ -237,8 +264,11 @@ export interface FileRouteTypes {
     | '/multimedia'
     | '/noticias'
     | '/socios'
+    | '/admin/clube'
+    | '/admin/contactos'
     | '/admin/corporate'
     | '/admin/noticias'
+    | '/admin/socios'
     | '/admin/'
     | '/futebol/'
     | '/modalidades/'
@@ -261,8 +291,11 @@ export interface FileRouteTypes {
     | '/multimedia'
     | '/noticias'
     | '/socios'
+    | '/admin/clube'
+    | '/admin/contactos'
     | '/admin/corporate'
     | '/admin/noticias'
+    | '/admin/socios'
     | '/admin'
     | '/futebol'
     | '/modalidades'
@@ -286,8 +319,11 @@ export interface FileRouteTypes {
     | '/multimedia'
     | '/noticias'
     | '/socios'
+    | '/admin/clube'
+    | '/admin/contactos'
     | '/admin/corporate'
     | '/admin/noticias'
+    | '/admin/socios'
     | '/admin/'
     | '/futebol/'
     | '/modalidades/'
@@ -378,6 +414,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/clube': {
+      id: '/admin/clube'
+      path: '/clube'
+      fullPath: '/admin/clube'
+      preLoaderRoute: typeof AdminClubeRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/contactos': {
+      id: '/admin/contactos'
+      path: '/contactos'
+      fullPath: '/admin/contactos'
+      preLoaderRoute: typeof AdminContactosRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/corporate': {
       id: '/admin/corporate'
       path: '/corporate'
@@ -390,6 +440,13 @@ declare module '@tanstack/react-router' {
       path: '/noticias'
       fullPath: '/admin/noticias'
       preLoaderRoute: typeof AdminNoticiasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/socios': {
+      id: '/admin/socios'
+      path: '/socios'
+      fullPath: '/admin/socios'
+      preLoaderRoute: typeof AdminSociosRouteImport
       parentRoute: typeof AdminRoute
     }
     '/futebol/': {
@@ -487,8 +544,11 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminClubeRoute: typeof AdminClubeRoute
+  AdminContactosRoute: typeof AdminContactosRoute
   AdminCorporateRoute: typeof AdminCorporateRoute
   AdminNoticiasRoute: typeof AdminNoticiasRoute
+  AdminSociosRoute: typeof AdminSociosRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminFutebolAtletasRoute: typeof AdminFutebolAtletasRoute
   AdminFutebolEquipasRoute: typeof AdminFutebolEquipasRoute
@@ -500,8 +560,11 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminClubeRoute: AdminClubeRoute,
+  AdminContactosRoute: AdminContactosRoute,
   AdminCorporateRoute: AdminCorporateRoute,
   AdminNoticiasRoute: AdminNoticiasRoute,
+  AdminSociosRoute: AdminSociosRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminFutebolAtletasRoute: AdminFutebolAtletasRoute,
   AdminFutebolEquipasRoute: AdminFutebolEquipasRoute,

@@ -1,24 +1,135 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Calendar, Trophy, Users } from "lucide-react";
+import heroImg from "@/assets/hero-stadium.jpg";
+import teamImg from "@/assets/team-photo.jpg";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { CTA, NewsletterCTA } from "@/components/site/CTA";
+import { Button } from "@/components/ui/button";
+import { CLUB, NEWS, MODALIDADES } from "@/data/club";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "CD Aurirrubro — Site Oficial do Clube" },
+      { name: "description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo Aurirrubro." },
+      { property: "og:title", content: "CD Aurirrubro — Site Oficial do Clube" },
+      { property: "og:description", content: "Vermelho e amarelo desde 1919. Vive o clube com a família aurirrubra." },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
+    <main>
+      <section className="relative flex h-screen min-h-[600px] items-end overflow-hidden">
+        <img
+          src={heroImg}
+          alt="Estádio do CD Aurirrubro cheio numa noite de jogo"
+          width={1920}
+          height={1080}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/60 to-transparent" />
+        <div className="relative mx-auto w-full max-w-7xl px-4 pb-20">
+          <p className="text-xs font-bold uppercase tracking-[0.35em] text-accent">Desde {CLUB.founded}</p>
+          <h1 className="mt-4 max-w-4xl font-display text-5xl uppercase leading-[0.85] tracking-tight text-background md:text-8xl">
+            Vermelho e amarelo <span className="text-accent">no coração</span>
+          </h1>
+          <p className="mt-5 max-w-xl text-sm text-background/80 md:text-lg">
+            {CLUB.fullName}. Uma cidade, um clube, milhares de famílias. Junta-te a nós na bancada.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button asChild variant="hero" size="lg">
+              <Link to="/socios">Tornar-me Sócio</Link>
+            </Button>
+            <Button asChild variant="gold" size="lg">
+              <Link to="/futebol">Ver Plantel</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <Breadcrumbs items={[{ label: "Início" }]} />
+
+      <section className="border-b border-border">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px px-4 py-10 md:grid-cols-4">
+          {[
+            { icon: Trophy, value: "27", label: "Títulos conquistados" },
+            { icon: Users, value: "8.420", label: "Sócios activos" },
+            { icon: Calendar, value: "107", label: "Anos de história" },
+            { icon: Users, value: "612", label: "Atletas formados" },
+          ].map((s) => (
+            <div key={s.label} className="px-2 py-4">
+              <s.icon className="h-5 w-5 text-primary" />
+              <p className="mt-3 font-display text-4xl leading-none">{s.value}</p>
+              <p className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16">
+        <div className="flex items-end justify-between gap-4">
+          <h2 className="font-display text-3xl uppercase md:text-5xl">Últimas notícias</h2>
+          <Link to="/noticias" className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-primary">
+            Ver todas <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-6 md:grid-cols-3">
+          {NEWS.slice(0, 3).map((n) => (
+            <Link
+              key={n.slug}
+              to="/noticias"
+              className="group border border-border transition-colors hover:border-primary"
+            >
+              <div className="h-2 w-full bg-primary transition-colors group-hover:bg-accent" />
+              <div className="p-6">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-primary">{n.category} · {n.date}</p>
+                <h3 className="mt-3 font-display text-xl uppercase leading-tight">{n.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{n.excerpt}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <CTA
+        eyebrow="Lugar Anual 2026/27"
+        title="Garante o teu lugar na bancada"
+        text="Todos os jogos em casa, o mesmo lugar, preço fechado para a época inteira."
+        action="Comprar Lugar Anual"
+        to="/socios"
       />
-    </div>
+
+      <section className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2">
+        <img
+          src={teamImg}
+          alt="Plantel do CD Aurirrubro alinhado no relvado"
+          width={1600}
+          height={900}
+          loading="lazy"
+          className="w-full object-cover"
+        />
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary">Modalidades</p>
+          <h2 className="mt-3 font-display text-3xl uppercase md:text-5xl">Muito mais do que futebol</h2>
+          <p className="mt-4 text-sm text-muted-foreground">
+            Seis modalidades, centenas de atletas e um único emblema. O clube vive todos os dias
+            dentro e fora do relvado.
+          </p>
+          <ul className="mt-6 grid grid-cols-2 gap-2 text-sm">
+            {MODALIDADES.map((m) => (
+              <li key={m.name} className="border-l-2 border-accent pl-3">{m.name}</li>
+            ))}
+          </ul>
+          <Button asChild className="mt-8">
+            <Link to="/modalidades">Conhecer as modalidades</Link>
+          </Button>
+        </div>
+      </section>
+
+      <NewsletterCTA />
+    </main>
   );
 }

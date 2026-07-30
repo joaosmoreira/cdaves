@@ -2,6 +2,9 @@ import player1 from "@/assets/player-1.jpg";
 import player2 from "@/assets/player-2.jpg";
 import player3 from "@/assets/player-3.jpg";
 import player4 from "@/assets/player-4.jpg";
+import newsMatch from "@/assets/news-match.jpg";
+import newsGeneral from "@/assets/news-general.jpg";
+import newsAdmin from "@/assets/news-admin.jpg";
 
 export const CLUB = {
   name: "CD Aurirrubro",

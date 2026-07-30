@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContactosRouteImport } from './routes/contactos'
 import { Route as CorporateRouteImport } from './routes/corporate'
 import { Route as MultimediaRouteImport } from './routes/multimedia'
@@ -25,6 +26,11 @@ import { Route as ModalidadesModalidadeAtletaRouteImport } from './routes/modali
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactosRoute = ContactosRouteImport.update({
@@ -87,6 +93,7 @@ const ModalidadesModalidadeAtletaRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/contactos': typeof ContactosRoute
   '/corporate': typeof CorporateRoute
   '/multimedia': typeof MultimediaRoute
@@ -101,6 +108,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/contactos': typeof ContactosRoute
   '/corporate': typeof CorporateRoute
   '/multimedia': typeof MultimediaRoute
@@ -116,6 +124,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/contactos': typeof ContactosRoute
   '/corporate': typeof CorporateRoute
   '/multimedia': typeof MultimediaRoute
@@ -132,6 +141,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/contactos'
     | '/corporate'
     | '/multimedia'
@@ -146,6 +156,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/contactos'
     | '/corporate'
     | '/multimedia'
@@ -160,6 +171,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/contactos'
     | '/corporate'
     | '/multimedia'
@@ -175,6 +187,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   ContactosRoute: typeof ContactosRoute
   CorporateRoute: typeof CorporateRoute
   MultimediaRoute: typeof MultimediaRoute
@@ -195,6 +208,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contactos': {
@@ -279,6 +299,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   ContactosRoute: ContactosRoute,
   CorporateRoute: CorporateRoute,
   MultimediaRoute: MultimediaRoute,

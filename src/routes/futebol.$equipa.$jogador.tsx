@@ -56,7 +56,7 @@ function Jogador() {
           />
           <div className="self-center">
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-accent">{team.name} · {player.position}</p>
-            <p className="mt-4 font-display text-7xl leading-none text-accent md:text-9xl">{player.number}</p>
+            <p className="mt-4 font-display text-7xl leading-none md:text-9xl">{player.number}</p>
             <h1 className="mt-2 font-display text-4xl uppercase leading-none md:text-6xl">{player.name}</h1>
             <div className="mt-8 grid max-w-lg grid-cols-4 gap-4 border-t border-primary-foreground/25 pt-6">
               {[

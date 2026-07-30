@@ -79,14 +79,15 @@ function Index() {
             Ver todas <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
-          {NEWS.slice(0, 3).map((n) => (
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {NEWS.slice(0, 9).map((n) => (
             <Link
               key={n.slug}
-              to="/noticias"
+              to="/noticias/$slug"
+              params={{ slug: n.slug }}
               className="group border border-border transition-colors hover:border-primary"
             >
-              <div className="h-2 w-full bg-primary transition-colors group-hover:bg-accent" />
+              <img src={n.image} alt={n.title} width={1600} height={900} loading="lazy" className="h-44 w-full object-cover" />
               <div className="p-6">
                 <p className="text-[11px] font-bold uppercase tracking-widest text-primary">{n.category} · {n.date}</p>
                 <h3 className="mt-3 font-display text-xl uppercase leading-tight">{n.title}</h3>

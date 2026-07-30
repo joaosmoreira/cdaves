@@ -16,7 +16,7 @@ export const Route = createFileRoute("/socios")({
       { property: "og:description", content: "Torna-te sócio e garante o teu lugar na bancada toda a época." },
     ],
   }),
-  component: Socios;
+  component: Socios,
 });
 
 function Socios() {

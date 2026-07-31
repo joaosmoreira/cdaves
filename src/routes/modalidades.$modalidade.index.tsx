@@ -12,8 +12,8 @@ export const Route = createFileRoute("/modalidades/$modalidade/")({
   },
   head: ({ loaderData }) => {
     const name = loaderData?.modalidade.name ?? "Modalidade";
-    const title = `${name} — Equipa e atletas · CD Aurirrubro`;
-    const desc = `Plantel de ${name} do CD Aurirrubro: atletas, posições, idades e equipa técnica.`;
+    const title = `${name} — Equipa e atletas · CD Aves`;
+    const desc = `Plantel de ${name} do CD Aves: atletas, posições, idades e equipa técnica.`;
     return {
       meta: [
         { title },

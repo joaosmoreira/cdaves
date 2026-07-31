@@ -7,13 +7,13 @@ import newsGeneral from "@/assets/news-general.jpg";
 import newsAdmin from "@/assets/news-admin.jpg";
 
 export const CLUB = {
-  name: "CD Aurirrubro",
-  fullName: "Clube Desportivo Aurirrubro",
-  founded: 1919,
-  stadium: "Estádio Municipal do Aurirrubro",
-  address: "Rua do Estádio, 19 · 4400-000 Vila Nova",
-  phone: "+351 220 000 019",
-  email: "geral@cdaurirrubro.pt",
+  name: "CD Aves",
+  fullName: "Clube Desportivo das Aves",
+  founded: 1930,
+  stadium: "Estádio do Clube Desportivo das Aves",
+  address: "R. Luis Gonzaga Mendes Carvalho 265, 4795-080 Vila das Aves",
+  phone: "252 941 058",
+  email: "geral@cdaves.pt",
 };
 
 export type Player = {
@@ -119,16 +119,16 @@ export const NEWS: NewsItem[] = [
     image: newsMatch,
     excerpt: "Triunfo por 2-1 num estádio esgotado, com golos de Henrique Sá e Marco Leal.",
     body: [
-      "O CD Aurirrubro venceu o clássico da jornada diante de mais de 12 mil adeptos, num jogo decidido na segunda parte.",
+      "O CD Aves venceu o clássico da jornada diante de mais de 12 mil adeptos, num jogo decidido na segunda parte.",
       "Henrique Sá abriu o marcador aos 54 minutos e Marco Leal fechou a contagem já perto do apito final. O adversário reduziu nos descontos.",
       "Com este resultado, a equipa consolida a posição na primeira metade da tabela e prepara agora a deslocação da próxima jornada.",
     ],
     match: {
-      home: "CD Aurirrubro",
+      home: "CD Aves",
       away: "SC Marítimo do Vale",
       score: "2-1",
       competition: "Liga Portugal",
-      venue: "Estádio Municipal do Aurirrubro",
+      venue: "Estádio Municipal do CD Aves",
       scorers: ["Henrique Sá 54'", "Marco Leal 78'", "R. Fontes 90+3' (adv.)"],
     },
   },
@@ -146,7 +146,7 @@ export const NEWS: NewsItem[] = [
     ],
     match: {
       home: "AD Vila Real",
-      away: "CD Aurirrubro",
+      away: "CD Aves",
       score: "1-1",
       competition: "Taça de Portugal",
       venue: "Estádio do Vale Norte",
@@ -166,11 +166,11 @@ export const NEWS: NewsItem[] = [
       "O treinador aproveitou o resultado para dar minutos aos mais jovens do plantel.",
     ],
     match: {
-      home: "CD Aurirrubro",
+      home: "CD Aves",
       away: "FC Serra Alta",
       score: "3-0",
       competition: "Taça da Liga",
-      venue: "Estádio Municipal do Aurirrubro",
+      venue: "Estádio Municipal do CD Aves",
       scorers: ["Henrique Sá 12'", "Henrique Sá 36'", "Kevin Mendes 65'"],
     },
   },
@@ -184,7 +184,7 @@ export const NEWS: NewsItem[] = [
     excerpt: "O médio internacional prolongou o vínculo com o clube por mais três temporadas.",
     body: [
       "O médio assinou a renovação na sede do clube, na presença do presidente e do director desportivo.",
-      "Chegado em 2022, soma já mais de cem jogos oficiais pelo emblema aurirrubro.",
+      "Chegado em 2022, soma já mais de cem jogos oficiais pelo emblema avense.",
     ],
   },
   {
@@ -300,7 +300,7 @@ export const MATCH_INFO = {
     place: "Casa",
     date: "09 Ago 2026",
     time: "20:30",
-    venue: "Estádio Municipal do Aurirrubro",
+    venue: "Estádio Municipal do CD Aves",
     competition: "Liga Portugal",
   },
   last: {
@@ -373,7 +373,7 @@ export const MODALIDADES: Modalidade[] = [
     desc: "Seniores masculinos e femininos e cinco escalões de formação.",
     coach: "Ricardo Bastos",
     competition: "Campeonato Nacional de Futsal",
-    venue: "Pavilhão Municipal do Aurirrubro",
+    venue: "Pavilhão Municipal do CD Aves",
     roster: [
       athlete("futsal", "André Faria", "André Miguel Faria", 1, "Guarda-redes", 29),
       athlete("futsal", "Tiago Melo", "Tiago Sousa Melo", 5, "Fixo", 26),
@@ -390,7 +390,7 @@ export const MODALIDADES: Modalidade[] = [
     desc: "Uma das modalidades históricas do clube, com presença nacional.",
     coach: "Marta Vilela",
     competition: "Campeonato Nacional de Andebol",
-    venue: "Pavilhão Municipal do Aurirrubro",
+    venue: "Pavilhão Municipal do CD Aves",
     roster: [
       athlete("andebol", "Pedro Vaz", "Pedro Nuno Vaz", 1, "Guarda-redes", 30),
       athlete("andebol", "Hugo Lima", "Hugo Alexandre Lima", 4, "Central", 25),
@@ -407,7 +407,7 @@ export const MODALIDADES: Modalidade[] = [
     desc: "Formação forte e equipa sénior nos campeonatos distritais.",
     coach: "Carlos Bento",
     competition: "Campeonato Distrital de Basquetebol",
-    venue: "Pavilhão Municipal do Aurirrubro",
+    venue: "Pavilhão Municipal do CD Aves",
     roster: [
       athlete("basquetebol", "Rui Cordeiro", "Rui Manuel Cordeiro", 3, "Base", 26),
       athlete("basquetebol", "Jamal Owens", "Jamal Owens", 5, "Extremo", 28, "EUA"),
@@ -423,7 +423,7 @@ export const MODALIDADES: Modalidade[] = [
     desc: "Pista e estrada, com atletas presentes em provas internacionais.",
     coach: "Isabel Freire",
     competition: "Campeonatos Nacionais de Pista e Estrada",
-    venue: "Pista Municipal do Aurirrubro",
+    venue: "Pista Municipal do CD Aves",
     roster: [
       athlete("atletismo", "Ana Salgado", "Ana Rita Salgado", 2, "Meio-fundo", 24),
       athlete("atletismo", "Luís Grilo", "Luís Miguel Grilo", 6, "Velocidade", 23),
@@ -438,7 +438,7 @@ export const MODALIDADES: Modalidade[] = [
     desc: "Escola de natação e equipa de competição na piscina municipal.",
     coach: "Nuno Cardoso",
     competition: "Circuito Nacional de Natação",
-    venue: "Piscina Municipal do Aurirrubro",
+    venue: "Piscina Municipal do CD Aves",
     roster: [
       athlete("natacao", "Inês Mota", "Inês Mota Ferreira", 1, "Estilos", 22),
       athlete("natacao", "Gonçalo Vieira", "Gonçalo Vieira Pinto", 4, "Livres", 25),
@@ -453,7 +453,7 @@ export const MODALIDADES: Modalidade[] = [
     desc: "Núcleo competitivo com títulos regionais em várias categorias.",
     coach: "Jorge Amaral",
     competition: "Campeonato Regional de Ténis de Mesa",
-    venue: "Pavilhão Municipal do Aurirrubro",
+    venue: "Pavilhão Municipal do CD Aves",
     roster: [
       athlete("tenis-de-mesa", "Paulo Ventura", "Paulo Ventura Matos", 2, "Singulares", 30),
       athlete("tenis-de-mesa", "Carlos Nunes", "Carlos Nunes Ferraz", 5, "Singulares", 26),

@@ -118,7 +118,7 @@ const initial: AdminState = {
   lugares: SEATS.map((s) => ({ id: id(), nome: s.zone, bancada: s.stand, preco: s.price, descricao: s.desc })),
   clubePaginas: [
     { id: id(), pagina: "História", resumo: "Fundado em 1919, o clube atravessa mais de um século de vida desportiva.", conteudo: "Texto completo da história do clube." },
-    { id: id(), pagina: "Estádio", resumo: "Estádio Municipal do Aurirrubro, casa do clube desde 1954.", conteudo: "Capacidade, bancadas e acessos." },
+    { id: id(), pagina: "Estádio", resumo: "Estádio Municipal do CD Aves, casa do clube desde 1954.", conteudo: "Capacidade, bancadas e acessos." },
     { id: id(), pagina: "Presidente", resumo: "Mensagem do presidente aos sócios e adeptos.", conteudo: "Biografia e mandato." },
   ],
   institucional: [
@@ -136,9 +136,9 @@ const initial: AdminState = {
   ],
   emails: [
     { id: id(), departamento: "Geral", email: CLUB.email },
-    { id: id(), departamento: "Sócios", email: "socios@cdaurirrubro.pt" },
-    { id: id(), departamento: "Comunicação", email: "imprensa@cdaurirrubro.pt" },
-    { id: id(), departamento: "Corporate", email: "corporate@cdaurirrubro.pt" },
+    { id: id(), departamento: "Sócios", email: "socios@cdaves.pt" },
+    { id: id(), departamento: "Comunicação", email: "imprensa@cdaves.pt" },
+    { id: id(), departamento: "Corporate", email: "corporate@cdaves.pt" },
   ],
   settings: {
     quota: "8",

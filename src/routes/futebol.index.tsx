@@ -9,9 +9,9 @@ import { TEAMS } from "@/data/club";
 export const Route = createFileRoute("/futebol/")({
   head: () => ({
     meta: [
-      { title: "Futebol — Equipas do CD Aurirrubro" },
-      { name: "description", content: "Equipa A, Sub-23, Sub-19 e equipa feminina do CD Aurirrubro. Plantéis, treinadores e competições." },
-      { property: "og:title", content: "Futebol — Equipas do CD Aurirrubro" },
+      { title: "Futebol — Equipas do CD Aves" },
+      { name: "description", content: "Equipa A, Sub-23, Sub-19 e equipa feminina do CD Aves. Plantéis, treinadores e competições." },
+      { property: "og:title", content: "Futebol — Equipas do CD Aves" },
       { property: "og:description", content: "Conhece todos os plantéis de futebol do clube." },
     ],
   }),
@@ -27,7 +27,7 @@ function Futebol() {
       <section className="mx-auto max-w-7xl px-4 py-14">
         <img
           src={teamImg}
-          alt="Equipa principal do CD Aurirrubro"
+          alt="Equipa principal do CD Aves"
           width={1600}
           height={900}
           loading="lazy"

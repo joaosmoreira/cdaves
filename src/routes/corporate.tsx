@@ -8,9 +8,9 @@ import { PARTNERS } from "@/data/club";
 export const Route = createFileRoute("/corporate")({
   head: () => ({
     meta: [
-      { title: "Corporate — Parceiros e Patrocínios · CD Aurirrubro" },
-      { name: "description", content: "Parcerias, patrocínios e hospitalidade empresarial no CD Aurirrubro. Associe a sua marca ao clube." },
-      { property: "og:title", content: "Corporate — Parceiros e Patrocínios · CD Aurirrubro" },
+      { title: "Corporate — Parceiros e Patrocínios · CD Aves" },
+      { name: "description", content: "Parcerias, patrocínios e hospitalidade empresarial no CD Aves. Associe a sua marca ao clube." },
+      { property: "og:title", content: "Corporate — Parceiros e Patrocínios · CD Aves" },
       { property: "og:description", content: "Ative a sua marca junto de milhares de adeptos todas as semanas." },
     ],
   }),

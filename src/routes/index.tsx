@@ -11,10 +11,10 @@ import { CLUB, NEWS, MODALIDADES } from "@/data/club";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "CD Aurirrubro — Site Oficial do Clube" },
-      { name: "description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo Aurirrubro." },
-      { property: "og:title", content: "CD Aurirrubro — Site Oficial do Clube" },
-      { property: "og:description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo Aurirrubro." },
+      { title: "CD Aves — Site Oficial do Clube" },
+      { name: "description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo das Aves." },
+      { property: "og:title", content: "CD Aves — Site Oficial do Clube" },
+      { property: "og:description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo das Aves." },
     ],
   }),
   component: Index,
@@ -26,7 +26,7 @@ function Index() {
       <section className="relative flex h-screen min-h-[600px] items-end overflow-hidden">
         <img
           src={heroImg}
-          alt="Estádio do CD Aurirrubro cheio numa noite de jogo"
+          alt="Estádio do CD Aves cheio numa noite de jogo"
           width={1920}
           height={1080}
           className="absolute inset-0 h-full w-full object-cover"
@@ -109,7 +109,7 @@ function Index() {
       <section className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2">
         <img
           src={teamImg}
-          alt="Plantel do CD Aurirrubro alinhado no relvado"
+          alt="Plantel do CD Aves alinhado no relvado"
           width={1600}
           height={900}
           loading="lazy"

@@ -12,10 +12,10 @@ export const Route = createFileRoute("/futebol/$equipa/$jogador")({
   },
   head: ({ loaderData }) => {
     const p = loaderData?.player;
-    const title = p ? `${p.name} · #${p.number} — CD Aurirrubro` : "Jogador — CD Aurirrubro";
+    const title = p ? `${p.name} · #${p.number} — CD Aves` : "Jogador — CD Aves";
     const desc = p
-      ? `${p.fullName}, ${p.position}, ${p.age} anos. Dados pessoais e estatísticas no CD Aurirrubro.`
-      : "Ficha de jogador do CD Aurirrubro.";
+      ? `${p.fullName}, ${p.position}, ${p.age} anos. Dados pessoais e estatísticas no CD Aves.`
+      : "Ficha de jogador do CD Aves.";
     return {
       meta: [
         { title },

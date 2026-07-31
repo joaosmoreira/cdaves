@@ -6,9 +6,9 @@ import { CTA } from "@/components/site/CTA";
 export const Route = createFileRoute("/clube/historia")({
   head: () => ({
     meta: [
-      { title: "História — Mais de um século de clube · CD Aurirrubro" },
-      { name: "description", content: "A história do CD Aurirrubro desde 1919: fundação, títulos, momentos marcantes e a identidade vermelha e branca." },
-      { property: "og:title", content: "História do CD Aurirrubro" },
+      { title: "História — Mais de um século de clube · CD Aves" },
+      { name: "description", content: "A história do CD Aves desde 1919: fundação, títulos, momentos marcantes e a identidade vermelha e branca." },
+      { property: "og:title", content: "História do CD Aves" },
       { property: "og:description", content: "Desde 1919 a escrever a história do vermelho e branco." },
     ],
   }),
@@ -32,7 +32,7 @@ function Historia() {
 
       <section className="mx-auto max-w-4xl px-4 py-14">
         <p className="text-lg leading-relaxed text-muted-foreground">
-          O CD Aurirrubro nasceu do desporto de bairro e cresceu como projeto de comunidade. Mais de cem anos depois, o
+          O CD Aves nasceu do desporto de bairro e cresceu como projeto de comunidade. Mais de cem anos depois, o
           clube mantém a mesma ideia fundadora: representar a cidade em todas as modalidades e formar atletas em casa.
         </p>
 

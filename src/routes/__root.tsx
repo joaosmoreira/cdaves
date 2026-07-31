@@ -11,7 +11,6 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Toaster } from "@/components/ui/sonner";
@@ -42,9 +41,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -82,16 +78,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "CD Aurirrubro — Site Oficial do Clube" },
-      { name: "description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo Aurirrubro." },
+      { title: "CD Aves — Site Oficial do Clube" },
+      { name: "description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo das Aves." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:title", content: "CD Aurirrubro — Site Oficial do Clube" },
-      { name: "twitter:title", content: "CD Aurirrubro — Site Oficial do Clube" },
-      { property: "og:description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo Aurirrubro." },
-      { name: "twitter:description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo Aurirrubro." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0ac9eb82-054b-4eec-be2e-db62a2b766b1/id-preview-c77184d8--452e5cc6-8b82-44d2-8c87-dadc57ffd8bd.lovable.app-1785438895196.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0ac9eb82-054b-4eec-be2e-db62a2b766b1/id-preview-c77184d8--452e5cc6-8b82-44d2-8c87-dadc57ffd8bd.lovable.app-1785438895196.png" },
+      { property: "og:title", content: "CD Aves — Site Oficial do Clube" },
+      { name: "twitter:title", content: "CD Aves — Site Oficial do Clube" },
+      { property: "og:description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo das Aves." },
+      { name: "twitter:description", content: "Notícias, futebol, modalidades, sócios e lugares anuais do Clube Desportivo das Aves." },
+      { property: "og:image", content: "/og-image.png" },
+      { name: "twitter:image", content: "/og-image.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

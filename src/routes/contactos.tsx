@@ -14,9 +14,9 @@ import { CLUB } from "@/data/club";
 export const Route = createFileRoute("/contactos")({
   head: () => ({
     meta: [
-      { title: "Contactos — CD Aurirrubro" },
-      { name: "description", content: "Contactos, morada do estádio e horários da secretaria do CD Aurirrubro." },
-      { property: "og:title", content: "Contactos — CD Aurirrubro" },
+      { title: "Contactos — CD Aves" },
+      { name: "description", content: "Contactos, morada do estádio e horários da secretaria do CD Aves." },
+      { property: "og:title", content: "Contactos — CD Aves" },
       { property: "og:description", content: "Fala com a secretaria, o departamento comercial ou a imprensa do clube." },
     ],
   }),
@@ -43,10 +43,10 @@ function Contactos() {
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[
-              { t: "Secretaria de sócios", e: "socios@cdaurirrubro.pt" },
-              { t: "Departamento comercial", e: "comercial@cdaurirrubro.pt" },
-              { t: "Imprensa", e: "imprensa@cdaurirrubro.pt" },
-              { t: "Formação", e: "academia@cdaurirrubro.pt" },
+              { t: "Secretaria de sócios", e: "socios@cdaves.pt" },
+              { t: "Departamento comercial", e: "comercial@cdaves.pt" },
+              { t: "Imprensa", e: "imprensa@cdaves.pt" },
+              { t: "Formação", e: "academia@cdaves.pt" },
             ].map((c) => (
               <div key={c.t} className="border border-border p-4">
                 <p className="text-[11px] uppercase tracking-widest text-muted-foreground">{c.t}</p>

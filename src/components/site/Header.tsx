@@ -23,8 +23,8 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4">
         <Link to="/" className="flex items-center gap-3">
-          <img src={logo} alt="Emblema do CD Aurirrubro" width={816} height={816} className="h-11 w-11 object-contain" />
-          <span className="font-display text-lg uppercase leading-none tracking-tight">Aurirrubro</span>
+          <img src={logo} alt="Emblema do CD Aves" width={816} height={816} className="h-11 w-11 object-contain" />
+          <span className="font-display text-lg uppercase leading-none tracking-tight">CD Aves</span>
         </Link>
 
 

@@ -13,9 +13,9 @@ import { NewsletterCTA } from "@/components/site/CTA";
 export const Route = createFileRoute("/multimedia")({
   head: () => ({
     meta: [
-      { title: "Multimédia — Fotos e Vídeos · CD Aurirrubro" },
-      { name: "description", content: "Galeria de fotografias, vídeos de jogos e bastidores do CD Aurirrubro." },
-      { property: "og:title", content: "Multimédia — Fotos e Vídeos · CD Aurirrubro" },
+      { title: "Multimédia — Fotos e Vídeos · CD Aves" },
+      { name: "description", content: "Galeria de fotografias, vídeos de jogos e bastidores do CD Aves." },
+      { property: "og:title", content: "Multimédia — Fotos e Vídeos · CD Aves" },
       { property: "og:description", content: "Revive os melhores momentos do clube em imagem e vídeo." },
     ],
   }),
@@ -42,7 +42,7 @@ export function Multimedia() {
           <Play className="h-5 w-5 text-primary" /> Vídeos em destaque
         </h2>
         <div className="mt-6 grid gap-6 md:grid-cols-3">
-          {["Resumo: Aurirrubro 2-1 Rivais", "Bastidores do balneário", "Academia: um dia na formação"].map((t) => (
+          {["Resumo: CD Aves 2-1 Rivais", "Bastidores do balneário", "Academia: um dia na formação"].map((t) => (
             <div key={t} className="group relative overflow-hidden border border-border">
               <img src={teamImg} alt={t} width={1600} height={900} loading="lazy" className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <span className="absolute inset-0 grid place-items-center bg-foreground/40">

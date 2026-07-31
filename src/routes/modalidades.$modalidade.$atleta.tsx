@@ -12,10 +12,10 @@ export const Route = createFileRoute("/modalidades/$modalidade/$atleta")({
   },
   head: ({ loaderData }) => {
     const a = loaderData?.atleta;
-    const title = a ? `${a.name} · #${a.number} — CD Aurirrubro` : "Atleta — CD Aurirrubro";
+    const title = a ? `${a.name} · #${a.number} — CD Aves` : "Atleta — CD Aves";
     const desc = a
-      ? `${a.fullName}, ${a.position}, ${a.age} anos. Dados pessoais do atleta no CD Aurirrubro.`
-      : "Ficha de atleta do CD Aurirrubro.";
+      ? `${a.fullName}, ${a.position}, ${a.age} anos. Dados pessoais do atleta no CD Aves.`
+      : "Ficha de atleta do CD Aves.";
     return {
       meta: [
         { title },

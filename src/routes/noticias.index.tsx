@@ -7,11 +7,11 @@ import { NEWS } from "@/data/club";
 export const Route = createFileRoute("/noticias/")({
   head: () => ({
     meta: [
-      { title: "Notícias — CD Aurirrubro" },
-      { name: "description", content: "Todas as notícias do CD Aurirrubro: relatos de jogo, vida do clube e comunicados oficiais da administração." },
+      { title: "Notícias — CD Aves" },
+      { name: "description", content: "Todas as notícias do CD Aves: relatos de jogo, vida do clube e comunicados oficiais da administração." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:title", content: "Notícias — CD Aurirrubro" },
+      { property: "og:title", content: "Notícias — CD Aves" },
       { property: "og:description", content: "Acompanha o dia a dia do clube, jogo a jogo." },
     ],
   }),

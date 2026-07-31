@@ -6,9 +6,9 @@ import { CTA } from "@/components/site/CTA";
 export const Route = createFileRoute("/clube/estadio")({
   head: () => ({
     meta: [
-      { title: "Estádio — A nossa casa · CD Aurirrubro" },
-      { name: "description", content: "Conheça o estádio do CD Aurirrubro: capacidade, bancadas, acessos, estacionamento e serviços em dia de jogo." },
-      { property: "og:title", content: "Estádio do CD Aurirrubro" },
+      { title: "Estádio — A nossa casa · CD Aves" },
+      { name: "description", content: "Conheça o estádio do CD Aves: capacidade, bancadas, acessos, estacionamento e serviços em dia de jogo." },
+      { property: "og:title", content: "Estádio do CD Aves" },
       { property: "og:description", content: "Capacidade, bancadas e acessos ao estádio do clube." },
     ],
   }),
@@ -16,8 +16,8 @@ export const Route = createFileRoute("/clube/estadio")({
 });
 
 const DADOS = [
-  { label: "Capacidade", value: "18.400" },
-  { label: "Inauguração", value: "1954" },
+  { label: "Capacidade", value: "8.560" },
+  { label: "Inauguração", value: "8 de dezembro de 1981" },
   { label: "Relvado", value: "105 × 68 m" },
   { label: "Bancadas", value: "4" },
 ];
@@ -25,7 +25,7 @@ const DADOS = [
 function Estadio() {
   return (
     <main>
-      <PageHeader eyebrow="Clube" title="Estádio" text="A casa do clube desde 1954, no coração da cidade." />
+      <PageHeader eyebrow="Clube" title="Estádio" text="A casa do clube desde 8 de dezembro de 1981, na Vila das Aves." />
       <Breadcrumbs items={[{ label: "Clube" }, { label: "Estádio" }]} />
 
       <section className="mx-auto max-w-7xl px-4 py-14">

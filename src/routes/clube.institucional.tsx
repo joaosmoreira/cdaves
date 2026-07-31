@@ -12,9 +12,9 @@ import {
 export const Route = createFileRoute("/clube/institucional")({
   head: () => ({
     meta: [
-      { title: "Institucional — Órgãos sociais e documentos · CD Aurirrubro" },
-      { name: "description", content: "Informação institucional do CD Aurirrubro: órgãos sociais, estatutos, assembleias gerais, relatórios e contas e comunicados." },
-      { property: "og:title", content: "Institucional · CD Aurirrubro" },
+      { title: "Institucional — Órgãos sociais e documentos · CD Aves" },
+      { name: "description", content: "Informação institucional do CD Aves: órgãos sociais, estatutos, assembleias gerais, relatórios e contas e comunicados." },
+      { property: "og:title", content: "Institucional · CD Aves" },
       { property: "og:description", content: "Órgãos sociais, estatutos, assembleias, relatórios e comunicados oficiais." },
     ],
   }),

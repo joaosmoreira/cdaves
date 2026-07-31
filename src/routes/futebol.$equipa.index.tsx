@@ -14,9 +14,9 @@ export const Route = createFileRoute("/futebol/$equipa/")({
     const name = loaderData?.team.name ?? "Plantel";
     return {
       meta: [
-        { title: `${name} — Plantel · CD Aurirrubro` },
-        { name: "description", content: `Plantel completo da ${name} do CD Aurirrubro com idades, posições e números.` },
-        { property: "og:title", content: `${name} — Plantel · CD Aurirrubro` },
+        { title: `${name} — Plantel · CD Aves` },
+        { name: "description", content: `Plantel completo da ${name} do CD Aves com idades, posições e números.` },
+        { property: "og:title", content: `${name} — Plantel · CD Aves` },
         { property: "og:description", content: `Fotos e dados de todos os jogadores da ${name}.` },
       ],
     };

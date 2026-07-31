@@ -11,12 +11,12 @@ export const Route = createFileRoute("/noticias/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Notícia indisponível · CD Aurirrubro" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Notícia indisponível · CD Aves" }, { name: "robots", content: "noindex" }] };
     }
     const { item } = loaderData;
     return {
       meta: [
-        { title: `${item.title} · CD Aurirrubro` },
+        { title: `${item.title} · CD Aves` },
         { name: "description", content: item.excerpt },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
@@ -103,7 +103,7 @@ function Noticia() {
 
         {item.kind === "administracao" && (
           <p className="mb-8 border-l-4 border-primary bg-secondary/60 p-5 text-sm">
-            Comunicado emitido pela Direção do {`Clube Desportivo Aurirrubro`}. Documentação complementar disponível na
+            Comunicado emitido pela Direção do {`Clube Desportivo das Aves`}. Documentação complementar disponível na
             secretaria e na área Institucional.
           </p>
         )}

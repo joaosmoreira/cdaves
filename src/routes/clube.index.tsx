@@ -8,11 +8,11 @@ import { CLUB } from "@/data/club";
 export const Route = createFileRoute("/clube/")({
   head: () => ({
     meta: [
-      { title: "O Clube — História, Estádio, Presidente e Institucional · CD Aurirrubro" },
-      { name: "description", content: "Conhece o CD Aurirrubro: a história desde 1919, o estádio, a mensagem do presidente e toda a informação institucional." },
+      { title: "O Clube — História, Estádio, Presidente e Institucional · CD Aves" },
+      { name: "description", content: "Conhece o CD Aves: a história desde 1919, o estádio, a mensagem do presidente e toda a informação institucional." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:title", content: "O Clube · CD Aurirrubro" },
+      { property: "og:title", content: "O Clube · CD Aves" },
       { property: "og:description", content: "História, estádio, presidente e informação institucional do clube." },
     ],
   }),

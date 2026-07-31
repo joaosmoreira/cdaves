@@ -1,6 +1,6 @@
-# Clube Vermelho Amarelo
+# Clube Desportivo das Aves
 
-Quero criar um site para o meu clube, com as cores vermelho, amarelo e branco.
+Quero criar um site para o meu clube, com as cores vermelho e branco.
 
 Tem que ter página início, notícias, futebol (equipas), modalidades, corporate (parceiros e patrocinios), multimedia, socios (informacoes gerais e lugar anual) e contactos.
 
@@ -13,18 +13,6 @@ As paginas devem contar com um CTA. Devem existir CTA's diferentes mediante as p
 Com um mega footer, e deve ter também um Hero na página inicial, que ocupe o browser todos quando faz refresh.
 
 A página deve contar sempre também com um breadcrumb pequeno
-
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://cdaurirrubro.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/452e5cc6-8b82-44d2-8c87-dadc57ffd8bd).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 

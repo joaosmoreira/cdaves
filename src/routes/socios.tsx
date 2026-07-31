@@ -10,9 +10,9 @@ import { MEMBER_PERKS, MONTHLY_FEE, PAYMENT_PLANS, SEATS, planTotals } from "@/d
 export const Route = createFileRoute("/socios")({
   head: () => ({
     meta: [
-      { title: "Sócios e Lugar Anual — CD Aurirrubro" },
+      { title: "Sócios e Lugar Anual — CD Aves" },
       { name: "description", content: "Quota única de 8€/mês com descontos até 15% e duas modalidades de lugar anual na bancada central coberta." },
-      { property: "og:title", content: "Sócios e Lugar Anual — CD Aurirrubro" },
+      { property: "og:title", content: "Sócios e Lugar Anual — CD Aves" },
       { property: "og:description", content: "Torna-te sócio por 8€/mês e garante o teu lugar na bancada central coberta." },
     ],
   }),
@@ -25,7 +25,7 @@ const euro = (v: number) =>
 function Socios() {
   return (
     <main>
-      <PageHeader eyebrow="Ser Aurirrubro" title="Sócios" text="Quota única de 8€ por mês. Escolhe apenas a forma de pagamento." />
+      <PageHeader eyebrow="Ser Avense" title="Sócios" text="Quota única de 8€ por mês. Escolhe apenas a forma de pagamento." />
       <Breadcrumbs items={[{ label: "Sócios" }]} />
 
       <section className="mx-auto max-w-7xl px-4 py-14">

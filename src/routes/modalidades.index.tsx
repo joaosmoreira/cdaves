@@ -8,9 +8,9 @@ import { MODALIDADES } from "@/data/club";
 export const Route = createFileRoute("/modalidades/")({
   head: () => ({
     meta: [
-      { title: "Modalidades — CD Aurirrubro" },
-      { name: "description", content: "Futsal, andebol, basquetebol, atletismo, natação e ténis de mesa no CD Aurirrubro. Equipas, treinadores e atletas." },
-      { property: "og:title", content: "Modalidades — CD Aurirrubro" },
+      { title: "Modalidades — CD Aves" },
+      { name: "description", content: "Futsal, andebol, basquetebol, atletismo, natação e ténis de mesa no CD Aves. Equipas, treinadores e atletas." },
+      { property: "og:title", content: "Modalidades — CD Aves" },
       { property: "og:description", content: "Seis modalidades e centenas de atletas com o mesmo emblema." },
     ],
   }),

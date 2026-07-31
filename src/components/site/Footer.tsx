@@ -1,22 +1,23 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Youtube, Twitter, MapPin, Phone, Mail } from "lucide-react";
 import { CLUB } from "@/data/club";
+import logo from "@/assets/logo-cd.png";
 
 const COLUMNS = [
   {
     title: "Clube",
     links: [
-      { label: "História", to: "/" },
+      { label: "História", to: "/clube/historia" },
       { label: "Notícias", to: "/noticias" },
       { label: "Contactos", to: "/contactos" },
-      { label: "Estádio", to: "/contactos" },
+      { label: "Estádio", to: "/clube/estadio" },
     ],
   },
   {
     title: "Desporto",
     links: [
       { label: "Futebol", to: "/futebol" },
-      { label: "Plantel Equipa A", to: "/futebol" },
+      { label: "Plantel Equipa A", to: "/futebol/equipa-a" },
       { label: "Modalidades", to: "/modalidades" },
       { label: "Formação", to: "/futebol" },
     ],
@@ -48,13 +49,11 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-6">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-sm bg-primary font-display text-lg text-primary-foreground">
-                CD
-              </span>
+              <img src={logo} alt={`Emblema do ${CLUB.name}`} width={816} height={816} className="h-11 w-11 object-contain" />
               <span className="font-display text-xl uppercase leading-none">{CLUB.fullName}</span>
             </div>
             <p className="mt-4 max-w-sm text-sm opacity-70">
-              Fundado em {CLUB.founded}. Vermelho e amarelo desde o primeiro dia, com o bairro,
+              Fundado em {CLUB.founded}. Vermelho e branco desde o primeiro dia, com o bairro,
               a formação e os sócios como pilares do clube.
             </p>
             <ul className="mt-6 space-y-2 text-sm opacity-80">

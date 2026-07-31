@@ -6,9 +6,9 @@ import { CTA } from "@/components/site/CTA";
 export const Route = createFileRoute("/clube/presidente")({
   head: () => ({
     meta: [
-      { title: "Presidente — Mensagem aos sócios · CD Aurirrubro" },
-      { name: "description", content: "Mensagem do presidente do CD Aurirrubro aos sócios e adeptos, com as prioridades do mandato em curso." },
-      { property: "og:title", content: "Presidente do CD Aurirrubro" },
+      { title: "Presidente — Mensagem aos sócios · CD Aves" },
+      { name: "description", content: "Mensagem do presidente do CD Aves aos sócios e adeptos, com as prioridades do mandato em curso." },
+      { property: "og:title", content: "Presidente do CD Aves" },
       { property: "og:description", content: "Mensagem do presidente aos sócios e adeptos do clube." },
     ],
   }),

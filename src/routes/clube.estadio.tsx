@@ -57,6 +57,7 @@ function Estadio() {
       </section>
 
       <CTA
+        slug="clube-estadio"
         eyebrow="Lugar anual"
         title="Garante o teu lugar na bancada central coberta"
         text="Duas modalidades disponíveis: futebol de 11 ou acesso a todas as competições do clube."

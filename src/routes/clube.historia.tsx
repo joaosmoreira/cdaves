@@ -50,6 +50,7 @@ function Historia() {
       </section>
 
       <CTA
+        slug="clube-historia"
         eyebrow="Faz parte da história"
         title="Torna-te sócio do clube"
         text="Quota de 8€ por mês, com descontos até 15% em pagamentos antecipados."

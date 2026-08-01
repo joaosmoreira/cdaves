@@ -7,8 +7,11 @@ import { AdminPaginasView } from "./AdminPaginasView";
 import { AdminPatrociniosView } from "./AdminPatrociniosView";
 import { AdminMultimediaFotosView } from "./AdminMultimediaFotosView";
 import { AdminMultimediaVideosView } from "./AdminMultimediaVideosView";
+import { AdminMediaCategoriasView } from "./AdminMediaCategoriasView";
 import { AdminSociosView } from "./AdminSociosView";
 import { AdminContactosView } from "./AdminContactosView";
+import { AdminDesignView } from "./AdminDesignView";
+import { AdminCtasView } from "./AdminCtasView";
 
 type ContentProps = {
   tabId: string;
@@ -37,18 +40,26 @@ export function AdminContentView({ tabId }: ContentProps) {
     case "institucional":
       return <AdminPaginasView />;
 
+    case "ctas":
+      return <AdminCtasView />;
+
     case "patrocinios":
       return <AdminPatrociniosView />;
 
     case "fotos":
-    case "media-categorias":
       return <AdminMultimediaFotosView />;
+
+    case "media-categorias":
+      return <AdminMediaCategoriasView />;
 
     case "videos":
       return <AdminMultimediaVideosView />;
 
     case "socios":
       return <AdminSociosView />;
+
+    case "design":
+      return <AdminDesignView />;
 
     case "contactos":
       return <AdminContactosView />;

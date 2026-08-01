@@ -42,6 +42,7 @@ function Presidente() {
       </section>
 
       <CTA
+        slug="clube-presidente"
         eyebrow="Recebe as decisões em primeira mão"
         title="Subscreve a newsletter do clube"
         text="Comunicados oficiais, convocatórias e notícias enviadas diretamente para o teu email."

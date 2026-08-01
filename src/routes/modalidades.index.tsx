@@ -48,6 +48,7 @@ function Modalidades() {
       </section>
 
       <CTA
+        slug="modalidades-inscricoes"
         eyebrow="Inscrições abertas"
         title="Treina no clube da tua cidade"
         text="Sócios têm mensalidades reduzidas em todas as escolas de formação das modalidades."

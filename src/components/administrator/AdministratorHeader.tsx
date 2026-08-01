@@ -47,11 +47,6 @@ export function AdministratorHeader({ title, onOpenMobile, onQuickAction }: Head
           <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-primary" />
         </button>
 
-        {onQuickAction && (
-          <Button size="sm" onClick={onQuickAction} className="hidden sm:inline-flex text-xs font-semibold">
-            + Novo Conteúdo
-          </Button>
-        )}
       </div>
     </header>
   );

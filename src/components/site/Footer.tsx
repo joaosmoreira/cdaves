@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Youtube, Twitter, MapPin, Phone, Mail } from "lucide-react";
 import { CLUB } from "@/data/club";
 import logo from "@/assets/logo-cd.png";
+import { useAdmin } from "@/admin/store";
 
 const COLUMNS = [
   {
@@ -43,13 +44,14 @@ const COLUMNS = [
 ];
 
 export function Footer() {
+  const logoUrl = useAdmin((s) => s.settings?.logoUrl ?? logo);
   return (
     <footer className="bg-foreground text-background">
       <div className="mx-auto max-w-7xl px-4 py-16">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-6">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3">
-              <img src={logo} alt={`Emblema do ${CLUB.name}`} width={816} height={816} className="h-11 w-11 object-contain" />
+              <img src={logoUrl} alt={`Emblema do ${CLUB.name}`} width={816} height={816} className="h-11 w-11 object-contain" />
               <span className="font-display text-xl uppercase leading-none">{CLUB.fullName}</span>
             </div>
             <p className="mt-4 max-w-sm text-sm opacity-70">

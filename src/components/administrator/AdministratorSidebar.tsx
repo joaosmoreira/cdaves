@@ -13,6 +13,7 @@ import {
   Video,
   FolderOpen,
   CreditCard,
+  Palette,
   Phone,
   Shield,
   ExternalLink,
@@ -73,6 +74,10 @@ export const NAVIGATION: NavGroup[] = [
   {
     group: "Sócios",
     items: [{ label: "Preços e Pagamentos", icon: <CreditCard size={16} />, id: "socios" }],
+  },
+  {
+    group: "Design",
+    items: [{ label: "Design e Aparência", icon: <Palette size={16} />, id: "design" }],
   },
   {
     group: "Contactos",

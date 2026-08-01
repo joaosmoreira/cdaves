@@ -55,6 +55,7 @@ function Futebol() {
       </section>
 
       <CTA
+        slug="futebol-apoio"
         eyebrow="Apoia a equipa"
         title="Estádio cheio, equipa mais forte"
         text="Sócios têm acesso prioritário a bilhetes e descontos em todos os jogos em casa."

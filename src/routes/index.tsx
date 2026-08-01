@@ -8,6 +8,8 @@ import { CTA, NewsletterCTA } from "@/components/site/CTA";
 import { Button } from "@/components/ui/button";
 import { CLUB, NEWS, MODALIDADES } from "@/data/club";
 
+import { useAdmin } from "@/admin/store";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -21,11 +23,13 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const heroUrl = useAdmin((s) => s.settings?.heroUrl ?? heroImg);
+
   return (
     <main>
       <section className="relative flex h-screen min-h-[600px] items-end overflow-hidden">
         <img
-          src={heroImg}
+          src={heroUrl}
           alt="Estádio do CD Aves cheio numa noite de jogo"
           width={1920}
           height={1080}

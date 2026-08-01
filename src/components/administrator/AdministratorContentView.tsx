@@ -5,6 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { updateSettings, useAdmin } from "@/admin/store";
+import { AdminDesignView } from "../admin-panel/AdminDesignView";
+import { AdminMediaCategoriasView } from "../admin-panel/AdminMediaCategoriasView";
+import { AdminCtasView } from "../admin-panel/AdminCtasView";
 
 type ContentProps = {
   tabId: string;
@@ -42,12 +45,14 @@ export function AdministratorContentView({ tabId }: ContentProps) {
           slice="noticias"
           title="Artigos e Notícias"
           singular="Artigo"
-          description="Artigos publicados na página de notícias e destacados na homepage."
+          description="Artigos publicados na página de notícias e destacados na homepage com identificação de autor."
           fields={[
             { key: "titulo", label: "Título" },
-            { key: "data", label: "Data" },
             { key: "categoria", label: "Categoria", type: "select", options: ["Equipa A", "Mercado", "Modalidades", "Sócios", "Clube", "Corporate"] },
-            { key: "resumo", label: "Resumo", type: "textarea" },
+            { key: "autor", label: "Autor / Utilizador", type: "select", options: ["Ana Silva (Editora)", "Carlos Mendes (Redator)", "Gabinete de Imprensa", "Admin Geral"] },
+            { key: "data", label: "Data" },
+            { key: "estado", label: "Estado", type: "select", options: ["Publicado", "Rascunho", "Pendente Revisão"] },
+            { key: "resumo", label: "Resumo", type: "textarea", hideInTable: true },
           ]}
         />
       );
@@ -195,14 +200,7 @@ export function AdministratorContentView({ tabId }: ContentProps) {
       );
 
     case "media-categorias":
-      return (
-        <ResourceManager
-          slice="mediaCategorias"
-          title="Categorias de Multimédia"
-          singular="Categoria"
-          fields={[{ key: "nome", label: "Nome da categoria" }]}
-        />
-      );
+      return <AdminMediaCategoriasView />;
 
     case "socios":
       return (
@@ -323,6 +321,12 @@ export function AdministratorContentView({ tabId }: ContentProps) {
           />
         </div>
       );
+
+    case "design":
+      return <AdminDesignView />;
+
+    case "ctas":
+      return <AdminCtasView />;
 
     default:
       return null;

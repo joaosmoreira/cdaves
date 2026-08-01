@@ -140,6 +140,7 @@ function Socios() {
       </section>
 
       <CTA
+        slug="campanha-socios"
         eyebrow="Campanha de renovação"
         title="Renova até 31 de agosto e mantém o teu lugar"
         text="Sócios com quota em dia mantêm o lugar da época passada com prioridade absoluta."

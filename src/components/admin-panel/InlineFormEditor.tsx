@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 export type InlineField = {
   key: string;
   label: string;
-  type?: "text" | "number" | "textarea" | "select";
+  type?: "text" | "number" | "textarea" | "select" | "image";
   options?: string[];
 };
 
@@ -30,6 +30,14 @@ export function InlineFormEditor({
   onSave,
   onCancel,
 }: FormProps) {
+  function handleFile(key: string, file: File) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      setDraft((p) => ({ ...p, [key]: String(reader.result) }));
+    };
+    reader.readAsDataURL(file);
+  }
+
   return (
     <div className="space-y-6 font-sans">
       <div className="flex items-center justify-between">
@@ -69,6 +77,37 @@ export function InlineFormEditor({
                   </option>
                 ))}
               </select>
+            ) : f.type === "image" ? (
+              <div className="flex items-center gap-4 bg-secondary/40 border border-border rounded-lg p-3">
+                {draft[f.key] ? (
+                  <div className="relative group">
+                    <img src={draft[f.key]} alt="" className="h-16 w-16 border border-border object-contain rounded bg-card p-1" />
+                    <button
+                      type="button"
+                      onClick={() => setDraft((p) => ({ ...p, [f.key]: "" }))}
+                      className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full p-0.5 text-[10px]"
+                    >
+                      <X size={12} />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="h-16 w-16 border border-dashed border-border rounded bg-card flex flex-col items-center justify-center text-[10px] uppercase text-muted-foreground">
+                    Sem Imagem
+                  </div>
+                )}
+                <div className="flex-1 space-y-1">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) handleFile(f.key, file);
+                    }}
+                    className="bg-background border-border text-foreground text-xs"
+                  />
+                  <p className="text-[10px] text-muted-foreground">Selecione ou carregue o ficheiro de imagem da marca/logótipo.</p>
+                </div>
+              </div>
             ) : (
               <Input
                 type={f.type === "number" ? "number" : "text"}

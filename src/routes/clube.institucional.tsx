@@ -49,6 +49,7 @@ function Institucional() {
       </section>
 
       <CTA
+        slug="clube-institucional"
         eyebrow="Participa na vida do clube"
         title="Sócios votam nas assembleias gerais"
         text="Com a quota em dia participas e votas nas decisões estruturantes do clube."

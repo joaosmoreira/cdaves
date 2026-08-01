@@ -8,6 +8,7 @@ const fields: InlineField[] = [
   { key: "nome", label: "Nome da Empresa" },
   { key: "tipo", label: "Tipo de Parceria", type: "select", options: ["Main Sponsor", "Patrocinador Oficial", "Equipamento", "Parceiro Médico", "Media Partner", "Parceiro", "Parceiro Local"] },
   { key: "site", label: "Endereço Website" },
+  { key: "logotipo", label: "Logótipo / Imagem da Marca", type: "image" },
 ];
 
 export function AdminPatrociniosView() {
@@ -18,11 +19,12 @@ export function AdminPatrociniosView() {
     nome: "",
     tipo: "Patrocinador Oficial",
     site: "",
+    logotipo: "",
   });
 
   function openNew() {
     setEditingRow(null);
-    setDraft({ nome: "", tipo: "Patrocinador Oficial", site: "" });
+    setDraft({ nome: "", tipo: "Patrocinador Oficial", site: "", logotipo: "" });
     setIsEditing(true);
   }
 
@@ -32,6 +34,7 @@ export function AdminPatrociniosView() {
       nome: String(row.nome ?? ""),
       tipo: String(row.tipo ?? "Patrocinador Oficial"),
       site: String(row.site ?? ""),
+      logotipo: String(row.logotipo ?? ""),
     });
     setIsEditing(true);
   }
@@ -60,7 +63,7 @@ export function AdminPatrociniosView() {
     return (
       <InlineFormEditor
         title={editingRow ? "Editar Patrocínio" : "Novo Patrocínio"}
-        subtitle="Preencha os dados da marca parceira abaixo."
+        subtitle="Preencha os dados da marca parceira e carregue o respetivo logótipo."
         fields={fields}
         draft={draft}
         setDraft={setDraft}
@@ -75,7 +78,7 @@ export function AdminPatrociniosView() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-foreground font-display text-2xl uppercase tracking-tight">PARCEIROS E PATROCÍNIOS</h1>
-          <p className="text-muted-foreground text-xs font-mono">Gestão de marcas parceiras e patrocínios da área Corporate</p>
+          <p className="text-muted-foreground text-xs font-mono">Gestão de marcas parceiras, patrocínios e logótipos da área Corporate</p>
         </div>
         <button onClick={openNew} className="flex items-center gap-2 bg-primary text-primary-foreground text-xs font-semibold px-4 py-2 rounded-md hover:bg-primary/90">
           <Plus size={14} /> Novo Patrocinador
@@ -84,23 +87,36 @@ export function AdminPatrociniosView() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {patrocinios.map((p) => (
-          <div key={String(p.id)} className="bg-card border border-border rounded-xl p-5 shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-mono font-bold bg-primary/10 text-primary px-2.5 py-1 rounded-full">{String(p.tipo)}</span>
-              <div className="flex items-center gap-1">
-                <button onClick={() => openEdit(p)} className="p-1 text-muted-foreground hover:text-foreground"><Edit2 size={14} /></button>
-                <button onClick={() => handleDelete(p.id)} className="p-1 text-muted-foreground hover:text-destructive"><Trash2 size={14} /></button>
+          <div key={String(p.id)} className="bg-card border border-border rounded-xl p-5 shadow-sm space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-mono font-bold bg-primary/10 text-primary px-2.5 py-1 rounded-full">{String(p.tipo)}</span>
+                <div className="flex items-center gap-1">
+                  <button onClick={() => openEdit(p)} className="p-1 text-muted-foreground hover:text-foreground"><Edit2 size={14} /></button>
+                  <button onClick={() => handleDelete(p.id)} className="p-1 text-muted-foreground hover:text-destructive"><Trash2 size={14} /></button>
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-1">
-              <h3 className="font-display text-lg uppercase text-foreground">{String(p.nome)}</h3>
-              {p.site && (
-                <a href={String(p.site)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-primary font-mono hover:underline">
-                  <span>{String(p.site)}</span>
-                  <ExternalLink size={12} />
-                </a>
-              )}
+              {/* Logótipo / Imagem da Marca */}
+              <div className="h-20 w-full bg-secondary/50 border border-border rounded-lg flex items-center justify-center p-3 overflow-hidden">
+                {p.logotipo ? (
+                  <img src={String(p.logotipo)} alt={String(p.nome)} className="max-h-full max-w-full object-contain" />
+                ) : (
+                  <span className="font-display font-bold text-lg text-muted-foreground tracking-wider uppercase">
+                    {String(p.nome).substring(0, 3)}
+                  </span>
+                )}
+              </div>
+
+              <div className="space-y-1">
+                <h3 className="font-display text-lg uppercase text-foreground">{String(p.nome)}</h3>
+                {p.site && (
+                  <a href={String(p.site)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-primary font-mono hover:underline">
+                    <span>{String(p.site)}</span>
+                    <ExternalLink size={12} />
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         ))}

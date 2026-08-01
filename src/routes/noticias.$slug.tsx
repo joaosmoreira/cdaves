@@ -23,10 +23,15 @@ function getEmbedVideoUrl(url: string): string {
 
 export const Route = createFileRoute("/noticias/$slug")({
   loader: ({ params }) => {
-    const storeNoticias = useAdmin.getState().noticias ?? [];
-    const fromStore = storeNoticias.find((n) => String(n.slug) === params.slug);
     const item = NEWS.find((n) => n.slug === params.slug);
-
+    // Also check the admin store for articles created only there
+    let fromStore: any = undefined;
+    try {
+      const storeNoticias = useAdmin.getState().noticias ?? [];
+      fromStore = storeNoticias.find((n) => String(n.slug) === params.slug);
+    } catch (_) {
+      // store may not be hydrated in SSR context
+    }
     if (!item && !fromStore) throw notFound();
     return { item, slug: params.slug };
   },
@@ -95,6 +100,10 @@ function Noticia() {
     }
   } catch (e) {
     console.error("Erro ao analisar blocos de conteúdo:", e);
+  }
+  // Fallback: usar blocks directamente do NEWS (evita dependência do store estar hidratado)
+  if (blocks.length === 0 && item?.blocks?.length) {
+    blocks = item.blocks;
   }
 
   return (

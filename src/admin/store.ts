@@ -89,12 +89,29 @@ const id = () => `r${++uid}`;
 const initial: AdminState = {
   noticias: NEWS.map((n, i) => ({
     id: id(),
+    slug: n.slug,
     titulo: n.title,
     data: n.date,
     categoria: n.category,
     autor: i % 2 === 0 ? "Ana Silva (Editora)" : "Carlos Mendes (Redator)",
     estado: "Publicado",
     resumo: n.excerpt,
+    imagem_capa: n.image,
+    conteudo_blocos: JSON.stringify(
+      n.body.map((p, pIdx) => {
+        if (pIdx === 1 && n.kind === "jogo") {
+          return [
+            { type: "paragraph", text: p },
+            {
+              type: "video",
+              url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+              title: "Resumo do Jogo e Melhores Momentos",
+            },
+          ];
+        }
+        return { type: "paragraph", text: p };
+      }).flat()
+    ),
   })),
   equipas: TEAMS.map((t) => ({ id: id(), nome: t.name, competicao: t.competition, treinador: t.coach, atletas: t.players })),
   jogadores: SQUAD.map((p) => ({

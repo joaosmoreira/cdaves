@@ -15,8 +15,17 @@ function slugify(text: string): string {
     .replace(/--+/g, "-");
 }
 
-export function AdminCtasView() {
-  const ctas = useAdmin((s) => s.ctas ?? []);
+type CtasViewProps = {
+  modeFilter?: "all" | "cta" | "banner";
+};
+
+export function AdminCtasView({ modeFilter = "all" }: CtasViewProps) {
+  const allCtas = useAdmin((s) => s.ctas ?? []);
+  const ctas = allCtas.filter((item) => {
+    if (modeFilter === "all") return true;
+    const isBanner = String(item.slug).includes("newsletter") || String(item.slug).includes("presidente") || String(item.tipo) === "banner";
+    return modeFilter === "banner" ? isBanner : !isBanner;
+  });
   const [isEditing, setIsEditing] = useState(false);
   const [editingRow, setEditingRow] = useState<Row | null>(null);
 

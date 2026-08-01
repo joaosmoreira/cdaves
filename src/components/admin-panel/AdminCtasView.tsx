@@ -366,10 +366,18 @@ export function AdminCtasView({ modeFilter = "all" }: CtasViewProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {ctas.map((item) => {
           const isCustom = String(item.usarCoresCustomizadas) === "sim";
-          const bg = String(item.corFundo ?? "#D90429");
-          const textC = String(item.corTexto ?? "#FFFFFF");
-          const btnBg = String(item.corBotaoFundo ?? "#F77F00");
-          const btnText = String(item.corBotaoTexto ?? "#000000");
+          const isDarkBanner = String(item.slug).includes("newsletter") || String(item.slug).includes("presidente");
+
+          // Cores reais do site principal
+          const defaultBg = isDarkBanner ? "#0F172A" : "#D90429";
+          const defaultText = "#FFFFFF";
+          const defaultBtnBg = "#F77F00";
+          const defaultBtnText = "#000000";
+
+          const bg = isCustom ? String(item.corFundo ?? defaultBg) : defaultBg;
+          const textC = isCustom ? String(item.corTexto ?? defaultText) : defaultText;
+          const btnBg = isCustom ? String(item.corBotaoFundo ?? defaultBtnBg) : defaultBtnBg;
+          const btnText = isCustom ? String(item.corBotaoTexto ?? defaultBtnText) : defaultBtnText;
 
           return (
             <div
@@ -399,14 +407,10 @@ export function AdminCtasView({ modeFilter = "all" }: CtasViewProps) {
                   </div>
                 </div>
 
-                {/* Pré-visualização Realista do CTA */}
+                {/* Pré-visualização Fiel ao Site Principal */}
                 <div
                   className="rounded-lg p-4 space-y-2 border border-border/50 shadow-inner"
-                  style={
-                    isCustom
-                      ? { backgroundColor: bg, color: textC }
-                      : { backgroundColor: "var(--cta-bg, var(--primary))", color: "var(--cta-text, #fff)" }
-                  }
+                  style={{ backgroundColor: bg, color: textC }}
                 >
                   <p className="text-[10px] font-mono font-bold uppercase tracking-widest opacity-80">
                     {String(item.eyebrow ?? "Subtítulo")}
@@ -420,11 +424,7 @@ export function AdminCtasView({ modeFilter = "all" }: CtasViewProps) {
                   <div className="pt-2">
                     <span
                       className="inline-block px-3 py-1.5 rounded text-xs font-mono font-bold uppercase shadow-sm"
-                      style={
-                        isCustom
-                          ? { backgroundColor: btnBg, color: btnText }
-                          : { backgroundColor: "var(--btn-gold-bg, #F77F00)", color: "var(--btn-gold-text, #000)" }
-                      }
+                      style={{ backgroundColor: btnBg, color: btnText }}
                     >
                       {String(item.textoBotao)}
                     </span>
@@ -439,8 +439,8 @@ export function AdminCtasView({ modeFilter = "all" }: CtasViewProps) {
                     <Palette size={11} /> Cores Exclusivas deste CTA
                   </span>
                 ) : (
-                  <span className="bg-secondary text-muted-foreground font-bold px-2 py-0.5 rounded text-[10px]">
-                    🌐 Herda do Design Global
+                  <span className="bg-secondary text-foreground font-bold px-2 py-0.5 rounded text-[10px]">
+                    🌐 Cores do Site Oficial ({isDarkBanner ? "Fundo Escuro" : "Fundo Vermelho"})
                   </span>
                 )}
               </div>

@@ -383,6 +383,12 @@ const initial: AdminState = {
     logoUrl: logoCd,
     heroUrl: heroStadium,
 
+    // 🔤 Fontes & Texto
+    textColor: "#0F172A",
+    textMutedColor: "#64748B",
+    headingColor: "#0F172A",
+    linkColor: "#D90429",
+
     // 🔘 Botões do Site
     btnGoldBg: "#F77F00",      // Botão Amarelo / Destaque
     btnGoldText: "#000000",    // Texto do Botão Amarelo

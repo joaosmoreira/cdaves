@@ -5,6 +5,8 @@ import player4 from "@/assets/player-4.jpg";
 import newsMatch from "@/assets/news-match.jpg";
 import newsGeneral from "@/assets/news-general.jpg";
 import newsAdmin from "@/assets/news-admin.jpg";
+import heroStadium from "@/assets/hero-stadium.jpg";
+import logoCd from "@/assets/logo-cd.png";
 
 export const CLUB = {
   name: "CD Aves",
@@ -99,6 +101,7 @@ export type NewsItem = {
   image: string;
   excerpt: string;
   body: string[];
+  blocks?: any[];
   match?: {
     home: string;
     away: string;

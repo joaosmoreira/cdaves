@@ -31,23 +31,24 @@ export type ArticleBlock =
   | { id: string; type: "video"; url: string; title: string }
   | { id: string; type: "quote"; text: string; author: string };
 
-function generateId() {
-  return Math.random().toString(36).substr(2, 9);
+function generateId(): string {
+  return Math.random().toString(36).substring(2, 9) + Date.now().toString(36).substring(4);
 }
 
-function getEmbedVideoUrl(url: string): string {
-  if (!url) return "";
+function getEmbedVideoUrl(rawUrl: string): string {
+  if (!rawUrl || typeof rawUrl !== "string") return "";
+  const url = rawUrl.trim();
   if (url.includes("youtube.com/watch?v=")) {
     const id = url.split("v=")[1]?.split("&")[0];
-    return `https://www.youtube.com/embed/${id}`;
+    if (id) return `https://www.youtube.com/embed/${id}`;
   }
   if (url.includes("youtu.be/")) {
     const id = url.split("youtu.be/")[1]?.split("?")[0];
-    return `https://www.youtube.com/embed/${id}`;
+    if (id) return `https://www.youtube.com/embed/${id}`;
   }
   if (url.includes("vimeo.com/")) {
     const id = url.split("vimeo.com/")[1]?.split("?")[0];
-    return `https://player.vimeo.com/video/${id}`;
+    if (id) return `https://player.vimeo.com/video/${id}`;
   }
   return url;
 }
@@ -56,10 +57,12 @@ export function AdminArtigosView() {
   const noticias = useAdmin((s) => s.noticias ?? []);
   const [search, setSearch] = useState("");
   const [selectedCat, setSelectedCat] = useState("Todas");
+
+  // Estado do Editor
   const [isEditing, setIsEditing] = useState(false);
   const [editingRow, setEditingRow] = useState<Row | null>(null);
 
-  // Estado do Formulário
+  // Campos do Artigo
   const [titulo, setTitulo] = useState("");
   const [categoria, setCategoria] = useState("Equipa A");
   const [autor, setAutor] = useState("Gabinete de Imprensa");
@@ -100,35 +103,32 @@ export function AdminArtigosView() {
     setResumo(String(row.resumo ?? ""));
     setImagemCapa(String(row.imagem_capa ?? ""));
 
-    // Tentar ler blocos existentes do JSON
+    let loadedBlocks: ArticleBlock[] = [];
     try {
       if (row.conteudo_blocos) {
         const parsed = JSON.parse(String(row.conteudo_blocos));
-        if (Array.isArray(parsed)) {
-          setBlocks(
-            parsed.map((b: any) => ({
-              id: b.id || generateId(),
-              type: b.type || "paragraph",
-              text: b.text || "",
-              url: b.url || "",
-              caption: b.caption || "",
-              title: b.title || "",
-              author: b.author || "",
-            }))
-          );
-          setIsEditing(true);
-          return;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          loadedBlocks = parsed.map((b: any) => ({
+            id: b.id || generateId(),
+            type: b.type || "paragraph",
+            text: String(b.text ?? ""),
+            url: String(b.url ?? ""),
+            caption: String(b.caption ?? ""),
+            title: String(b.title ?? ""),
+            author: String(b.author ?? ""),
+          }));
         }
       }
     } catch (e) {
-      console.error("Erro ao converter blocos de conteúdo:", e);
+      console.error("Erro ao ler blocos do artigo:", e);
     }
 
-    // Fallback se não tiver blocos
-    const bodyStr = String(row.resumo ?? "");
-    setBlocks([
-      { id: generateId(), type: "paragraph", text: bodyStr },
-    ]);
+    if (loadedBlocks.length === 0) {
+      const bodyStr = String(row.resumo ?? "");
+      loadedBlocks = [{ id: generateId(), type: "paragraph", text: bodyStr }];
+    }
+
+    setBlocks(loadedBlocks);
     setIsEditing(true);
   }
 
@@ -139,8 +139,8 @@ export function AdminArtigosView() {
     }
   }
 
-  function handleSave(e: React.FormEvent) {
-    e.preventDefault();
+  function handleSave(e?: React.FormEvent) {
+    if (e) e.preventDefault();
     if (!titulo.trim()) {
       toast.error("O título do artigo é obrigatório.");
       return;
@@ -168,7 +168,7 @@ export function AdminArtigosView() {
     setIsEditing(false);
   }
 
-  // --- CONTROLO DE BLOCOS DO EDITOR WORDPRESS ---
+  // CONTROLO DE BLOCOS
   function addBlock(type: ArticleBlock["type"]) {
     let newBlock: ArticleBlock;
     if (type === "paragraph") {
@@ -183,7 +183,7 @@ export function AdminArtigosView() {
       newBlock = { id: generateId(), type: "quote", text: "Citação em destaque...", author: "Porta-voz do Clube" };
     }
     setBlocks((prev) => [...prev, newBlock]);
-    toast.info(`Adicionado novo bloco do tipo "${type.toUpperCase()}"`);
+    toast.info(`Adicionado novo bloco de "${type.toUpperCase()}"`);
   }
 
   function updateBlock(id: string, patch: Partial<ArticleBlock>) {
@@ -213,9 +213,10 @@ export function AdminArtigosView() {
   if (isEditing) {
     return (
       <div className="space-y-6 font-sans">
-        {/* Cabeçalho da Edição Inline */}
+        {/* Cabeçalho de Ações */}
         <div className="flex items-center justify-between border-b border-border pb-4">
           <button
+            type="button"
             onClick={() => setIsEditing(false)}
             className="flex items-center gap-2 text-xs font-mono font-semibold text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -223,13 +224,15 @@ export function AdminArtigosView() {
           </button>
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={() => setIsEditing(false)}
               className="border border-border text-foreground text-xs font-semibold px-4 py-2 rounded-md hover:bg-secondary font-mono"
             >
               Cancelar
             </button>
             <button
-              onClick={handleSave}
+              type="button"
+              onClick={() => handleSave()}
               className="bg-primary text-primary-foreground text-xs font-semibold px-5 py-2 rounded-md hover:bg-primary/90 flex items-center gap-2 shadow-sm font-mono"
             >
               <Save size={15} /> {editingRow ? "Guardar Alterações" : "Publicar Notícia"}
@@ -242,12 +245,12 @@ export function AdminArtigosView() {
             {editingRow ? `Editar: ${editingRow.titulo}` : "Criar Nova Notícia"}
           </h1>
           <p className="text-xs font-mono text-muted-foreground mt-1">
-            Editor de notícias completo ao estilo WordPress com suporte a parágrafos, fotos no meio do texto e vídeos do YouTube.
+            Editor de notícias ao estilo WordPress com parágrafos, fotos no meio do texto e vídeos do YouTube.
           </p>
         </div>
 
         <form onSubmit={handleSave} className="space-y-8">
-          {/* PAINEL DADOS GERAIS DO ARTIGO */}
+          {/* INFORMÇÃO PRINCIPAL */}
           <div className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-5">
             <h2 className="font-display text-lg uppercase text-foreground border-b border-border pb-3 flex items-center gap-2">
               <FileText size={18} className="text-primary" /> Informação Principal da Notícia
@@ -323,7 +326,7 @@ export function AdminArtigosView() {
                 <label className="uppercase text-slate-500 font-bold block">Resumo / Excerto da Notícia</label>
                 <textarea
                   rows={2}
-                  placeholder="Resumo sumário da notícia que aparece nos cartões e listagens..."
+                  placeholder="Resumo sumário da notícia..."
                   value={resumo}
                   onChange={(e) => setResumo(e.target.value)}
                   className="w-full bg-secondary border border-border rounded-md p-2.5 text-foreground font-sans"
@@ -332,10 +335,10 @@ export function AdminArtigosView() {
             </div>
           </div>
 
-          {/* PAINEL SELETOR DE IMAGEM PRINCIPAL DE CAPA */}
+          {/* SELETOR DE CAPA */}
           <CoverImageSection imagemCapa={imagemCapa} setImagemCapa={setImagemCapa} />
 
-          {/* PAINEL EDITOR DE CONTEÚDO RICO (WORDPRESS STYLE BLOCKS) */}
+          {/* EDITOR DE BLOCOS */}
           <div className="bg-card border-2 border-primary/30 rounded-xl p-6 shadow-sm space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border pb-4 gap-3">
               <div>
@@ -347,7 +350,7 @@ export function AdminArtigosView() {
                 </h2>
               </div>
 
-              {/* Botões Rápidos para Inserir Blocos */}
+              {/* Botões Rápidos */}
               <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
                 <button
                   type="button"
@@ -387,21 +390,19 @@ export function AdminArtigosView() {
               </div>
             </div>
 
-            {/* Renderização Sequencial dos Blocos do Artigo */}
+            {/* Renderização dos Blocos */}
             <div className="space-y-4">
               {blocks.length === 0 ? (
                 <div className="py-12 border-2 border-dashed border-border rounded-xl text-center font-mono text-xs text-muted-foreground space-y-3">
                   <FileText size={32} className="mx-auto text-muted-foreground/60" />
                   <p>O artigo ainda não tem blocos de conteúdo.</p>
-                  <p className="text-[11px]">Clique em um dos botões acima para adicionar parágrafos, fotos ou vídeos no meio da notícia.</p>
                 </div>
               ) : (
                 blocks.map((block, index) => (
                   <div
-                    key={block.id}
+                    key={block.id || index}
                     className="bg-secondary/40 border border-border rounded-xl p-4 transition-all hover:border-primary/40 space-y-3"
                   >
-                    {/* Barra Superior do Bloco (Identificação & Controlos de Ordem) */}
                     <div className="flex items-center justify-between border-b border-border/60 pb-2 text-xs font-mono">
                       <span className="font-bold uppercase text-primary flex items-center gap-1.5">
                         {block.type === "paragraph" && <Type size={14} />}
@@ -442,54 +443,48 @@ export function AdminArtigosView() {
                       </div>
                     </div>
 
-                    {/* CONTEÚDO ESPECÍFICO DO BLOCO */}
-
-                    {/* BLOCO PARÁGRAFO DE TEXTO */}
+                    {/* EDICAO DE CADA BLOCO */}
                     {block.type === "paragraph" && (
                       <textarea
                         rows={3}
-                        placeholder="Escreva aqui o parágrafo da notícia..."
-                        value={block.text}
+                        placeholder="Escreva aqui o parágrafo..."
+                        value={block.text ?? ""}
                         onChange={(e) => updateBlock(block.id, { text: e.target.value })}
                         className="w-full bg-card border border-border rounded-lg p-3 text-xs text-foreground font-sans leading-relaxed focus:outline-none focus:border-primary"
                       />
                     )}
 
-                    {/* BLOCO SUB-TÍTULO */}
                     {block.type === "heading" && (
                       <input
                         type="text"
                         placeholder="Sub-título da secção..."
-                        value={block.text}
+                        value={block.text ?? ""}
                         onChange={(e) => updateBlock(block.id, { text: e.target.value })}
                         className="w-full bg-card border border-border rounded-lg p-3 text-sm font-display uppercase tracking-tight text-foreground focus:outline-none focus:border-primary"
                       />
                     )}
 
-                    {/* BLOCO FOTOGRAFIA INCORPORADA NO TEXTO */}
                     {block.type === "image" && (
                       <InlineImageBlockEditor block={block} updateBlock={updateBlock} />
                     )}
 
-                    {/* BLOCO VÍDEO INCORPORADO (YOUTUBE / VIMEO / RESUMO DO JOGO) */}
                     {block.type === "video" && (
                       <InlineVideoBlockEditor block={block} updateBlock={updateBlock} />
                     )}
 
-                    {/* BLOCO CITAÇÃO DE DESTAQUE */}
                     {block.type === "quote" && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
                         <textarea
                           rows={2}
                           placeholder="Texto da citação..."
-                          value={block.text}
+                          value={block.text ?? ""}
                           onChange={(e) => updateBlock(block.id, { text: e.target.value })}
                           className="w-full bg-card border border-border rounded-lg p-2.5 text-foreground italic font-sans sm:col-span-2"
                         />
                         <input
                           type="text"
-                          placeholder="Autor da citação (ex: Manuel Costa, Treinador)"
-                          value={block.author}
+                          placeholder="Autor da citação"
+                          value={block.author ?? ""}
                           onChange={(e) => updateBlock(block.id, { author: e.target.value })}
                           className="w-full bg-card border border-border rounded-lg p-2 text-foreground font-mono"
                         />
@@ -498,36 +493,6 @@ export function AdminArtigosView() {
                   </div>
                 ))
               )}
-            </div>
-
-            {/* Botões Inferiores de Adicionar Bloco */}
-            <div className="pt-4 border-t border-border flex flex-wrap items-center justify-between gap-3">
-              <span className="text-xs font-mono text-muted-foreground">
-                Adicionar mais conteúdo à notícia:
-              </span>
-              <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
-                <button
-                  type="button"
-                  onClick={() => addBlock("paragraph")}
-                  className="bg-secondary hover:bg-primary/10 border border-border text-foreground px-3 py-1.5 rounded-md flex items-center gap-1.5"
-                >
-                  <Plus size={13} className="text-primary" /> + Texto
-                </button>
-                <button
-                  type="button"
-                  onClick={() => addBlock("image")}
-                  className="bg-secondary hover:bg-primary/10 border border-border text-foreground px-3 py-1.5 rounded-md flex items-center gap-1.5"
-                >
-                  <ImageIcon size={13} className="text-primary" /> + Fotografia
-                </button>
-                <button
-                  type="button"
-                  onClick={() => addBlock("video")}
-                  className="bg-amber-500/10 border border-amber-500/30 text-amber-700 font-bold px-3 py-1.5 rounded-md flex items-center gap-1.5"
-                >
-                  <VideoIcon size={13} /> + Vídeo (YouTube)
-                </button>
-              </div>
             </div>
           </div>
 
@@ -564,6 +529,7 @@ export function AdminArtigosView() {
           </p>
         </div>
         <button
+          type="button"
           onClick={openNew}
           className="flex items-center justify-center gap-2 bg-primary text-primary-foreground text-xs font-semibold px-4 py-2 rounded-md hover:bg-primary/90 font-mono shadow-sm"
         >
@@ -571,7 +537,7 @@ export function AdminArtigosView() {
         </button>
       </div>
 
-      {/* Barra de Pesquisa e Filtros */}
+      {/* Barra de Pesquisa */}
       <div className="flex flex-col sm:flex-row items-center gap-3 bg-card border border-border p-4 rounded-xl shadow-sm">
         <div className="relative flex-1 w-full">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -601,7 +567,7 @@ export function AdminArtigosView() {
         </div>
       </div>
 
-      {/* Tabela Principal de Artigos */}
+      {/* Tabela de Artigos */}
       <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
         <table className="w-full text-left text-xs font-mono">
           <thead className="bg-secondary/60 border-b border-border text-primary font-bold uppercase">
@@ -619,7 +585,7 @@ export function AdminArtigosView() {
             {filtered.length === 0 ? (
               <tr>
                 <td colSpan={7} className="p-8 text-center text-muted-foreground italic">
-                  Nenhum artigo encontrado com os filtros selecionados.
+                  Nenhum artigo encontrado.
                 </td>
               </tr>
             ) : (
@@ -657,13 +623,15 @@ export function AdminArtigosView() {
                   </td>
                   <td className="p-4 text-right space-x-2">
                     <button
+                      type="button"
                       onClick={() => openEdit(art)}
                       className="p-1.5 text-muted-foreground hover:text-foreground rounded hover:bg-secondary"
-                      title="Editar Artigo no Main da Página"
+                      title="Editar Artigo no Main"
                     >
                       <Edit2 size={14} />
                     </button>
                     <button
+                      type="button"
                       onClick={() => handleDelete(String(art.id), String(art.titulo))}
                       className="p-1.5 text-muted-foreground hover:text-destructive rounded hover:bg-secondary"
                       title="Eliminar Artigo"
@@ -812,7 +780,7 @@ function CoverImageSection({
           >
             <Upload size={24} className="text-primary mb-2" />
             <p className="font-bold text-foreground text-xs">Arraste e largue a nova imagem aqui ou clique para procurar</p>
-            <p className="text-[10px] text-muted-foreground mt-1">A imagem será encaminhada diretamente para a pasta 'noticias'.</p>
+            <p className="text-[10px] text-muted-foreground mt-1">A imagem será guardada em 'noticias'.</p>
           </div>
           <input
             ref={fileInputRef}
@@ -831,17 +799,19 @@ function CoverImageSection({
 }
 
 // ----------------------------------------------------
-// COMPONENTE: BLOCO DE FOTOGRAFIA INCORPORADA NO TEXTO
+// COMPONENTE: FOTOGRAFIA INCORPORADA
 // ----------------------------------------------------
 function InlineImageBlockEditor({
   block,
   updateBlock,
 }: {
-  block: ArticleBlock & { type: "image" };
+  block: ArticleBlock;
   updateBlock: (id: string, patch: Partial<ArticleBlock>) => void;
 }) {
   const newsImages = useAdmin((s) => (s.media ?? []).filter((m) => String(m.pasta) === "noticias"));
   const fileRef = useRef<HTMLInputElement>(null);
+  const blockUrl = "url" in block ? String(block.url ?? "") : "";
+  const blockCaption = "caption" in block ? String(block.caption ?? "") : "";
 
   function handleUploadInline(file: File) {
     const reader = new FileReader();
@@ -868,7 +838,7 @@ function InlineImageBlockEditor({
           <label className="font-bold text-muted-foreground block uppercase text-[10px]">Escolher Imagem</label>
           <div className="flex items-center gap-2">
             <select
-              value={block.url}
+              value={blockUrl}
               onChange={(e) => updateBlock(block.id, { url: e.target.value })}
               className="w-full bg-secondary border border-border rounded p-2 text-foreground truncate"
             >
@@ -904,19 +874,19 @@ function InlineImageBlockEditor({
           <input
             type="text"
             placeholder="Ex: Aves a celebrar o golo no relvado..."
-            value={block.caption}
+            value={blockCaption}
             onChange={(e) => updateBlock(block.id, { caption: e.target.value })}
             className="w-full bg-secondary border border-border rounded p-2 text-foreground font-sans"
           />
         </div>
       </div>
 
-      {block.url && (
+      {blockUrl && (
         <div className="flex items-center gap-3 bg-secondary/40 p-2 rounded border border-border">
-          <img src={block.url} alt="" className="h-14 w-20 object-cover rounded border border-border" />
+          <img src={blockUrl} alt="" className="h-14 w-20 object-cover rounded border border-border" />
           <div className="text-[11px] text-muted-foreground">
-            <p className="font-bold text-foreground">Pré-visualização da Imagem no Artigo</p>
-            <p className="italic">{block.caption || "Sem legenda"}</p>
+            <p className="font-bold text-foreground">Pré-visualização no Artigo</p>
+            <p className="italic">{blockCaption || "Sem legenda"}</p>
           </div>
         </div>
       )}
@@ -925,16 +895,18 @@ function InlineImageBlockEditor({
 }
 
 // ----------------------------------------------------
-// COMPONENTE: BLOCO DE VÍDEO INCORPORADO (YOUTUBE/VIMEO)
+// COMPONENTE: VÍDEO INCORPORADO (YOUTUBE/VIMEO)
 // ----------------------------------------------------
 function InlineVideoBlockEditor({
   block,
   updateBlock,
 }: {
-  block: ArticleBlock & { type: "video" };
+  block: ArticleBlock;
   updateBlock: (id: string, patch: Partial<ArticleBlock>) => void;
 }) {
-  const embedUrl = getEmbedVideoUrl(block.url);
+  const blockUrl = "url" in block ? String(block.url ?? "") : "";
+  const blockTitle = "title" in block ? String(block.title ?? "") : "";
+  const embedUrl = getEmbedVideoUrl(blockUrl);
 
   return (
     <div className="space-y-3 font-mono text-xs bg-card border border-amber-500/30 p-3.5 rounded-lg">
@@ -946,7 +918,7 @@ function InlineVideoBlockEditor({
           <input
             type="text"
             placeholder="Ex: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-            value={block.url}
+            value={blockUrl}
             onChange={(e) => updateBlock(block.id, { url: e.target.value })}
             className="w-full bg-secondary border border-border rounded p-2 text-foreground font-mono"
           />
@@ -957,7 +929,7 @@ function InlineVideoBlockEditor({
           <input
             type="text"
             placeholder="Ex: Resumo da Partida e Melhores Momentos"
-            value={block.title}
+            value={blockTitle}
             onChange={(e) => updateBlock(block.id, { title: e.target.value })}
             className="w-full bg-secondary border border-border rounded p-2 text-foreground font-sans font-bold"
           />
@@ -972,7 +944,7 @@ function InlineVideoBlockEditor({
           <div className="aspect-video max-w-md w-full bg-black rounded-lg overflow-hidden border border-border">
             <iframe
               src={embedUrl}
-              title={block.title || "Vídeo incorporado"}
+              title={blockTitle || "Vídeo incorporado"}
               className="w-full h-full"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen

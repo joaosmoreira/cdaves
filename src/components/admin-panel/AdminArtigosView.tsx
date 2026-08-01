@@ -54,7 +54,7 @@ function getEmbedVideoUrl(rawUrl: string): string {
 }
 
 export function AdminArtigosView() {
-  const noticias = useAdmin((s) => s.noticias ?? []);
+  const noticias = useAdmin((s) => s.noticias);
   const [search, setSearch] = useState("");
   const [selectedCat, setSelectedCat] = useState("Todas");
 
@@ -72,7 +72,7 @@ export function AdminArtigosView() {
   const [imagemCapa, setImagemCapa] = useState("");
   const [blocks, setBlocks] = useState<ArticleBlock[]>([]);
 
-  const filtered = noticias.filter((n) => {
+  const filtered = (noticias ?? []).filter((n) => {
     const matchSearch = String(n.titulo ?? "").toLowerCase().includes(search.toLowerCase());
     const matchCat = selectedCat === "Todas" || String(n.categoria) === selectedCat;
     return matchSearch && matchCat;
@@ -250,7 +250,7 @@ export function AdminArtigosView() {
         </div>
 
         <form onSubmit={handleSave} className="space-y-8">
-          {/* INFORMÇÃO PRINCIPAL */}
+          {/* INFORMAÇÃO PRINCIPAL */}
           <div className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-5">
             <h2 className="font-display text-lg uppercase text-foreground border-b border-border pb-3 flex items-center gap-2">
               <FileText size={18} className="text-primary" /> Informação Principal da Notícia
@@ -659,7 +659,8 @@ function CoverImageSection({
   imagemCapa: string;
   setImagemCapa: (url: string) => void;
 }) {
-  const newsImages = useAdmin((s) => (s.media ?? []).filter((m) => String(m.pasta) === "noticias"));
+  const media = useAdmin((s) => s.media);
+  const newsImages = (media ?? []).filter((m) => String(m.pasta) === "noticias");
   const [activeTab, setActiveTab] = useState<"library" | "upload">("library");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -808,7 +809,8 @@ function InlineImageBlockEditor({
   block: ArticleBlock;
   updateBlock: (id: string, patch: Partial<ArticleBlock>) => void;
 }) {
-  const newsImages = useAdmin((s) => (s.media ?? []).filter((m) => String(m.pasta) === "noticias"));
+  const media = useAdmin((s) => s.media);
+  const newsImages = (media ?? []).filter((m) => String(m.pasta) === "noticias");
   const fileRef = useRef<HTMLInputElement>(null);
   const blockUrl = "url" in block ? String(block.url ?? "") : "";
   const blockCaption = "caption" in block ? String(block.caption ?? "") : "";

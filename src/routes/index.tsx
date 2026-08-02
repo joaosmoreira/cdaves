@@ -27,7 +27,7 @@ function Index() {
 
   return (
     <main>
-      <section className="relative flex min-h-[calc(100dvh-4rem)] flex-col justify-end overflow-hidden">
+      <section className="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden">
         <img
           src={heroUrl}
           alt="Estádio do CD Aves cheio numa noite de jogo"
@@ -38,7 +38,7 @@ function Index() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 pointer-events-none" />
         
         {/* Conteúdo Principal do Hero - Disposição Original */}
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-8 md:pb-12">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-20 pb-8 md:pb-12">
           <p className="text-xs font-bold uppercase tracking-[0.35em] text-accent">Desde {CLUB.founded}</p>
           <h1 className="mt-4 max-w-4xl font-display text-5xl uppercase leading-[0.85] tracking-tight text-background md:text-8xl">
             Vermelho e branco <span className="text-accent">no coração</span>

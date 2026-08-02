@@ -47,9 +47,9 @@ export function Footer() {
   const logoUrl = useAdmin((s) => s.settings?.logoUrl ?? logo);
   return (
     <footer className="bg-foreground text-background">
-      <div className="mx-auto max-w-7xl px-4 py-16">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-6">
-          <div className="lg:col-span-2">
+      <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-6">
+          <div className="col-span-2 lg:col-span-2">
             <div className="flex items-center gap-3">
               <img src={logoUrl} alt={`Emblema do ${CLUB.name}`} width={816} height={816} className="h-11 w-11 object-contain" />
               <span className="font-display text-xl uppercase leading-none">{CLUB.fullName}</span>
@@ -59,9 +59,9 @@ export function Footer() {
               a formação e os sócios como pilares do clube.
             </p>
             <ul className="mt-6 space-y-2 text-sm opacity-80">
-              <li className="flex items-center gap-2"><MapPin className="h-4 w-4" />{CLUB.address}</li>
-              <li className="flex items-center gap-2"><Phone className="h-4 w-4" />{CLUB.phone}</li>
-              <li className="flex items-center gap-2"><Mail className="h-4 w-4" />{CLUB.email}</li>
+              <li className="flex items-center gap-2"><MapPin className="h-4 w-4 shrink-0" />{CLUB.address}</li>
+              <li className="flex items-center gap-2"><Phone className="h-4 w-4 shrink-0" />{CLUB.phone}</li>
+              <li className="flex items-center gap-2"><Mail className="h-4 w-4 shrink-0" />{CLUB.email}</li>
             </ul>
             <div className="mt-6 flex gap-3">
               {[Facebook, Instagram, Youtube, Twitter].map((Icon, i) => (
@@ -76,9 +76,9 @@ export function Footer() {
           </div>
 
           {COLUMNS.map((col) => (
-            <div key={col.title}>
+            <div key={col.title} className="col-span-1">
               <h3 className="font-display text-sm uppercase tracking-widest text-background">{col.title}</h3>
-              <ul className="mt-4 space-y-2 text-sm opacity-75">
+              <ul className="mt-3 space-y-2 text-xs sm:text-sm opacity-75">
                 {col.links.map((l, i) => (
                   <li key={i}>
                     <Link to={l.to} className="transition-opacity hover:opacity-100 hover:text-accent">

@@ -5,15 +5,15 @@ import { CLUB } from "@/data/club";
 
 function Badge({ src, name }: { src?: string; name: string }) {
   return (
-    <div className="flex flex-col items-center gap-2 text-center" style={{ maxWidth: "8rem" }}>
+    <div className="flex flex-col items-center gap-3 text-center">
       {src ? (
-        <img src={src} alt={`Emblema ${name}`} width={80} height={80} className="h-14 w-14 object-contain md:h-20 md:w-20" />
+        <img src={src} alt={`Emblema ${name}`} width={80} height={80} className="h-16 w-16 object-contain md:h-20 md:w-20" />
       ) : (
-        <div className="grid h-14 w-14 place-items-center rounded-full border border-current/30 font-display text-lg md:h-20 md:w-20">
+        <div className="grid h-16 w-16 place-items-center rounded-full border border-current/30 font-display text-xl md:h-20 md:w-20">
           {name.slice(0, 2).toUpperCase()}
         </div>
       )}
-      <p className="w-full text-[10px] font-bold uppercase tracking-widest leading-tight break-words hyphens-auto md:text-[11px]">{name}</p>
+      <p className="w-[7rem] text-[11px] font-bold uppercase tracking-widest leading-tight break-words text-center md:w-[9rem]">{name}</p>
     </div>
   );
 }
@@ -34,38 +34,35 @@ export function MatchStrip() {
 
   return (
     <section className="bg-foreground text-background">
-      <div className="mx-auto max-w-7xl px-4 py-8 md:py-10">
-        {/* Header — empilha em mobile, inline em sm+ */}
-        <div className="flex flex-col items-center gap-1 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+      <div className="mx-auto max-w-7xl px-4 py-10">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-accent">
             {isNext ? "Próximo jogo" : "Último jogo"}
           </p>
           <p className="text-[11px] font-bold uppercase tracking-widest opacity-70">{String(featured.competicao ?? "")}</p>
         </div>
 
-        {/* Emblemas + marcador — sempre centrado */}
-        <div className="mt-6 flex items-center justify-center gap-4 md:mt-8 md:gap-16">
+        <div className="mt-8 flex items-center justify-center gap-6 md:gap-16">
           <Badge src={left.src} name={left.name} />
-          <div className="min-w-[4rem] shrink-0 text-center md:min-w-[8rem]">
+          <div className="text-center">
             {isNext ? (
               <>
-                <p className="font-display text-3xl leading-none md:text-6xl">{String(featured.hora ?? "")}</p>
-                <p className="mt-2 text-[10px] uppercase tracking-widest opacity-70 md:text-[11px]">{String(featured.data ?? "")}</p>
+                <p className="font-display text-4xl leading-none md:text-6xl">{String(featured.hora ?? "")}</p>
+                <p className="mt-2 text-[11px] uppercase tracking-widest opacity-70">{String(featured.data ?? "")}</p>
               </>
             ) : (
-              <p className="font-display text-4xl leading-none md:text-7xl">{String(featured.resultado ?? "-")}</p>
+              <p className="font-display text-5xl leading-none md:text-7xl">{String(featured.resultado ?? "-")}</p>
             )}
           </div>
           <Badge src={right.src} name={right.name} />
         </div>
 
-        {/* Detalhes — coluna em mobile, linha em sm+ */}
-        <div className="mt-6 flex flex-col items-center gap-2 text-[10px] uppercase tracking-widest opacity-80 sm:flex-row sm:justify-center sm:gap-6 md:text-[11px]">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-[11px] uppercase tracking-widest opacity-80">
           <span className="flex items-center gap-2">
-            <MapPin className="h-3.5 w-3.5 shrink-0" /> {String(featured.estadio ?? "")}
+            <MapPin className="h-3.5 w-3.5" /> {String(featured.estadio ?? "")}
           </span>
           <span className="flex items-center gap-2">
-            <CalendarDays className="h-3.5 w-3.5 shrink-0" /> {String(featured.data ?? "")} · {home ? "Em casa" : "Fora"}
+            <CalendarDays className="h-3.5 w-3.5" /> {String(featured.data ?? "")} · {home ? "Em casa" : "Fora"}
           </span>
         </div>
       </div>

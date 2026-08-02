@@ -27,7 +27,7 @@ function Index() {
 
   return (
     <main>
-      <section className="relative flex h-screen min-h-[600px] items-end overflow-hidden">
+      <section className="relative flex h-[calc(100dvh-4rem)] min-h-[520px] items-end overflow-hidden">
         <img
           src={heroUrl}
           alt="Estádio do CD Aves cheio numa noite de jogo"
@@ -36,16 +36,16 @@ function Index() {
           className="absolute inset-0 h-full w-full object-cover object-center"
           style={{ objectPosition: "center 30%" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/50 to-transparent" />
-        <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 md:pb-20">
-          <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-accent md:text-xs">Desde {CLUB.founded}</p>
-          <h1 className="mt-3 max-w-4xl font-display text-4xl uppercase leading-[0.88] tracking-tight text-background sm:text-5xl md:text-8xl">
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/60 to-transparent" />
+        <div className="relative mx-auto w-full max-w-7xl px-4 pb-10 sm:pb-14 md:pb-16 lg:pb-20">
+          <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-accent sm:text-xs">Desde {CLUB.founded}</p>
+          <h1 className="mt-2 font-display text-3xl uppercase leading-[0.9] tracking-tight text-background sm:mt-3 sm:text-5xl md:text-7xl lg:text-8xl">
             Vermelho e branco <span className="text-accent">no coração</span>
           </h1>
-          <p className="mt-4 max-w-xl text-sm text-background/80 md:text-lg">
+          <p className="mt-3 max-w-xl text-xs text-background/80 sm:mt-4 sm:text-sm md:text-lg">
             {CLUB.fullName}. Uma cidade, um clube, milhares de famílias. Junta-te a nós na bancada.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3 md:mt-8">
+          <div className="mt-5 flex flex-wrap gap-3 sm:mt-6 md:mt-8">
             <Button asChild variant="hero" size="lg">
               <Link to="/socios">Tornar-me Sócio</Link>
             </Button>

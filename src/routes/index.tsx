@@ -27,7 +27,7 @@ function Index() {
 
   return (
     <main>
-      <section className="relative flex min-h-[calc(100dvh-4rem)] flex-col justify-between overflow-hidden">
+      <section className="relative flex min-h-[calc(100dvh-4rem)] flex-col justify-end overflow-hidden">
         <img
           src={heroUrl}
           alt="Estádio do CD Aves cheio numa noite de jogo"
@@ -35,18 +35,18 @@ function Index() {
           height={1080}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/60 to-transparent" />
         
-        {/* Conteúdo Principal do Hero */}
-        <div className="relative my-auto mx-auto w-full max-w-7xl px-4 pt-8 pb-8 md:pt-12 md:pb-10 z-10">
+        {/* Conteúdo Principal do Hero - Disposição Original */}
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-8 md:pb-12">
           <p className="text-xs font-bold uppercase tracking-[0.35em] text-accent">Desde {CLUB.founded}</p>
-          <h1 className="mt-3 max-w-4xl font-display text-4xl uppercase leading-[0.85] tracking-tight text-white sm:text-5xl md:text-7xl lg:text-8xl">
+          <h1 className="mt-4 max-w-4xl font-display text-5xl uppercase leading-[0.85] tracking-tight text-background md:text-8xl">
             Vermelho e branco <span className="text-accent">no coração</span>
           </h1>
-          <p className="mt-4 max-w-xl text-sm text-white/80 md:text-lg">
+          <p className="mt-5 max-w-xl text-sm text-background/80 md:text-lg">
             {CLUB.fullName}. Uma cidade, um clube, milhares de famílias. Junta-te a nós na bancada.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3 md:mt-8">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild variant="hero" size="lg">
               <Link to="/socios">Tornar-me Sócio</Link>
             </Button>

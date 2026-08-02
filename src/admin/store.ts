@@ -168,10 +168,58 @@ const initial: AdminState = {
       logo: "",
       local: MATCH_INFO.last.place,
       data: MATCH_INFO.last.date,
-      hora: "",
+      hora: "21:00",
       estadio: MATCH_INFO.last.venue,
       competicao: MATCH_INFO.last.competition,
       resultado: MATCH_INFO.last.score,
+    },
+    {
+      id: id(),
+      tipo: "Histórico",
+      adversario: "FC Porto",
+      logo: "",
+      local: "Fora",
+      data: "20 Jul 2026",
+      hora: "18:00",
+      estadio: "Estádio do Dragão",
+      competicao: "Liga Portugal",
+      resultado: "2 — 1",
+    },
+    {
+      id: id(),
+      tipo: "Histórico",
+      adversario: "SL Benfica",
+      logo: "",
+      local: "Casa",
+      data: "13 Jul 2026",
+      hora: "20:45",
+      estadio: "Estádio Municipal do CD Aves",
+      competicao: "Taça de Portugal",
+      resultado: "2 — 2",
+    },
+    {
+      id: id(),
+      tipo: "Histórico",
+      adversario: "Sporting CP",
+      logo: "",
+      local: "Fora",
+      data: "06 Jul 2026",
+      hora: "20:30",
+      estadio: "Estádio José Alvalade",
+      competicao: "Liga Portugal",
+      resultado: "0 — 4",
+    },
+    {
+      id: id(),
+      tipo: "Histórico",
+      adversario: "Vitória SC",
+      logo: "",
+      local: "Casa",
+      data: "29 Jun 2026",
+      hora: "18:00",
+      estadio: "Estádio Municipal do CD Aves",
+      competicao: "Liga Portugal",
+      resultado: "1 — 0",
     },
   ],
   mediaCategorias: [
@@ -418,8 +466,41 @@ const initial: AdminState = {
   },
 };
 
-let state: AdminState = initial;
+const STORAGE_KEY = "cdaves_admin_store_v1";
+
+function saveToStorage(s: AdminState) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+  } catch (e) {
+    console.error("Erro a guardar no localStorage:", e);
+  }
+}
+
+function loadFromStorage(): AdminState {
+  if (typeof window === "undefined") return initial;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return initial;
+    const parsed = JSON.parse(raw);
+    return {
+      ...initial,
+      ...parsed,
+      jogos: parsed.jogos && parsed.jogos.length >= 4 ? parsed.jogos : initial.jogos,
+      settings: { ...initial.settings, ...(parsed.settings ?? {}) },
+    };
+  } catch (e) {
+    return initial;
+  }
+}
+
+let state: AdminState = loadFromStorage();
 const listeners = new Set<() => void>();
+
+// Aplicar definições visuais na inicialização
+if (typeof window !== "undefined") {
+  setTimeout(() => applyDesignSettings(state.settings), 0);
+}
 
 export function applyDesignSettings(settings: Partial<AdminState["settings"]>) {
   if (typeof window === "undefined") return;
@@ -469,6 +550,7 @@ export function applyDesignSettings(settings: Partial<AdminState["settings"]>) {
 
 function emit() {
   state = { ...state };
+  saveToStorage(state);
   listeners.forEach((l) => l());
 }
 

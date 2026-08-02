@@ -1,143 +1,39 @@
 import { useState } from "react";
-import { Plus, Check, Shield, MapPin, Calendar, Clock, Trophy, X, ArrowRight } from "lucide-react";
+import { Plus, MapPin, Calendar, Clock, Trophy, X, Save } from "lucide-react";
 import { toast } from "sonner";
 import logoCd from "@/assets/logo-cd.png";
-import { GameRecord } from "./types";
+import { updateRow, addRow, useAdmin, Row } from "@/admin/store";
 import { AdminJogosHistoryTable } from "./AdminJogosHistoryTable";
-import { updateRow, useAdmin } from "@/admin/store";
-
-const initialLastGame: GameRecord = {
-  id: 0,
-  opponent: "SC Braga",
-  date: "2026-07-27",
-  time: "21:00",
-  stadium: "Estádio do Clube Desportivo das Aves",
-  competition: "Liga Portugal",
-  homeScore: 3,
-  awayScore: 1,
-  isHome: true,
-};
-
-const initialNextGame: GameRecord = {
-  id: 1,
-  opponent: "Gil Vicente",
-  date: "2026-08-03",
-  time: "21:00",
-  stadium: "Estádio Cidade de Barcelos",
-  competition: "Liga Portugal",
-  homeScore: null,
-  awayScore: null,
-  isHome: false,
-};
-
-const initialHistory: GameRecord[] = [
-  { id: 10, opponent: "FC Porto", date: "2026-07-20", time: "18:00", stadium: "Estádio do Dragão", competition: "Liga Portugal", homeScore: 2, awayScore: 1, isHome: false },
-  { id: 11, opponent: "Benfica", date: "2026-07-13", time: "20:45", stadium: "Estádio do Clube Desportivo das Aves", competition: "Taça de Portugal", homeScore: 2, awayScore: 2, isHome: true },
-  { id: 12, opponent: "Sporting CP", date: "2026-07-06", time: "20:30", stadium: "Estádio José Alvalade", competition: "Liga Portugal", homeScore: 0, awayScore: 4, isHome: false },
-];
-
-function GameCard({ label, game, action }: { label: string; game: GameRecord; action?: React.ReactNode }) {
-  const isHome = game.isHome;
-
-  return (
-    <div className="bg-card border border-border rounded-xl p-6 flex flex-col justify-between gap-5 shadow-sm">
-      <div className="flex items-center justify-between">
-        <p className="text-xs font-mono uppercase tracking-widest text-primary font-bold">{label}</p>
-        <span className="bg-secondary text-foreground px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold">
-          {game.competition}
-        </span>
-      </div>
-
-      <div className="flex items-center justify-between gap-4 py-2">
-        {/* Lado Esquerdo (Equipa da Casa) */}
-        <div className="flex-1 flex flex-col items-center text-center gap-2">
-          {isHome ? (
-            <img src={logoCd} alt="CD Aves" className="h-14 w-14 object-contain" />
-          ) : (
-            <div className="h-14 w-14 rounded-full border border-border bg-secondary flex items-center justify-center font-display text-lg font-bold text-foreground">
-              {game.opponent.substring(0, 2).toUpperCase()}
-            </div>
-          )}
-          <div>
-            <span className="text-[10px] font-mono uppercase text-muted-foreground block">
-              {isHome ? "Casa" : "Fora"}
-            </span>
-            <p className="text-foreground font-bold text-sm font-sans">{isHome ? "CD Aves" : game.opponent}</p>
-          </div>
-        </div>
-
-        {/* Marcador ou VS */}
-        <div className="flex flex-col items-center justify-center px-2">
-          {game.homeScore !== null && game.awayScore !== null ? (
-            <span className="text-foreground font-bold font-display text-3xl tracking-tight">
-              {game.homeScore} — {game.awayScore}
-            </span>
-          ) : (
-            <span className="text-muted-foreground font-bold text-xl font-display uppercase tracking-widest">VS</span>
-          )}
-        </div>
-
-        {/* Lado Direito (Equipa Visitante) */}
-        <div className="flex-1 flex flex-col items-center text-center gap-2">
-          {!isHome ? (
-            <img src={logoCd} alt="CD Aves" className="h-14 w-14 object-contain" />
-          ) : (
-            <div className="h-14 w-14 rounded-full border border-border bg-secondary flex items-center justify-center font-display text-lg font-bold text-foreground">
-              {game.opponent.substring(0, 2).toUpperCase()}
-            </div>
-          )}
-          <div>
-            <span className="text-[10px] font-mono uppercase text-muted-foreground block">
-              {!isHome ? "Fora" : "Fora"}
-            </span>
-            <p className="text-foreground font-bold text-sm font-sans">{!isHome ? "CD Aves" : game.opponent}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3 pt-3 border-t border-border text-xs font-mono">
-        <div className="flex items-center gap-1.5 text-muted-foreground">
-          <Calendar size={13} />
-          <span className="text-foreground">{game.date}</span>
-        </div>
-        <div className="flex items-center gap-1.5 text-muted-foreground">
-          <Clock size={13} />
-          <span className="text-foreground">{game.time}</span>
-        </div>
-        <div className="col-span-2 flex items-center gap-1.5 text-muted-foreground truncate">
-          <MapPin size={13} className="shrink-0" />
-          <span className="text-foreground truncate">{game.stadium}</span>
-        </div>
-      </div>
-
-      {action && <div className="pt-2">{action}</div>}
-    </div>
-  );
-}
+import { GameRecord } from "./types";
 
 export function AdminJogosView() {
-  const [lastGame, setLastGame] = useState<GameRecord>(initialLastGame);
-  const [nextGame, setNextGame] = useState<GameRecord>(initialNextGame);
-  const [history, setHistory] = useState<GameRecord[]>(initialHistory);
+  const jogos = useAdmin((s) => s.jogos);
+
+  // Encontrar o Próximo Jogo e o Último Jogo no store
+  const nextGameRow = jogos.find((j) => String(j.tipo ?? "").startsWith("Próximo"));
+  const lastGameRow = jogos.find((j) => String(j.tipo ?? "").startsWith("Último"));
+
+  // Encontrar todos os jogos históricos / anteriores
+  const historyRows = jogos.filter((j) => String(j.tipo ?? "").startsWith("Histórico"));
 
   // Form Inline State (sem modais!)
   const [showInlineForm, setShowInlineForm] = useState(false);
 
   // Form Inputs
-  const [lastHomeScore, setLastHomeScore] = useState("0");
-  const [lastAwayScore, setLastAwayScore] = useState("0");
+  const [lastHomeScore, setLastHomeScore] = useState("2");
+  const [lastAwayScore, setLastAwayScore] = useState("1");
 
-  const [newOpponent, setNewOpponent] = useState("FC Porto");
+  const [newOpponent, setNewOpponent] = useState("SC Marítimo do Vale");
   const [newIsHome, setNewIsHome] = useState(true);
-  const [newDate, setNewDate] = useState("2026-08-10");
+  const [newDate, setNewDate] = useState("09 Ago 2026");
   const [newTime, setNewTime] = useState("20:30");
-  const [newStadium, setNewStadium] = useState("Estádio do Clube Desportivo das Aves");
+  const [newStadium, setNewStadium] = useState("Estádio Municipal do CD Aves");
   const [newCompetition, setNewCompetition] = useState("Liga Portugal");
 
   function handleHomeToggle(isHome: boolean) {
     setNewIsHome(isHome);
     if (isHome) {
-      setNewStadium("Estádio do Clube Desportivo das Aves");
+      setNewStadium("Estádio Municipal do CD Aves");
     } else {
       setNewStadium("Estádio do Adversário");
     }
@@ -154,57 +50,81 @@ export function AdminJogosView() {
     const finalHomeScore = parseInt(lastHomeScore) || 0;
     const finalAwayScore = parseInt(lastAwayScore) || 0;
 
-    // 1. O jogo "nextGame" atual é finalizado com os golos inseridos e passa a "lastGame"
-    const finishedGame: GameRecord = {
-      ...nextGame,
-      homeScore: finalHomeScore,
-      awayScore: finalAwayScore,
-    };
+    // 1. O jogo que era o "Último jogo" transita para o "Histórico"
+    if (lastGameRow) {
+      updateRow("jogos", String(lastGameRow.id), {
+        tipo: "Histórico",
+      });
+    }
 
-    // 2. O novo jogo agendado passa a ser o "nextGame"
-    const newlyCreatedGame: GameRecord = {
-      id: Date.now(),
-      opponent: newOpponent.trim(),
-      date: newDate,
-      time: newTime,
-      stadium: newStadium,
-      competition: newCompetition,
-      homeScore: null,
-      awayScore: null,
-      isHome: newIsHome,
-    };
+    // 2. O jogo que era o "Próximo jogo" passa a ser o "Último jogo" finalizado
+    if (nextGameRow) {
+      updateRow("jogos", String(nextGameRow.id), {
+        tipo: "Último jogo",
+        resultado: `${finalHomeScore} — ${finalAwayScore}`,
+        resultado_guardado_em: Date.now(),
+      });
+    }
 
-    // 3. Atualizar estado local
-    setHistory((h) => [lastGame, ...h]);
-    setLastGame(finishedGame);
-    setNextGame(newlyCreatedGame);
-
-    // 4. Atualizar o Store do Admin (que reflete instantaneamente em todo o site como na MatchStrip)
-    updateRow("jogos", "r1", {
+    // 3. O novo jogo inserido passa a ser o "Próximo jogo"
+    const nextPayload = {
       tipo: "Próximo jogo",
-      adversario: newlyCreatedGame.opponent,
-      local: newlyCreatedGame.isHome ? "Casa" : "Fora",
-      data: newlyCreatedGame.date,
-      hora: newlyCreatedGame.time,
-      estadio: newlyCreatedGame.stadium,
-      competicao: newlyCreatedGame.competition,
+      adversario: newOpponent.trim(),
+      local: newIsHome ? "Casa" : "Fora",
+      data: newDate,
+      hora: newTime,
+      estadio: newStadium,
+      competicao: newCompetition,
       resultado: "",
-    });
+    };
 
-    updateRow("jogos", "r2", {
-      tipo: "Último jogo",
-      adversario: finishedGame.opponent,
-      local: finishedGame.isHome ? "Casa" : "Fora",
-      data: finishedGame.date,
-      hora: finishedGame.time,
-      estadio: finishedGame.stadium,
-      competicao: finishedGame.competition,
-      resultado: `${finalHomeScore} — ${finalAwayScore}`,
-    });
+    addRow("jogos", nextPayload);
 
     setShowInlineForm(false);
-    toast.success("Resultado guardado e próximo jogo agendado com sucesso!");
+    toast.success("Resultado guardado, histórico atualizado e novo jogo agendado!");
   }
+
+  // Dados para exibição nos cartões
+  const displayNext = {
+    opponent: String(nextGameRow?.adversario ?? "SC Marítimo do Vale"),
+    isHome: String(nextGameRow?.local ?? "Casa") === "Casa",
+    date: String(nextGameRow?.data ?? "09 Ago 2026"),
+    time: String(nextGameRow?.hora ?? "20:30"),
+    stadium: String(nextGameRow?.estadio ?? "Estádio Municipal do CD Aves"),
+    competition: String(nextGameRow?.competicao ?? "Liga Portugal"),
+    score: String(nextGameRow?.resultado ?? "-"),
+  };
+
+  const displayLast = {
+    opponent: String(lastGameRow?.adversario ?? "SC Braga"),
+    isHome: String(lastGameRow?.local ?? "Casa") === "Casa",
+    date: String(lastGameRow?.data ?? "28 Jul 2026"),
+    time: String(lastGameRow?.hora ?? "21:00"),
+    stadium: String(lastGameRow?.estadio ?? "Estádio Municipal do CD Aves"),
+    competition: String(lastGameRow?.competicao ?? "Liga Portugal"),
+    score: String(lastGameRow?.resultado ?? "3 — 1"),
+  };
+
+  // Mapear rows do histórico para o formato da tabela AdminJogosHistoryTable
+  const historyGames: GameRecord[] = historyRows.map((r, i) => {
+    const rawRes = String(r.resultado ?? "0 — 0");
+    const parts = rawRes.split("—").map((s) => parseInt(s.trim()));
+    const isHome = String(r.local ?? "Casa") === "Casa";
+    const homeScore = !isNaN(parts[0]) ? parts[0] : 0;
+    const awayScore = !isNaN(parts[1]) ? parts[1] : 0;
+
+    return {
+      id: String(r.id ?? i),
+      opponent: String(r.adversario ?? "Adversário"),
+      date: String(r.data ?? ""),
+      time: String(r.hora ?? ""),
+      stadium: String(r.estadio ?? ""),
+      competition: String(r.competicao ?? "Liga Portugal"),
+      homeScore: homeScore,
+      awayScore: awayScore,
+      isHome: isHome,
+    };
+  });
 
   return (
     <div className="space-y-6">
@@ -219,256 +139,323 @@ export function AdminJogosView() {
             onClick={() => setShowInlineForm(true)}
             className="flex items-center justify-center gap-2 bg-primary text-primary-foreground text-xs font-semibold px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
           >
-            <Plus size={14} /> Novo Jogo / Adicionar Resultado
+            <Plus size={14} /> Atualizar Próximo Jogo / Resultado
           </button>
         )}
       </div>
 
       {/* Cartões dos Jogos Atuais (Último e Próximo) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <GameCard label="Último Jogo Finalizado" game={lastGame} />
-        <GameCard
-          label="Próximo Jogo Agendado"
-          game={nextGame}
-          action={
-            !showInlineForm ? (
-              <button
-                onClick={() => setShowInlineForm(true)}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md bg-primary/10 border border-primary/30 text-primary text-xs font-bold hover:bg-primary/20 transition-all"
-              >
-                <Plus size={14} /> Adicionar resultado e definir novo jogo
-              </button>
-            ) : undefined
-          }
-        />
+        {/* Cartão Último Jogo */}
+        <div className="bg-card border border-border rounded-xl p-6 flex flex-col justify-between gap-5 shadow-sm">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-mono uppercase tracking-widest text-primary font-bold">Último Jogo Finalizado</p>
+            <span className="bg-secondary text-foreground px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold">
+              {displayLast.competition}
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between gap-4 py-2">
+            <div className="flex-1 flex flex-col items-center text-center gap-2">
+              {displayLast.isHome ? (
+                <img src={logoCd} alt="CD Aves" className="h-14 w-14 object-contain" />
+              ) : (
+                <div className="h-14 w-14 rounded-full border border-border bg-secondary flex items-center justify-center font-display text-lg font-bold text-foreground">
+                  {displayLast.opponent.substring(0, 2).toUpperCase()}
+                </div>
+              )}
+              <div>
+                <span className="text-[10px] font-mono uppercase text-muted-foreground block">
+                  {displayLast.isHome ? "Casa" : "Fora"}
+                </span>
+                <p className="text-foreground font-bold text-sm font-sans">{displayLast.isHome ? "CD Aves" : displayLast.opponent}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center justify-center px-2">
+              <span className="text-foreground font-bold font-display text-3xl tracking-tight">
+                {displayLast.score}
+              </span>
+            </div>
+
+            <div className="flex-1 flex flex-col items-center text-center gap-2">
+              {!displayLast.isHome ? (
+                <img src={logoCd} alt="CD Aves" className="h-14 w-14 object-contain" />
+              ) : (
+                <div className="h-14 w-14 rounded-full border border-border bg-secondary flex items-center justify-center font-display text-lg font-bold text-foreground">
+                  {displayLast.opponent.substring(0, 2).toUpperCase()}
+                </div>
+              )}
+              <div>
+                <span className="text-[10px] font-mono uppercase text-muted-foreground block">
+                  {!displayLast.isHome ? "Casa" : "Fora"}
+                </span>
+                <p className="text-foreground font-bold text-sm font-sans">{!displayLast.isHome ? "CD Aves" : displayLast.opponent}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 pt-3 border-t border-border text-xs font-mono">
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Calendar size={13} />
+              <span className="text-foreground">{displayLast.date}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Clock size={13} />
+              <span className="text-foreground">{displayLast.time || "21:00"}</span>
+            </div>
+            <div className="col-span-2 flex items-center gap-1.5 text-muted-foreground truncate">
+              <MapPin size={13} className="shrink-0" />
+              <span className="text-foreground truncate">{displayLast.stadium}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Cartão Próximo Jogo */}
+        <div className="bg-card border border-border rounded-xl p-6 flex flex-col justify-between gap-5 shadow-sm">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-mono uppercase tracking-widest text-primary font-bold">Próximo Jogo Agendado (Exibido no Site)</p>
+            <span className="bg-secondary text-foreground px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold">
+              {displayNext.competition}
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between gap-4 py-2">
+            <div className="flex-1 flex flex-col items-center text-center gap-2">
+              {displayNext.isHome ? (
+                <img src={logoCd} alt="CD Aves" className="h-14 w-14 object-contain" />
+              ) : (
+                <div className="h-14 w-14 rounded-full border border-border bg-secondary flex items-center justify-center font-display text-lg font-bold text-foreground">
+                  {displayNext.opponent.substring(0, 2).toUpperCase()}
+                </div>
+              )}
+              <div>
+                <span className="text-[10px] font-mono uppercase text-muted-foreground block">
+                  {displayNext.isHome ? "Casa" : "Fora"}
+                </span>
+                <p className="text-foreground font-bold text-sm font-sans">{displayNext.isHome ? "CD Aves" : displayNext.opponent}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center justify-center px-2">
+              <span className="text-muted-foreground font-bold text-xl font-display uppercase tracking-widest">VS</span>
+            </div>
+
+            <div className="flex-1 flex flex-col items-center text-center gap-2">
+              {!displayNext.isHome ? (
+                <img src={logoCd} alt="CD Aves" className="h-14 w-14 object-contain" />
+              ) : (
+                <div className="h-14 w-14 rounded-full border border-border bg-secondary flex items-center justify-center font-display text-lg font-bold text-foreground">
+                  {displayNext.opponent.substring(0, 2).toUpperCase()}
+                </div>
+              )}
+              <div>
+                <span className="text-[10px] font-mono uppercase text-muted-foreground block">
+                  {!displayNext.isHome ? "Casa" : "Fora"}
+                </span>
+                <p className="text-foreground font-bold text-sm font-sans">{!displayNext.isHome ? "CD Aves" : displayNext.opponent}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 pt-3 border-t border-border text-xs font-mono">
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Calendar size={13} />
+              <span className="text-foreground">{displayNext.date}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Clock size={13} />
+              <span className="text-foreground">{displayNext.time}</span>
+            </div>
+            <div className="col-span-2 flex items-center gap-1.5 text-muted-foreground truncate">
+              <MapPin size={13} className="shrink-0" />
+              <span className="text-foreground truncate">{displayNext.stadium}</span>
+            </div>
+          </div>
+
+          {!showInlineForm && (
+            <button
+              onClick={() => setShowInlineForm(true)}
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md bg-primary/10 border border-primary/30 text-primary text-xs font-bold hover:bg-primary/20 transition-all mt-2"
+            >
+              <Plus size={14} /> Editar dados do Próximo Jogo
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Formulário In-Page no MAIN (Sem Modais!) */}
+      {/* Formulário In-Page de Edição do Jogo */}
       {showInlineForm && (
-        <div className="bg-card border-2 border-primary/40 rounded-xl p-6 shadow-md space-y-6 animate-in fade-in slide-in-from-top-4 duration-200">
+        <form onSubmit={handleSaveAll} className="bg-card border-2 border-primary/40 rounded-xl p-6 shadow-md space-y-6 animate-in fade-in slide-in-from-top-4 duration-200">
           <div className="flex items-center justify-between border-b border-border pb-4">
             <div>
-              <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-primary block">
-                ATUALIZAÇÃO DE JOGOS & RESULTADOS
-              </span>
-              <h2 className="font-display text-xl uppercase text-foreground">
-                Registar Resultado & Agendar Próximo Encontro
+              <h2 className="text-foreground font-display text-lg uppercase tracking-tight flex items-center gap-2">
+                <Trophy size={18} className="text-primary" /> Editar Próximo Jogo & Resultado
               </h2>
+              <p className="text-muted-foreground text-xs font-mono mt-0.5">
+                Os dados inseridos aqui atualizam a MatchStrip do site e arquivam o jogo anterior no Histórico.
+              </p>
             </div>
             <button
+              type="button"
               onClick={() => setShowInlineForm(false)}
-              className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary"
+              className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
             >
               <X size={18} />
             </button>
           </div>
 
-          <form onSubmit={handleSaveAll} className="space-y-6">
-            {/* ETAPA 1: Resultado Final do Jogo Próximo */}
-            <div className="bg-secondary/40 border border-border rounded-lg p-4 space-y-3">
-              <p className="text-xs font-mono font-bold uppercase text-foreground flex items-center gap-2">
-                <Check size={14} className="text-emerald-500" />
-                1. Registar Resultado do Jogo: <span className="text-primary">{nextGame.isHome ? `CD Aves vs ${nextGame.opponent}` : `${nextGame.opponent} vs CD Aves`}</span>
-              </p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                <div>
-                  <label className="block text-[11px] font-mono font-bold text-muted-foreground uppercase mb-1">
-                    Golos {nextGame.isHome ? "CD Aves (Casa)" : `${nextGame.opponent} (Casa)`}
-                  </label>
-                  <input
-                    type="number"
-                    min={0}
-                    value={lastHomeScore}
-                    onChange={(e) => setLastHomeScore(e.target.value)}
-                    className="w-full bg-background border border-border rounded-md px-3 py-2 text-center text-lg font-bold font-display text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-mono font-bold text-muted-foreground uppercase mb-1">
-                    Golos {nextGame.isHome ? `${nextGame.opponent} (Fora)` : "CD Aves (Fora)"}
-                  </label>
-                  <input
-                    type="number"
-                    min={0}
-                    value={lastAwayScore}
-                    onChange={(e) => setLastAwayScore(e.target.value)}
-                    className="w-full bg-background border border-border rounded-md px-3 py-2 text-center text-lg font-bold font-display text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Lado Esquerdo: Novo Jogo Agendado */}
+            <div className="space-y-4 border-b md:border-b-0 md:border-r border-border pb-6 md:pb-0 md:pr-6">
+              <h3 className="text-xs font-mono uppercase tracking-wider text-primary font-bold flex items-center gap-2">
+                <Calendar size={14} /> Dados do Próximo Jogo
+              </h3>
 
-            {/* ETAPA 2: Definir o Próximo Jogo */}
-            <div className="space-y-4">
-              <p className="text-xs font-mono font-bold uppercase text-foreground flex items-center gap-2">
-                <ArrowRight size={14} className="text-primary" />
-                2. Agendar o Próximo Jogo a Seguir
-              </p>
-
-              {/* Seletor de Casa vs Fora */}
-              <div>
-                <label className="block text-[11px] font-mono font-bold text-muted-foreground uppercase mb-2">
-                  Local do Jogo (Casa ou Fora)
-                </label>
-                <div className="grid grid-cols-2 gap-3 max-w-md font-mono text-xs">
-                  <button
-                    type="button"
-                    onClick={() => handleHomeToggle(true)}
-                    className={`py-2.5 px-4 rounded-md font-bold flex items-center justify-center gap-2 border transition-all ${
-                      newIsHome
-                        ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                        : "bg-secondary border-border text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    🏠 Jogo em Casa
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleHomeToggle(false)}
-                    className={`py-2.5 px-4 rounded-md font-bold flex items-center justify-center gap-2 border transition-all ${
-                      !newIsHome
-                        ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                        : "bg-secondary border-border text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    ✈️ Jogo Fora
-                  </button>
-                </div>
+              <div className="space-y-1">
+                <label className="text-xs font-mono text-muted-foreground">Nome do Adversário *</label>
+                <input
+                  type="text"
+                  required
+                  value={newOpponent}
+                  onChange={(e) => setNewOpponent(e.target.value)}
+                  placeholder="Ex: SC Marítimo do Vale, Vitória SC"
+                  className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-xs font-sans text-foreground focus:outline-none focus:border-primary"
+                />
               </div>
 
-              {/* Visual Preview da Disposição dos Logos */}
-              <div className="bg-secondary/60 border border-border rounded-lg p-3 flex items-center justify-between max-w-md font-mono text-xs">
-                <div className="flex items-center gap-2">
-                  {newIsHome ? (
-                    <>
-                      <img src={logoCd} alt="CD Aves" className="h-6 w-6 object-contain" />
-                      <span className="font-bold text-primary">CD Aves (Casa)</span>
-                    </>
-                  ) : (
-                    <>
-                      <div className="h-6 w-6 rounded-full border border-border bg-card flex items-center justify-center text-[10px] font-bold">
-                        {newOpponent.substring(0, 2).toUpperCase() || "ADV"}
-                      </div>
-                      <span className="font-bold text-foreground">{newOpponent || "Adversário"} (Casa)</span>
-                    </>
-                  )}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-mono text-muted-foreground">Local do Jogo</label>
+                  <div className="flex rounded-md overflow-hidden border border-border">
+                    <button
+                      type="button"
+                      onClick={() => handleHomeToggle(true)}
+                      className={`flex-1 py-1.5 text-xs font-mono font-bold transition-colors ${
+                        newIsHome ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"
+                      }`}
+                    >
+                      Em Casa
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleHomeToggle(false)}
+                      className={`flex-1 py-1.5 text-xs font-mono font-bold transition-colors ${
+                        !newIsHome ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"
+                      }`}
+                    >
+                      Fora
+                    </button>
+                  </div>
                 </div>
 
-                <span className="font-display font-bold text-muted-foreground">VS</span>
-
-                <div className="flex items-center gap-2">
-                  {!newIsHome ? (
-                    <>
-                      <span className="font-bold text-primary">CD Aves (Fora)</span>
-                      <img src={logoCd} alt="CD Aves" className="h-6 w-6 object-contain" />
-                    </>
-                  ) : (
-                    <>
-                      <span className="font-bold text-foreground">{newOpponent || "Adversário"} (Fora)</span>
-                      <div className="h-6 w-6 rounded-full border border-border bg-card flex items-center justify-center text-[10px] font-bold">
-                        {newOpponent.substring(0, 2).toUpperCase() || "ADV"}
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {/* Campos do Formulário */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
-                <div className="sm:col-span-2">
-                  <label className="block text-[11px] font-bold text-muted-foreground uppercase mb-1">
-                    Adversário
-                  </label>
+                <div className="space-y-1">
+                  <label className="text-xs font-mono text-muted-foreground">Competição</label>
                   <input
                     type="text"
-                    required
-                    placeholder="Ex: FC Porto, Vitória SC, Rio Ave"
-                    value={newOpponent}
-                    onChange={(e) => setNewOpponent(e.target.value)}
-                    className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold text-muted-foreground uppercase mb-1">
-                    Data do Jogo
-                  </label>
-                  <input
-                    type="date"
-                    required
-                    value={newDate}
-                    onChange={(e) => setNewDate(e.target.value)}
-                    className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold text-muted-foreground uppercase mb-1">
-                    Hora do Jogo
-                  </label>
-                  <input
-                    type="time"
-                    required
-                    value={newTime}
-                    onChange={(e) => setNewTime(e.target.value)}
-                    className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold text-muted-foreground uppercase mb-1">
-                    Estádio / Recinto
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={newStadium}
-                    onChange={(e) => setNewStadium(e.target.value)}
-                    className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold text-muted-foreground uppercase mb-1">
-                    Competição
-                  </label>
-                  <select
                     value={newCompetition}
                     onChange={(e) => setNewCompetition(e.target.value)}
-                    className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-                  >
-                    <option value="Liga Portugal">Liga Portugal</option>
-                    <option value="Taça de Portugal">Taça de Portugal</option>
-                    <option value="Taça da Liga">Taça da Liga</option>
-                    <option value="Jogo Amigável">Jogo Amigável</option>
-                  </select>
+                    className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-xs font-sans text-foreground focus:outline-none focus:border-primary"
+                  />
                 </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-mono text-muted-foreground">Data do Jogo</label>
+                  <input
+                    type="text"
+                    value={newDate}
+                    onChange={(e) => setNewDate(e.target.value)}
+                    placeholder="Ex: 09 Ago 2026"
+                    className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-xs font-sans text-foreground focus:outline-none focus:border-primary"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-mono text-muted-foreground">Hora de Início</label>
+                  <input
+                    type="text"
+                    value={newTime}
+                    onChange={(e) => setNewTime(e.target.value)}
+                    placeholder="Ex: 20:30"
+                    className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-xs font-sans text-foreground focus:outline-none focus:border-primary"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-mono text-muted-foreground">Estádio / Recinto</label>
+                <input
+                  type="text"
+                  value={newStadium}
+                  onChange={(e) => setNewStadium(e.target.value)}
+                  className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-xs font-sans text-foreground focus:outline-none focus:border-primary"
+                />
               </div>
             </div>
 
-            {/* Botões de Ação */}
-            <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-border">
-              <button
-                type="button"
-                onClick={() => setShowInlineForm(false)}
-                className="px-4 py-2 rounded-md border border-border text-muted-foreground hover:text-foreground text-xs font-mono font-medium"
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                className="px-5 py-2 rounded-md bg-primary text-primary-foreground text-xs font-mono font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors shadow-sm"
-              >
-                <Check size={14} /> Guardar Resultado e Agendar Novo Jogo
-              </button>
+            {/* Lado Direito: Resultado do Jogo Anterior */}
+            <div className="space-y-4 flex flex-col justify-between">
+              <div className="space-y-4">
+                <h3 className="text-xs font-mono uppercase tracking-wider text-primary font-bold flex items-center gap-2">
+                  <Trophy size={14} /> Resultado do Jogo Anterior
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  Regista os golos marcados. O jogo transita automaticamente para a tabela de Histórico da Época.
+                </p>
+
+                <div className="grid grid-cols-2 gap-4 bg-secondary/30 p-4 rounded-lg border border-border">
+                  <div className="space-y-1">
+                    <label className="text-xs font-mono text-foreground font-semibold block">
+                      Golos CD Aves
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={lastHomeScore}
+                      onChange={(e) => setLastHomeScore(e.target.value)}
+                      className="w-full bg-card border border-border rounded-md px-3 py-2 text-base font-bold font-mono text-center text-foreground focus:outline-none focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-mono text-foreground font-semibold block">
+                      Golos Adversário
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={lastAwayScore}
+                      onChange={(e) => setLastAwayScore(e.target.value)}
+                      className="w-full bg-card border border-border rounded-md px-3 py-2 text-base font-bold font-mono text-center text-foreground focus:outline-none focus:border-primary"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
+                <button
+                  type="button"
+                  onClick={() => setShowInlineForm(false)}
+                  className="px-4 py-2 rounded-md border border-border text-muted-foreground text-xs font-semibold hover:bg-secondary transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="flex items-center gap-2 px-5 py-2 rounded-md bg-primary text-primary-foreground text-xs font-bold hover:bg-primary/90 transition-colors shadow-sm"
+                >
+                  <Save size={14} /> Guardar & Publicar no Site
+                </button>
+              </div>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       )}
 
-      {/* Tabela de Histórico de Jogos Anteriores */}
-      <AdminJogosHistoryTable games={[lastGame, ...history]} />
+      {/* Tabela do Histórico de Jogos Anteriores */}
+      <AdminJogosHistoryTable games={historyGames} />
     </div>
   );
 }

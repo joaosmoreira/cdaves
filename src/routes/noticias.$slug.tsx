@@ -2,7 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { CTA, NewsletterCTA } from "@/components/site/CTA";
 import { NEWS, type NewsItem } from "@/data/club";
-import { useAdmin } from "@/admin/store";
+import { useAdmin, getState, Row } from "@/admin/store";
+import { formatDateDDMMYYYY } from "@/lib/formatters";
 
 function getEmbedVideoUrl(url: string): string {
   if (!url) return "";
@@ -24,11 +25,11 @@ function getEmbedVideoUrl(url: string): string {
 export const Route = createFileRoute("/noticias/$slug")({
   loader: ({ params }) => {
     const item = NEWS.find((n) => n.slug === params.slug);
-    // Also check the admin store for articles created only there
+    // Also check the admin store for articles created or edited there
     let fromStore: any = undefined;
     try {
-      const storeNoticias = useAdmin.getState().noticias ?? [];
-      fromStore = storeNoticias.find((n) => String(n.slug) === params.slug);
+      const storeNoticias = getState().noticias ?? [];
+      fromStore = storeNoticias.find((n: Row) => String(n.slug) === params.slug || String(n.id) === params.slug);
     } catch (_) {
       // store may not be hydrated in SSR context
     }
@@ -40,8 +41,8 @@ export const Route = createFileRoute("/noticias/$slug")({
       return { meta: [{ title: "Notícia indisponível · CD Aves" }, { name: "robots", content: "noindex" }] };
     }
     const { item, slug } = loaderData;
-    const storeNoticias = useAdmin.getState().noticias ?? [];
-    const fromStore = storeNoticias.find((n) => String(n.slug) === slug);
+    const storeNoticias = getState().noticias ?? [];
+    const fromStore = storeNoticias.find((n: Row) => String(n.slug) === slug || String(n.id) === slug);
     const title = String(fromStore?.titulo ?? item?.title ?? "Notícia CD Aves");
     const excerpt = String(fromStore?.resumo ?? item?.excerpt ?? "");
 
@@ -80,11 +81,11 @@ const KIND_LABEL = {
 function Noticia() {
   const { item, slug } = Route.useLoaderData() as { item?: NewsItem; slug: string };
   const storeNoticias = useAdmin((s) => s.noticias ?? []);
-  const fromStore = storeNoticias.find((n) => String(n.slug) === slug);
+  const fromStore = storeNoticias.find((n: Row) => String(n.slug) === slug || String(n.id) === slug);
 
   const title = String(fromStore?.titulo ?? item?.title ?? "Notícia CD Aves");
   const category = String(fromStore?.categoria ?? item?.category ?? "Equipa A");
-  const date = String(fromStore?.data ?? item?.date ?? "");
+  const date = formatDateDDMMYYYY(String(fromStore?.data ?? item?.date ?? ""));
   const image = String(fromStore?.imagem_capa || item?.image || "");
   const excerpt = String(fromStore?.resumo ?? item?.excerpt ?? "");
   const kind = (item?.kind ?? "geral") as keyof typeof KIND_LABEL;

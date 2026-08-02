@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContactosRouteImport } from './routes/contactos'
 import { Route as CorporateRouteImport } from './routes/corporate'
@@ -24,6 +25,7 @@ import { Route as FutebolIndexRouteImport } from './routes/futebol.index'
 import { Route as ModalidadesIndexRouteImport } from './routes/modalidades.index'
 import { Route as NoticiasIndexRouteImport } from './routes/noticias.index'
 import { Route as NoticiasSlugRouteImport } from './routes/noticias.$slug'
+import { Route as PaginasSlugRouteImport } from './routes/paginas.$slug'
 import { Route as FutebolEquipaIndexRouteImport } from './routes/futebol.$equipa.index'
 import { Route as FutebolEquipaJogadorRouteImport } from './routes/futebol.$equipa.$jogador'
 import { Route as ModalidadesModalidadeIndexRouteImport } from './routes/modalidades.$modalidade.index'
@@ -32,6 +34,11 @@ import { Route as ModalidadesModalidadeAtletaRouteImport } from './routes/modali
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SlugRoute = SlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -104,6 +111,11 @@ const NoticiasSlugRoute = NoticiasSlugRouteImport.update({
   path: '/noticias/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PaginasSlugRoute = PaginasSlugRouteImport.update({
+  id: '/paginas/$slug',
+  path: '/paginas/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FutebolEquipaIndexRoute = FutebolEquipaIndexRouteImport.update({
   id: '/futebol/$equipa/',
   path: '/futebol/$equipa/',
@@ -129,6 +141,7 @@ const ModalidadesModalidadeAtletaRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/admin': typeof AdminRoute
   '/contactos': typeof ContactosRoute
   '/corporate': typeof CorporateRoute
@@ -139,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/clube/institucional': typeof ClubeInstitucionalRoute
   '/clube/presidente': typeof ClubePresidenteRoute
   '/noticias/$slug': typeof NoticiasSlugRoute
+  '/paginas/$slug': typeof PaginasSlugRoute
   '/clube/': typeof ClubeIndexRoute
   '/futebol/': typeof FutebolIndexRoute
   '/modalidades/': typeof ModalidadesIndexRoute
@@ -150,6 +164,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/admin': typeof AdminRoute
   '/contactos': typeof ContactosRoute
   '/corporate': typeof CorporateRoute
@@ -160,6 +175,7 @@ export interface FileRoutesByTo {
   '/clube/institucional': typeof ClubeInstitucionalRoute
   '/clube/presidente': typeof ClubePresidenteRoute
   '/noticias/$slug': typeof NoticiasSlugRoute
+  '/paginas/$slug': typeof PaginasSlugRoute
   '/clube': typeof ClubeIndexRoute
   '/futebol': typeof FutebolIndexRoute
   '/modalidades': typeof ModalidadesIndexRoute
@@ -172,6 +188,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/admin': typeof AdminRoute
   '/contactos': typeof ContactosRoute
   '/corporate': typeof CorporateRoute
@@ -182,6 +199,7 @@ export interface FileRoutesById {
   '/clube/institucional': typeof ClubeInstitucionalRoute
   '/clube/presidente': typeof ClubePresidenteRoute
   '/noticias/$slug': typeof NoticiasSlugRoute
+  '/paginas/$slug': typeof PaginasSlugRoute
   '/clube/': typeof ClubeIndexRoute
   '/futebol/': typeof FutebolIndexRoute
   '/modalidades/': typeof ModalidadesIndexRoute
@@ -195,6 +213,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$slug'
     | '/admin'
     | '/contactos'
     | '/corporate'
@@ -205,6 +224,7 @@ export interface FileRouteTypes {
     | '/clube/institucional'
     | '/clube/presidente'
     | '/noticias/$slug'
+    | '/paginas/$slug'
     | '/clube/'
     | '/futebol/'
     | '/modalidades/'
@@ -216,6 +236,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$slug'
     | '/admin'
     | '/contactos'
     | '/corporate'
@@ -226,6 +247,7 @@ export interface FileRouteTypes {
     | '/clube/institucional'
     | '/clube/presidente'
     | '/noticias/$slug'
+    | '/paginas/$slug'
     | '/clube'
     | '/futebol'
     | '/modalidades'
@@ -237,6 +259,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/$slug'
     | '/admin'
     | '/contactos'
     | '/corporate'
@@ -247,6 +270,7 @@ export interface FileRouteTypes {
     | '/clube/institucional'
     | '/clube/presidente'
     | '/noticias/$slug'
+    | '/paginas/$slug'
     | '/clube/'
     | '/futebol/'
     | '/modalidades/'
@@ -259,6 +283,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SlugRoute: typeof SlugRoute
   AdminRoute: typeof AdminRoute
   ContactosRoute: typeof ContactosRoute
   CorporateRoute: typeof CorporateRoute
@@ -269,6 +294,7 @@ export interface RootRouteChildren {
   ClubeInstitucionalRoute: typeof ClubeInstitucionalRoute
   ClubePresidenteRoute: typeof ClubePresidenteRoute
   NoticiasSlugRoute: typeof NoticiasSlugRoute
+  PaginasSlugRoute: typeof PaginasSlugRoute
   ClubeIndexRoute: typeof ClubeIndexRoute
   FutebolIndexRoute: typeof FutebolIndexRoute
   ModalidadesIndexRoute: typeof ModalidadesIndexRoute
@@ -286,6 +312,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$slug': {
+      id: '/$slug'
+      path: '/$slug'
+      fullPath: '/$slug'
+      preLoaderRoute: typeof SlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -386,6 +419,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NoticiasSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/paginas/$slug': {
+      id: '/paginas/$slug'
+      path: '/paginas/$slug'
+      fullPath: '/paginas/$slug'
+      preLoaderRoute: typeof PaginasSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/futebol/$equipa/': {
       id: '/futebol/$equipa/'
       path: '/futebol/$equipa'
@@ -419,6 +459,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SlugRoute: SlugRoute,
   AdminRoute: AdminRoute,
   ContactosRoute: ContactosRoute,
   CorporateRoute: CorporateRoute,
@@ -429,6 +470,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClubeInstitucionalRoute: ClubeInstitucionalRoute,
   ClubePresidenteRoute: ClubePresidenteRoute,
   NoticiasSlugRoute: NoticiasSlugRoute,
+  PaginasSlugRoute: PaginasSlugRoute,
   ClubeIndexRoute: ClubeIndexRoute,
   FutebolIndexRoute: FutebolIndexRoute,
   ModalidadesIndexRoute: ModalidadesIndexRoute,

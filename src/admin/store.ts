@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { CLUB, MATCH_INFO, MODALIDADES, NEWS, PARTNERS, PAYMENT_PLANS, SEATS, SQUAD, TEAMS } from "@/data/club";
+import { formatDateDDMMYYYY } from "@/lib/formatters";
 
 import logoCd from "@/assets/logo-cd.png";
 import heroStadium from "@/assets/hero-stadium.jpg";
@@ -32,6 +33,16 @@ export type AdminState = {
   horarios: Row[];
   emails: Row[];
   ctas: Row[];
+  historia: Row[];
+  palmares: Row[];
+  instalacoes: Row[];
+  hospitalidade: Row[];
+  beneficiosSocios: Row[];
+  precosSocios: Row[];
+  precosLugarAnual: Row[];
+  contactos: Row[];
+  paginas: Row[];
+  adminUsers: Row[];
   settings: {
     quota: string;
     moeda: string;
@@ -91,7 +102,7 @@ const initial: AdminState = {
     id: id(),
     slug: n.slug,
     titulo: n.title,
-    data: n.date,
+    data: formatDateDDMMYYYY(n.date),
     categoria: n.category,
     autor: i % 2 === 0 ? "Ana Silva (Editora)" : "Carlos Mendes (Redator)",
     estado: "Publicado",
@@ -114,12 +125,14 @@ const initial: AdminState = {
   })),
   modalidades: MODALIDADES.map((m) => ({
     id: id(),
+    slug: m.slug,
     nome: m.name,
     treinador: m.coach,
     competicao: m.competition,
     recinto: m.venue,
     atletas: m.athletes,
     descricao: m.desc,
+    activa: m.activa ? "sim" : "nao",
   })),
   modalidadeEquipas: MODALIDADES.map((m) => ({
     id: id(),
@@ -417,6 +430,171 @@ const initial: AdminState = {
       corBotaoTexto: "#000000",
     },
   ],
+  historia: [
+    {
+      id: id(),
+      ano: "1930",
+      titulo: "Fundação do Clube Desportivo das Aves",
+      descricao: "Fundado a 12 de novembro de 1930 em Vila das Aves por um grupo de entusiastas desportivos locais.",
+    },
+    {
+      id: id(),
+      ano: "2018",
+      titulo: "Conquista da Taça de Portugal",
+      descricao: "Histórica vitória na final da Taça de Portugal no Estádio Nacional perante o Sporting CP (2-1).",
+    },
+  ],
+  palmares: [
+    {
+      id: id(),
+      titulo: "Taça de Portugal",
+      epoca: "2017/2018",
+      categoria: "Sénior",
+      descricao: "Vencedor da 78ª edição da Taça de Portugal (Vitória 2-1 na Final).",
+    },
+    {
+      id: id(),
+      titulo: "Vice-Campeão da Segunda Liga",
+      epoca: "2016/2017",
+      categoria: "Sénior",
+      descricao: "Subida à Primeira Liga Nacional de Futebol.",
+    },
+  ],
+  instalacoes: [
+    {
+      id: id(),
+      nome: "Estádio Municipal do CD Aves",
+      capacidade: "8.560 lugares",
+      recinto: "Relvado Principal",
+      localizacao: "Rua do Estádio, Vila das Aves",
+    },
+    {
+      id: id(),
+      nome: "Pavilhão Municipal do CD Aves",
+      capacidade: "1.200 lugares",
+      recinto: "Piso de Madeira Flutuante",
+      localizacao: "Complexo Desportivo do CD Aves",
+    },
+    {
+      id: id(),
+      nome: "Sintéticos de Formação",
+      capacidade: "300 lugares",
+      recinto: "Relvado Sintético Última Geração",
+      localizacao: "Complexo Desportivo do CD Aves",
+    },
+  ],
+  hospitalidade: [
+    {
+      id: id(),
+      titulo: "Camarotes VIP Corporate",
+      capacidade: "12 a 18 convidados",
+      servicos: "Catering exclusivo, bar aberto, estacionamento reservado e visibilidade privilegiada.",
+    },
+    {
+      id: id(),
+      titulo: "Lounge Executive",
+      capacidade: "Acesso individual VIP",
+      servicos: "Acesso a sala de receção antes do jogo e ao intervalo com serviço de refeição fria.",
+    },
+  ],
+  beneficiosSocios: [
+    { id: id(), titulo: "Acesso a Assembleias Gerais", descricao: "Voto nas decisões estratégicas e eleições do clube." },
+    { id: id(), titulo: "Descontos na Loja Oficial", descricao: "15% de desconto em artigos oficiais e merchandising do CD Aves." },
+    { id: id(), titulo: "Mensalidades Reduzidas na Formação", descricao: "Desconto para filhos de sócios em todas as modalidades do clube." },
+    { id: id(), titulo: "Preço Especial em Bilheteira", descricao: "Entrada gratuita ou com desconto significativo nos jogos em casa." },
+  ],
+  precosSocios: [
+    { id: id(), categoria: "Quota Adulto / Sénior", preco: "8.00 € / mês", frequencia: "Mensal", descricao: "Acesso a todos os direitos associativos e assembleias." },
+    { id: id(), categoria: "Quota Jovem (12-18 anos)", preco: "4.00 € / mês", frequencia: "Mensal", descricao: "Jovens atletas e simpatizantes." },
+    { id: id(), categoria: "Quota Infantil (até 12 anos)", preco: "0.00 €", frequencia: "Gratuito", descricao: "Isento de quota até completar 12 anos." },
+    { id: id(), categoria: "Quota Reformado / Pensionista", preco: "5.00 € / mês", frequencia: "Mensal", descricao: "Para associados reformados com mais de 65 anos." },
+  ],
+  precosLugarAnual: [
+    { id: id(), sector: "Bancada Central Coberta", preco: "75.00 € / época", inclui: "Todos os jogos em casa + lugar reservado no pavilhão" },
+    { id: id(), sector: "Bancada Lateral", preco: "45.00 € / época", inclui: "Todos os jogos em casa das modalidades" },
+  ],
+  contactos: [
+    { id: id(), departamento: "Geral & Secretaria", email: CLUB.email, telefone: CLUB.phone, morada: CLUB.address },
+    { id: id(), departamento: "Gestão de Sócios", email: "socios@cdaves.pt", telefone: "+351 252 870 001", morada: "Secretaria do Estádio" },
+    { id: id(), departamento: "Gabinete de Imprensa", email: "imprensa@cdaves.pt", telefone: "+351 252 870 002", morada: "Estádio Municipal" },
+  ],
+  paginas: [
+    {
+      id: id(),
+      slug: "hospitalidade",
+      titulo: "Hospitalidade & Experiência VIP",
+      resumo: "Conheça os camarotes VIP, lounge de empresa e experiências exclusivas nos jogos do CD Aves.",
+      conteudo: "O CD Aves disponibiliza um serviço de hospitalidade de nível internacional para empresas e particulares...",
+      publicado: "sim",
+      criadoEm: "2026-08-01",
+    },
+    {
+      id: id(),
+      slug: "palmares",
+      titulo: "Palmarés & Conquistas Históricas",
+      resumo: "Galeria de troféus, títulos nacionais e conquistas do Clube Desportivo das Aves.",
+      conteudo: "Em 2018 o CD Aves alcançou o expoente máximo da sua história com a conquista da Taça de Portugal...",
+      publicado: "sim",
+      criadoEm: "2026-08-01",
+    },
+  ],
+  adminUsers: [
+    {
+      id: id(),
+      nome: "João Moreira",
+      email: "admin@cdaves.pt",
+      cargo: "Administrador Geral",
+      perfil: "super_admin",
+      perfilNome: "Super Admin (Acesso Total)",
+      permissoes: "Acesso Total a todas as áreas, definições, cores e utilizadores",
+      activo: "sim",
+      ultimoLogin: "2026-08-02 18:24",
+    },
+    {
+      id: id(),
+      nome: "Gabinete de Imprensa",
+      email: "imprensa@cdaves.pt",
+      cargo: "Assessor de Imprensa",
+      perfil: "gestor_imprensa",
+      perfilNome: "Gestor de Comunicação & Imprensa",
+      permissoes: "Gestão de Notícias, Artigos, Multimédia e Banners CTA",
+      activo: "sim",
+      ultimoLogin: "2026-08-02 14:10",
+    },
+    {
+      id: id(),
+      nome: "Coordenador Desportivo",
+      email: "desporto@cdaves.pt",
+      cargo: "Diretor de Modalidades",
+      perfil: "gestor_desportivo",
+      perfilNome: "Gestor Desportivo / Modalidades",
+      permissoes: "Gestão de Jogos, Marcadores, Modalidades e Plantéis de Atletas",
+      activo: "sim",
+      ultimoLogin: "2026-08-01 19:45",
+    },
+    {
+      id: id(),
+      nome: "Secretaria de Sócios",
+      email: "socios@cdaves.pt",
+      cargo: "Responsável de Secretaria",
+      perfil: "gestor_socios",
+      perfilNome: "Gestor de Secretaria & Sócios",
+      permissoes: "Fichas de Sócios, Tabela de Quotas, Lugar Anual e Contactos",
+      activo: "sim",
+      ultimoLogin: "2026-08-02 09:30",
+    },
+    {
+      id: id(),
+      nome: "Departamento Comercial",
+      email: "corporate@cdaves.pt",
+      cargo: "Gestor de Parcerias",
+      perfil: "gestor_corporate",
+      perfilNome: "Gestor Comercial & Corporate",
+      permissoes: "Gestão de Patrocinadores, Parceiros e Hospitalidade VIP",
+      activo: "sim",
+      ultimoLogin: "2026-07-30 16:20",
+    },
+  ],
   settings: {
     quota: "8",
     moeda: "EUR",
@@ -506,8 +684,8 @@ export function applyDesignSettings(settings: Partial<AdminState["settings"]>) {
   if (typeof window === "undefined") return;
   const root = document.documentElement;
 
-  // 1. Carregar Google Fontes Dinamicamente no <head>
-  if (settings.googleFont) {
+  // 1. Carregar Google Fontes Dinamicamente apenas se personalizada
+  if (settings.googleFont && !["Barlow", "Inter"].includes(settings.googleFont)) {
     const fontName = settings.googleFont;
     let linkEl = document.getElementById("google-font-dynamic") as HTMLLinkElement;
     const fontHref = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontName)}:wght@400;500;600;700;800;900&display=swap`;
@@ -520,8 +698,11 @@ export function applyDesignSettings(settings: Partial<AdminState["settings"]>) {
     }
     linkEl.href = fontHref;
 
-    document.body.style.fontFamily = `'${fontName}', sans-serif`;
-    root.style.setProperty("--font-sans", `'${fontName}', sans-serif`);
+    document.body.style.fontFamily = `'${fontName}', system-ui, sans-serif`;
+    root.style.setProperty("--font-sans", `'${fontName}', system-ui, sans-serif`);
+  } else {
+    document.body.style.fontFamily = "";
+    root.style.removeProperty("--font-sans");
   }
 
   // 2. Aplicar Variáveis de Cores (apenas quando definidas ativamente)
@@ -542,10 +723,22 @@ export function applyDesignSettings(settings: Partial<AdminState["settings"]>) {
     root.style.setProperty("--cta-text", settings.ctaTextColor);
   }
 
-  // Menus
-  if (settings.headerBgColor) root.style.setProperty("--header-bg", settings.headerBgColor);
-  if (settings.headerTextColor) root.style.setProperty("--header-text", settings.headerTextColor);
-  if (settings.headerHoverColor) root.style.setProperty("--header-hover", settings.headerHoverColor);
+  // Menus (apenas quando personalizados)
+  if (settings.headerBgColor && settings.headerBgColor !== "#FFFFFF") {
+    root.style.setProperty("--header-bg", settings.headerBgColor);
+  } else {
+    root.style.removeProperty("--header-bg");
+  }
+  if (settings.headerTextColor && settings.headerTextColor !== "#0F172A") {
+    root.style.setProperty("--header-text", settings.headerTextColor);
+  } else {
+    root.style.removeProperty("--header-text");
+  }
+  if (settings.headerHoverColor && settings.headerHoverColor !== "#D90429") {
+    root.style.setProperty("--header-hover", settings.headerHoverColor);
+  } else {
+    root.style.removeProperty("--header-hover");
+  }
 }
 
 function emit() {
@@ -557,6 +750,35 @@ function emit() {
 export function subscribe(l: () => void) {
   listeners.add(l);
   return () => listeners.delete(l);
+}
+
+async function syncFromMongo() {
+  if (typeof window === "undefined") return;
+  try {
+    const res = await fetch("/api/db/all");
+    const json = await res.json();
+    if (json.ok && json.data) {
+      let updated = false;
+      const patch: Partial<AdminState> = {};
+      Object.keys(json.data).forEach((key) => {
+        if (Array.isArray(json.data[key]) && json.data[key].length > 0) {
+          (patch as any)[key] = json.data[key];
+          updated = true;
+        }
+      });
+      if (updated) {
+        state = { ...state, ...patch };
+        saveToStorage(state);
+        listeners.forEach((l) => l());
+      }
+    }
+  } catch (e) {
+    console.error("Erro a sincronizar do MongoDB:", e);
+  }
+}
+
+if (typeof window !== "undefined") {
+  setTimeout(() => syncFromMongo(), 100);
 }
 
 export function getState() {
@@ -572,22 +794,47 @@ export function useAdmin<T>(selector: (s: AdminState) => T): T {
 }
 
 export function addRow(slice: SliceKey, row: Omit<Row, "id">) {
-  state[slice] = [...state[slice], { ...row, id: id() } as Row];
+  const newRow = { ...row, id: id() } as Row;
+  state[slice] = [...state[slice], newRow];
   emit();
+
+  fetch(`/api/db/${slice}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newRow),
+  }).catch((e) => console.error(`Erro ao guardar no MongoDB (${slice}):`, e));
 }
 
 export function updateRow(slice: SliceKey, rowId: string, patch: Partial<Row>) {
+  const existing = state[slice].find((r) => r.id === rowId);
+  const updatedRow = { ...(existing || {}), ...patch, id: rowId };
   state[slice] = state[slice].map((r) => (r.id === rowId ? { ...r, ...patch } : r));
   emit();
+
+  fetch(`/api/db/${slice}/${rowId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updatedRow),
+  }).catch((e) => console.error(`Erro ao atualizar no MongoDB (${slice}):`, e));
 }
 
 export function removeRow(slice: SliceKey, rowId: string) {
   state[slice] = state[slice].filter((r) => r.id !== rowId);
   emit();
+
+  fetch(`/api/db/${slice}/${rowId}`, {
+    method: "DELETE",
+  }).catch((e) => console.error(`Erro ao eliminar no MongoDB (${slice}):`, e));
 }
 
 export function updateSettings(patch: Partial<AdminState["settings"]>) {
   state.settings = { ...state.settings, ...patch };
   applyDesignSettings(state.settings);
   emit();
+
+  fetch("/api/db/settings", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: "global_settings", ...state.settings }),
+  }).catch((e) => console.error("Erro ao atualizar definições no MongoDB (cdaves_design.settings):", e));
 }

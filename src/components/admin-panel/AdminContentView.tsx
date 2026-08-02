@@ -4,6 +4,7 @@ import { AdminFutebolEquipasView } from "./AdminFutebolEquipasView";
 import { AdminFutebolAtletasView } from "./AdminFutebolAtletasView";
 import { AdminModalidadesView } from "./AdminModalidadesView";
 import { AdminPaginasView } from "./AdminPaginasView";
+import { AdminInstitucionalView } from "./AdminInstitucionalView";
 import { AdminPatrociniosView } from "./AdminPatrociniosView";
 import { AdminMultimediaFotosView } from "./AdminMultimediaFotosView";
 import { AdminMultimediaVideosView } from "./AdminMultimediaVideosView";
@@ -12,6 +13,7 @@ import { AdminSociosView } from "./AdminSociosView";
 import { AdminContactosView } from "./AdminContactosView";
 import { AdminDesignView } from "./AdminDesignView";
 import { AdminCtasView } from "./AdminCtasView";
+import { AdminUtilizadoresView } from "./AdminUtilizadoresView";
 
 type ContentProps = {
   tabId: string;
@@ -37,8 +39,10 @@ export function AdminContentView({ tabId }: ContentProps) {
       return <AdminModalidadesView />;
 
     case "paginas":
-    case "institucional":
       return <AdminPaginasView />;
+
+    case "institucional":
+      return <AdminInstitucionalView />;
 
     case "ctas":
       return <AdminCtasView />;
@@ -63,6 +67,29 @@ export function AdminContentView({ tabId }: ContentProps) {
 
     case "contactos":
       return <AdminContactosView />;
+
+    case "utilizadores":
+      return <AdminUtilizadoresView />;
+
+    case "socios-pagamentos":
+      return (
+        <div className="bg-card border border-border rounded-xl p-8 space-y-4">
+          <h2 className="font-display text-xl uppercase text-foreground">CONFIGURAÇÃO DE MÉTODOS DE PAGAMENTO (SÓCIOS)</h2>
+          <p className="text-muted-foreground text-xs font-mono">
+            Módulo em preparação: Gestão de IBAN, Multibanco, MB WAY, Débito Direto e Gateway de Pagamentos.
+          </p>
+        </div>
+      );
+
+    case "perfis":
+      return (
+        <div className="bg-card border border-border rounded-xl p-8 space-y-4">
+          <h2 className="font-display text-xl uppercase text-foreground">PERFIS E PERMISSÕES (RBAC)</h2>
+          <p className="text-muted-foreground text-xs font-mono">
+            Módulo em preparação: Gestão de funções (Super Admin, Editor de Notícias, Gestor de Modalidades, Gestor de Sócios).
+          </p>
+        </div>
+      );
 
     default:
       return null;

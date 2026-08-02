@@ -2,6 +2,7 @@ import { CalendarDays, MapPin } from "lucide-react";
 import logo from "@/assets/logo-cd.png";
 import { useAdmin, Row } from "@/admin/store";
 import { CLUB } from "@/data/club";
+import { formatDateDDMMYYYY } from "@/lib/formatters";
 
 // Só o logo — sem nome
 function TeamLogo({ src, name }: { src?: string; name: string }) {
@@ -135,11 +136,6 @@ export function MatchStrip() {
           </div>
         </div>
 
-        {/* Data do Jogo centralizada logo abaixo da hora ou resultado */}
-        <p className="mt-1.5 text-center text-[9px] sm:text-[10px] md:text-[11px] uppercase tracking-widest text-white/70 font-semibold">
-          {String(featured.data ?? "")}
-        </p>
-
         {/* Linha 2 — Nomes das equipas alinhados na mesma linha horizontal */}
         <div className="mt-2 sm:mt-3 flex items-start justify-center gap-3 sm:gap-4 md:gap-14">
           <p className={`${BADGE_W} text-[9px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-widest leading-tight break-words text-center text-white/90`}>
@@ -159,8 +155,8 @@ export function MatchStrip() {
           <span className="flex items-center gap-1.5">
             <MapPin className="h-3 w-3 text-accent" /> {String(featured.estadio ?? "")}
           </span>
-          <span className="flex items-center gap-1.5">
-            <CalendarDays className="h-3 w-3 text-accent" /> {String(featured.data ?? "")} · {home ? "Em casa" : "Fora"}
+          <span className="flex items-center gap-1.5 font-mono">
+            <CalendarDays className="h-3 w-3 text-accent" /> {formatDateDDMMYYYY(String(featured.data ?? ""))} · {home ? "Em casa" : "Fora"}
           </span>
         </div>
       </div>

@@ -14,6 +14,10 @@ const fields: InlineField[] = [
 ];
 
 export function AdminFutebolAtletasView() {
+  const modalidades = useAdmin((s) => s.modalidades ?? []);
+  const futebolMod = modalidades.find((m) => String(m.slug) === "futebol" || String(m.nome).toLowerCase().includes("futebol profissional"));
+  const isFutebolActive = futebolMod ? String(futebolMod.activa) === "sim" || String(futebolMod.activa) === "true" : false;
+
   const jogadores = useAdmin((s) => s.jogadores ?? []);
   const [search, setSearch] = useState("");
   const [posFilter, setPosFilter] = useState("Todas");
@@ -89,6 +93,17 @@ export function AdminFutebolAtletasView() {
 
   return (
     <div className="space-y-6">
+      {!isFutebolActive && (
+        <div className="bg-amber-50 border border-amber-300 rounded-xl p-4 flex items-center gap-3 text-xs font-mono text-amber-900 shadow-sm">
+          <span className="bg-amber-200 text-amber-900 px-2 py-0.5 rounded text-[10px] font-bold uppercase shrink-0">
+            Futebol Inativo
+          </span>
+          <p>
+            <strong>Futebol Profissional atualmente Inativo no CD Aves.</strong> Esta secção está ocultada no site público. O código e registos foram salvaguardados e permanecem inutilizáveis até reativação no separador <em>Gestão de Modalidades</em>.
+          </p>
+        </div>
+      )}
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-foreground font-display text-2xl uppercase tracking-tight">ATLETAS DE FUTEBOL</h1>

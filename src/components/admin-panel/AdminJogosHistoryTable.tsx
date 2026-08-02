@@ -45,12 +45,13 @@ export function AdminJogosHistoryTable({ games }: TableProps) {
                   ? (g.homeScore ?? 0) > (g.awayScore ?? 0)
                   : (g.awayScore ?? 0) > (g.homeScore ?? 0);
                 const isDraw = (g.homeScore ?? 0) === (g.awayScore ?? 0);
+
                 const badge = isDraw ? "E" : isWinner ? "V" : "D";
-                const badgeCls = isDraw
-                  ? "bg-secondary text-slate-700"
-                  : isWinner
-                  ? "bg-primary/10 text-primary"
-                  : "bg-destructive/10 text-destructive";
+                const badgeCls = isWinner
+                  ? "bg-emerald-500/15 text-emerald-600 font-bold"
+                  : isDraw
+                  ? "bg-amber-500/15 text-amber-600 font-bold"
+                  : "bg-red-500/15 text-red-600 font-bold";
 
                 return (
                   <tr key={g.id} className="hover:bg-slate-50 transition-colors">

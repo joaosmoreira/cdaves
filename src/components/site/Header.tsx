@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,19 @@ const NAV = [
 export function Header() {
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const logoUrl = useAdmin((s) => s.settings?.logoUrl ?? logo);
+  const modalidades = useAdmin((s) => s.modalidades ?? []);
+
+  const futebolMod = modalidades.find((m) => String(m.slug) === "futebol" || String(m.nome).toLowerCase().includes("futebol profissional"));
+  const isFutebolActive = futebolMod ? String(futebolMod.activa) === "sim" || String(futebolMod.activa) === "true" : false;
+
+  const navItems = NAV.filter((item) => {
+    if (item.to === "/futebol" && !isFutebolActive) {
+      return false;
+    }
+    return true;
+  });
 
   useEffect(() => {
     function handleScroll() {
@@ -37,7 +49,8 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isDarkHeader = !isScrolled && !open;
+  const isHomePage = pathname === "/";
+  const isDarkHeader = isHomePage && !isScrolled && !open;
 
   return (
     <header
@@ -56,7 +69,7 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">
-          {NAV.map((item) => (
+          {navItems.map((item) => (
             <Link
               key={item.to}
               to={item.to}
@@ -87,7 +100,7 @@ export function Header() {
       {open && (
         <nav className="border-t border-border bg-background text-foreground lg:hidden shadow-lg">
           <div className="mx-auto flex max-w-7xl flex-col px-4 py-2">
-            {NAV.map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}

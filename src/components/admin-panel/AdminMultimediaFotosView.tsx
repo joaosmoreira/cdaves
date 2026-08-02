@@ -18,7 +18,7 @@ import {
   Handshake,
 } from "lucide-react";
 import { toast } from "sonner";
-import { addRow, removeRow, useAdmin, Row } from "@/admin/store";
+import { addRow, removeRow, updateRow, useAdmin, Row } from "@/admin/store";
 
 type FolderKey = "all" | "site_static" | "noticias" | "atletas" | "patrocinadores";
 

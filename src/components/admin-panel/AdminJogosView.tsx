@@ -5,6 +5,11 @@ import logoCd from "@/assets/logo-cd.png";
 import { updateRow, addRow, useAdmin, Row } from "@/admin/store";
 import { AdminJogosHistoryTable } from "./AdminJogosHistoryTable";
 import { GameRecord } from "./types";
+import { formatDateDDMMYYYY } from "@/lib/formatters";
+
+function formatDateForDisplay(dateStr: string): string {
+  return formatDateDDMMYYYY(dateStr);
+}
 
 export function AdminJogosView() {
   const jogos = useAdmin((s) => s.jogos);
@@ -71,7 +76,7 @@ export function AdminJogosView() {
       tipo: "Próximo jogo",
       adversario: newOpponent.trim(),
       local: newIsHome ? "Casa" : "Fora",
-      data: newDate,
+      data: formatDateForDisplay(newDate),
       hora: newTime,
       estadio: newStadium,
       competicao: newCompetition,
@@ -149,7 +154,7 @@ export function AdminJogosView() {
         {/* Cartão Último Jogo */}
         <div className="bg-card border border-border rounded-xl p-6 flex flex-col justify-between gap-5 shadow-sm">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-mono uppercase tracking-widest text-primary font-bold">Último Jogo Finalizado</p>
+            <p className="text-xs font-mono uppercase tracking-widest text-primary font-bold">Último Jogo</p>
             <span className="bg-secondary text-foreground px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold">
               {displayLast.competition}
             </span>
@@ -214,7 +219,7 @@ export function AdminJogosView() {
         {/* Cartão Próximo Jogo */}
         <div className="bg-card border border-border rounded-xl p-6 flex flex-col justify-between gap-5 shadow-sm">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-mono uppercase tracking-widest text-primary font-bold">Próximo Jogo Agendado (Exibido no Site)</p>
+            <p className="text-xs font-mono uppercase tracking-widest text-primary font-bold">Próximo Jogo</p>
             <span className="bg-secondary text-foreground px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold">
               {displayNext.competition}
             </span>
@@ -272,15 +277,6 @@ export function AdminJogosView() {
               <span className="text-foreground truncate">{displayNext.stadium}</span>
             </div>
           </div>
-
-          {!showInlineForm && (
-            <button
-              onClick={() => setShowInlineForm(true)}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md bg-primary/10 border border-primary/30 text-primary text-xs font-bold hover:bg-primary/20 transition-all mt-2"
-            >
-              <Plus size={14} /> Editar dados do Próximo Jogo
-            </button>
-          )}
         </div>
       </div>
 
@@ -362,24 +358,23 @@ export function AdminJogosView() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs font-mono text-muted-foreground">Data do Jogo</label>
+                  <label className="text-xs font-mono text-muted-foreground">Data do Jogo (Calendário) *</label>
                   <input
-                    type="text"
-                    value={newDate}
+                    type="date"
+                    required
+                    value={newDate.includes("-") ? newDate : "2026-08-09"}
                     onChange={(e) => setNewDate(e.target.value)}
-                    placeholder="Ex: 09 Ago 2026"
-                    className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-xs font-sans text-foreground focus:outline-none focus:border-primary"
+                    className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-xs font-mono text-foreground focus:outline-none focus:border-primary"
                   />
                 </div>
 
                 <div className="space-y-1">
                   <label className="text-xs font-mono text-muted-foreground">Hora de Início</label>
                   <input
-                    type="text"
+                    type="time"
                     value={newTime}
                     onChange={(e) => setNewTime(e.target.value)}
-                    placeholder="Ex: 20:30"
-                    className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-xs font-sans text-foreground focus:outline-none focus:border-primary"
+                    className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-xs font-mono text-foreground focus:outline-none focus:border-primary"
                   />
                 </div>
               </div>

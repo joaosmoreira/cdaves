@@ -7,8 +7,8 @@ import { MatchStrip } from "@/components/site/MatchStrip";
 import { CTA, NewsletterCTA } from "@/components/site/CTA";
 import { Button } from "@/components/ui/button";
 import { CLUB, NEWS, MODALIDADES } from "@/data/club";
-
-import { useAdmin } from "@/admin/store";
+import { useAdmin, Row } from "@/admin/store";
+import { formatDateDDMMYYYY } from "@/lib/formatters";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,6 +24,21 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const heroUrl = useAdmin((s) => s.settings?.heroUrl ?? heroImg);
+  const storeNoticias = useAdmin((s) => s.noticias ?? []);
+
+  const newsList = storeNoticias.length > 0
+    ? storeNoticias.map((n: Row) => ({
+        slug: String(n.slug || n.id),
+        title: String(n.titulo || "Sem Título"),
+        category: String(n.categoria || "Geral"),
+        date: formatDateDDMMYYYY(String(n.data || "01/08/2026")),
+        excerpt: String(n.resumo || ""),
+        image: String(n.imagem_capa || n.imagem || n.image || NEWS[0].image),
+      }))
+    : NEWS.map((n) => ({
+        ...n,
+        date: formatDateDDMMYYYY(n.date),
+      }));
 
   return (
     <main>
@@ -89,18 +104,18 @@ function Index() {
           </Link>
         </div>
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {NEWS.slice(0, 9).map((n) => (
+          {newsList.slice(0, 9).map((n, idx) => (
             <Link
-              key={n.slug}
+              key={n.slug + idx}
               to="/noticias/$slug"
               params={{ slug: n.slug }}
               className="group border border-border transition-colors hover:border-primary"
             >
               <img src={n.image} alt={n.title} width={1600} height={900} loading="lazy" className="h-44 w-full object-cover" />
               <div className="p-6">
-                <p className="text-[11px] font-bold uppercase tracking-widest text-primary">{n.category} · {n.date}</p>
+                <p className="text-[11px] font-bold uppercase tracking-widest text-primary font-mono">{n.category} · {n.date}</p>
                 <h3 className="mt-3 font-display text-xl uppercase leading-tight">{n.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{n.excerpt}</p>
+                <p className="mt-2 text-sm text-muted-foreground font-mono">{n.excerpt}</p>
               </div>
             </Link>
           ))}

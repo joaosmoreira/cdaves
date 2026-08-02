@@ -3,6 +3,7 @@ import { ChevronRight, ExternalLink } from "lucide-react";
 import logo from "@/assets/logo-cd.png";
 import { NAVIGATION } from "./navigation";
 import { cn } from "@/lib/utils";
+import { useAdmin, Row } from "@/admin/store";
 
 type SidebarProps = {
   activeTab: string;
@@ -11,6 +12,10 @@ type SidebarProps = {
 };
 
 export function AdminSidebar({ activeTab, onSelectTab, onCloseMobile }: SidebarProps) {
+  const modalidades = useAdmin((s) => s.modalidades ?? []);
+  const futebolMod = modalidades.find((m: Row) => String(m.slug) === "futebol" || String(m.nome).toLowerCase().includes("futebol profissional"));
+  const isFutebolActive = futebolMod ? String(futebolMod.activa) === "sim" || String(futebolMod.activa) === "true" : false;
+
   return (
     <aside className="flex h-full w-64 flex-col border-r border-border bg-card">
       <div className="flex items-center gap-3 border-b border-border px-5 py-4">
@@ -48,6 +53,11 @@ export function AdminSidebar({ activeTab, onSelectTab, onCloseMobile }: SidebarP
                     <div className="flex items-center gap-2.5">
                       {item.icon}
                       <span>{item.label}</span>
+                      {item.id.startsWith("futebol") && !isFutebolActive && (
+                        <span className="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-mono font-bold">
+                          Inativo
+                        </span>
+                      )}
                     </div>
                     {isActive && <ChevronRight size={14} className="opacity-80" />}
                   </button>

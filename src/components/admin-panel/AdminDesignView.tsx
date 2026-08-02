@@ -13,12 +13,14 @@ import {
   Layout,
   Sparkles,
   Megaphone,
+  FileText,
 } from "lucide-react";
 import { toast } from "sonner";
 import logoCd from "@/assets/logo-cd.png";
 import heroStadium from "@/assets/hero-stadium.jpg";
 import { addRow, updateSettings, useAdmin } from "@/admin/store";
 import { AdminCtasView } from "./AdminCtasView";
+import { AdminPaginasView } from "./AdminPaginasView";
 
 const GOOGLE_FONTS = [
   { id: "Inter", name: "Inter (Moderna & Clean)", category: "Sans-Serif", sample: "Clube Desportivo das Aves 1919" },
@@ -34,8 +36,8 @@ const GOOGLE_FONTS = [
 export function AdminDesignView() {
   const settings = useAdmin((s) => s.settings);
 
-  // 5 Submenus: Imagens (estáticas), Fontes, Cores, CTAs, Banners
-  const [activeSubTab, setActiveSubTab] = useState<"imagens" | "fontes" | "cores" | "ctas" | "banners">("imagens");
+  // Submenus: Páginas (CMS), Imagens (estáticas), Fontes, Cores, CTAs, Banners
+  const [activeSubTab, setActiveSubTab] = useState<"paginas" | "imagens" | "fontes" | "cores" | "ctas" | "banners">("paginas");
 
   // Fonte e Imagens Fixas
   const [googleFont, setGoogleFont] = useState(settings?.googleFont ?? "Inter");
@@ -218,8 +220,20 @@ export function AdminDesignView() {
         </div>
       </div>
 
-      {/* 5 SUBMENUS DE NAVEGAÇÃO DO DESIGN */}
+      {/* SUBMENUS DE NAVEGAÇÃO DO DESIGN */}
       <div className="flex flex-wrap items-center gap-2 border-b border-border pb-3 font-mono text-xs">
+        <button
+          type="button"
+          onClick={() => setActiveSubTab("paginas")}
+          className={`px-4 py-2 rounded-lg font-bold transition-all flex items-center gap-2 ${
+            activeSubTab === "paginas"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "bg-secondary/60 text-muted-foreground hover:text-foreground hover:bg-secondary"
+          }`}
+        >
+          <FileText size={14} /> Páginas do Site (CMS)
+        </button>
+
         <button
           type="button"
           onClick={() => setActiveSubTab("imagens")}
@@ -281,7 +295,10 @@ export function AdminDesignView() {
         </button>
       </div>
 
-      {/* CONTEÚDO DOS 5 SUBMENUS */}
+      {/* CONTEÚDO DOS SUBMENUS */}
+
+      {/* SUBMENU 0: 📄 PÁGINAS DO SITE (CMS) */}
+      {activeSubTab === "paginas" && <AdminPaginasView />}
 
       {/* SUBMENU 1: 🖼️ IMAGENS (ESTÁTICAS) */}
       {activeSubTab === "imagens" && (

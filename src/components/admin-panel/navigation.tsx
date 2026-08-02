@@ -15,6 +15,7 @@ import {
   CreditCard,
   Palette,
   Phone,
+  UserCheck,
 } from "lucide-react";
 import { NavGroup } from "./types";
 
@@ -23,7 +24,7 @@ export const NAVIGATION: NavGroup[] = [
     group: "Geral",
     items: [
       { label: "Dashboard", icon: <LayoutDashboard size={16} />, id: "dashboard" },
-      { label: "Jogos e Resultados", icon: <Trophy size={16} />, id: "jogos" },
+      { label: "Jogos", icon: <Trophy size={16} />, id: "jogos" },
     ],
   },
   {
@@ -48,7 +49,6 @@ export const NAVIGATION: NavGroup[] = [
   {
     group: "Clube",
     items: [
-      { label: "Páginas", icon: <FileText size={16} />, id: "paginas" },
       { label: "Institucional", icon: <Building2 size={16} />, id: "institucional" },
     ],
   },
@@ -66,11 +66,24 @@ export const NAVIGATION: NavGroup[] = [
   },
   {
     group: "Sócios",
-    items: [{ label: "Preços e Pagamentos", icon: <CreditCard size={16} />, id: "socios" }],
+    items: [
+      { label: "Preços", icon: <CreditCard size={16} />, id: "socios" },
+      { label: "Pagamentos", icon: <CreditCard size={16} />, id: "socios-pagamentos" },
+    ],
   },
   {
     group: "Design",
-    items: [{ label: "Design e Aparência", icon: <Palette size={16} />, id: "design" }],
+    items: [
+      { label: "Páginas", icon: <FileText size={16} />, id: "paginas" },
+      { label: "Cores e Aparência", icon: <Palette size={16} />, id: "design" },
+    ],
+  },
+  {
+    group: "Segurança",
+    items: [
+      { label: "Utilizadores", icon: <UserCheck size={16} />, id: "utilizadores" },
+      { label: "Perfis", icon: <Shield size={16} />, id: "perfis" },
+    ],
   },
   {
     group: "Contactos",

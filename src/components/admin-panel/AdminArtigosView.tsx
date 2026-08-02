@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { addRow, removeRow, updateRow, useAdmin, Row } from "@/admin/store";
+import { formatDateDDMMYYYY, dateToInputFormat } from "@/lib/formatters";
 
 export type ArticleBlock =
   | { id: string; type: "paragraph"; text: string }
@@ -99,7 +100,7 @@ export function AdminArtigosView() {
     setCategoria("Equipa A");
     setAutor("Gabinete de Imprensa");
     setEstado("Publicado");
-    setData(new Date().toISOString().split("T")[0]);
+    setData(dateToInputFormat(new Date().toISOString().split("T")[0]));
     setResumo("");
     setImagemCapa("");
     setBlocks([
@@ -114,7 +115,7 @@ export function AdminArtigosView() {
     setCategoria(String(row.categoria ?? "Equipa A"));
     setAutor(String(row.autor ?? "Gabinete de Imprensa"));
     setEstado(String(row.estado ?? "Publicado"));
-    setData(String(row.data ?? new Date().toISOString().split("T")[0]));
+    setData(dateToInputFormat(String(row.data ?? "")));
     setResumo(String(row.resumo ?? ""));
     setImagemCapa(String(row.imagem_capa ?? ""));
 
@@ -161,12 +162,23 @@ export function AdminArtigosView() {
       return;
     }
 
+    const cleanSlug = editingRow?.slug
+      ? String(editingRow.slug)
+      : titulo
+          .trim()
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+
     const payload = {
+      slug: cleanSlug,
       titulo: titulo.trim(),
       categoria,
       autor,
       estado,
-      data,
+      data: formatDateDDMMYYYY(data),
       resumo: resumo.trim(),
       imagem_capa: imagemCapa,
       conteudo_blocos: JSON.stringify(blocks),
@@ -674,7 +686,7 @@ export function AdminArtigosView() {
                     </span>
                   </td>
                   <td className="p-4 text-muted-foreground font-semibold">{String(art.autor ?? "Gabinete de Imprensa")}</td>
-                  <td className="p-4 text-muted-foreground">{String(art.data)}</td>
+                  <td className="p-4 text-muted-foreground font-bold font-mono">{formatDateDDMMYYYY(String(art.data))}</td>
                   <td className="p-4">
                     <span
                       className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${

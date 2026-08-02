@@ -4,7 +4,7 @@ export type NavItem = { label: string; icon: React.ReactNode; id: string };
 export type NavGroup = { group: string; items: NavItem[] };
 
 export type GameRecord = {
-  id: number;
+  id: string | number;
   opponent: string;
   date: string;
   time: string;
@@ -16,7 +16,7 @@ export type GameRecord = {
 };
 
 export type ArticleRecord = {
-  id: number;
+  id: string | number;
   title: string;
   category: string;
   date: string;

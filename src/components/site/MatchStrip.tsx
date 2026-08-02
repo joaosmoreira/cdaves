@@ -6,9 +6,9 @@ import { CLUB } from "@/data/club";
 // Só o logo — sem nome
 function TeamLogo({ src, name }: { src?: string; name: string }) {
   return src ? (
-    <img src={src} alt={`Emblema ${name}`} width={80} height={80} className="h-14 w-14 object-contain md:h-16 md:w-16" />
+    <img src={src} alt={`Emblema ${name}`} width={80} height={80} className="h-12 w-12 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16" />
   ) : (
-    <div className="grid h-14 w-14 place-items-center rounded-full border border-white/30 font-display text-lg md:h-16 md:w-16">
+    <div className="grid h-12 w-12 place-items-center rounded-full border border-white/30 font-display text-base sm:h-14 sm:w-14 md:h-16 md:w-16">
       {name.slice(0, 2).toUpperCase()}
     </div>
   );
@@ -28,20 +28,20 @@ export function MatchStrip() {
   const left = home ? club : rival;
   const right = home ? rival : club;
 
-  const BADGE_W = "w-[6.5rem] md:w-[8.5rem]";
+  const BADGE_W = "w-[5.5rem] sm:w-[6.5rem] md:w-[8.5rem]";
 
   return (
-    <div className="w-full bg-black/75 backdrop-blur-md border-t border-white/10 text-white">
-      <div className="mx-auto max-w-7xl px-4 py-5 md:py-6">
+    <div className="w-full bg-transparent border-t border-white/15 text-white">
+      <div className="mx-auto max-w-7xl px-4 py-4 sm:py-5 md:py-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
+          <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
             {isNext ? "Próximo jogo" : "Último jogo"}
           </p>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-white/70">{String(featured.competicao ?? "")}</p>
+          <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-white/70">{String(featured.competicao ?? "")}</p>
         </div>
 
         {/* Linha 1 — logos alinhados com o marcador/hora */}
-        <div className="mt-4 flex items-center justify-center gap-4 md:gap-14">
+        <div className="mt-3 sm:mt-4 flex items-center justify-center gap-3 sm:gap-4 md:gap-14">
           <div className={`${BADGE_W} flex justify-center`}>
             <TeamLogo src={left.src} name={left.name} />
           </div>
@@ -49,11 +49,11 @@ export function MatchStrip() {
           <div className="text-center">
             {isNext ? (
               <>
-                <p className="font-display text-3xl leading-none md:text-5xl text-white">{String(featured.hora ?? "")}</p>
-                <p className="mt-1.5 text-[10px] uppercase tracking-widest text-white/70">{String(featured.data ?? "")}</p>
+                <p className="font-display text-2xl sm:text-3xl md:text-5xl text-white leading-none">{String(featured.hora ?? "")}</p>
+                <p className="mt-1 text-[9px] sm:text-[10px] uppercase tracking-widest text-white/70">{String(featured.data ?? "")}</p>
               </>
             ) : (
-              <p className="font-display text-4xl leading-none md:text-6xl text-white">{String(featured.resultado ?? "-")}</p>
+              <p className="font-display text-3xl sm:text-4xl md:text-6xl text-white leading-none">{String(featured.resultado ?? "-")}</p>
             )}
           </div>
 
@@ -63,27 +63,27 @@ export function MatchStrip() {
         </div>
 
         {/* Linha 2 — nomes das equipas sempre alinhados entre si */}
-        <div className="mt-3 flex items-start justify-center gap-4 md:gap-14">
-          <p className={`${BADGE_W} text-[10px] md:text-[11px] font-bold uppercase tracking-widest leading-tight break-words text-center text-white/90`}>
+        <div className="mt-2 sm:mt-3 flex items-start justify-center gap-3 sm:gap-4 md:gap-14">
+          <p className={`${BADGE_W} text-[9px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-widest leading-tight break-words text-center text-white/90`}>
             {left.name}
           </p>
           {/* Espaço central igual à largura do marcador */}
           <div className="invisible text-center">
             {isNext ? (
               <>
-                <p className="font-display text-3xl leading-none md:text-5xl">{String(featured.hora ?? "")}</p>
-                <p className="mt-1.5 text-[10px]">{String(featured.data ?? "")}</p>
+                <p className="font-display text-2xl sm:text-3xl md:text-5xl">{String(featured.hora ?? "")}</p>
+                <p className="mt-1 text-[9px] sm:text-[10px]">{String(featured.data ?? "")}</p>
               </>
             ) : (
-              <p className="font-display text-4xl leading-none md:text-6xl">0-0</p>
+              <p className="font-display text-3xl sm:text-4xl md:text-6xl">0-0</p>
             )}
           </div>
-          <p className={`${BADGE_W} text-[10px] md:text-[11px] font-bold uppercase tracking-widest leading-tight break-words text-center text-white/90`}>
+          <p className={`${BADGE_W} text-[9px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-widest leading-tight break-words text-center text-white/90`}>
             {right.name}
           </p>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-5 text-[10px] md:text-[11px] uppercase tracking-widest text-white/75">
+        <div className="mt-3 sm:mt-4 flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-[9px] sm:text-[10px] md:text-[11px] uppercase tracking-widest text-white/75">
           <span className="flex items-center gap-1.5">
             <MapPin className="h-3 w-3 text-accent" /> {String(featured.estadio ?? "")}
           </span>

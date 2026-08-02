@@ -40,49 +40,47 @@ export function MatchStrip() {
           <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-white/70">{String(featured.competicao ?? "")}</p>
         </div>
 
-        {/* Linha 1 — logos alinhados com o marcador/hora */}
+        {/* Linha 1 — Logos e HORA/RESULTADO perfeitamente alinhados no mesmo eixo horizontal */}
         <div className="mt-3 sm:mt-4 flex items-center justify-center gap-3 sm:gap-4 md:gap-14">
-          <div className={`${BADGE_W} flex justify-center`}>
+          <div className={`${BADGE_W} flex justify-center shrink-0`}>
             <TeamLogo src={left.src} name={left.name} />
           </div>
 
-          <div className="text-center">
+          <div className="text-center shrink-0">
             {isNext ? (
-              <>
-                <p className="font-display text-2xl sm:text-3xl md:text-5xl text-white leading-none">{String(featured.hora ?? "")}</p>
-                <p className="mt-1 text-[9px] sm:text-[10px] uppercase tracking-widest text-white/70">{String(featured.data ?? "")}</p>
-              </>
+              <p className="font-display text-3xl sm:text-4xl md:text-6xl text-white leading-none">{String(featured.hora ?? "")}</p>
             ) : (
               <p className="font-display text-3xl sm:text-4xl md:text-6xl text-white leading-none">{String(featured.resultado ?? "-")}</p>
             )}
           </div>
 
-          <div className={`${BADGE_W} flex justify-center`}>
+          <div className={`${BADGE_W} flex justify-center shrink-0`}>
             <TeamLogo src={right.src} name={right.name} />
           </div>
         </div>
 
-        {/* Linha 2 — nomes das equipas sempre alinhados entre si */}
+        {/* Data do Jogo centralizada logo abaixo da hora */}
+        {isNext && (
+          <p className="mt-1.5 text-center text-[9px] sm:text-[10px] md:text-[11px] uppercase tracking-widest text-white/70 font-semibold">
+            {String(featured.data ?? "")}
+          </p>
+        )}
+
+        {/* Linha 2 — Nomes das equipas alinhados na mesma linha horizontal */}
         <div className="mt-2 sm:mt-3 flex items-start justify-center gap-3 sm:gap-4 md:gap-14">
           <p className={`${BADGE_W} text-[9px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-widest leading-tight break-words text-center text-white/90`}>
             {left.name}
           </p>
-          {/* Espaço central igual à largura do marcador */}
-          <div className="invisible text-center">
-            {isNext ? (
-              <>
-                <p className="font-display text-2xl sm:text-3xl md:text-5xl">{String(featured.hora ?? "")}</p>
-                <p className="mt-1 text-[9px] sm:text-[10px]">{String(featured.data ?? "")}</p>
-              </>
-            ) : (
-              <p className="font-display text-3xl sm:text-4xl md:text-6xl">0-0</p>
-            )}
+          {/* Espaço central equivalente ao marcador para manter simetria */}
+          <div className="invisible text-center shrink-0">
+            <p className="font-display text-3xl sm:text-4xl md:text-6xl leading-none">00:00</p>
           </div>
           <p className={`${BADGE_W} text-[9px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-widest leading-tight break-words text-center text-white/90`}>
             {right.name}
           </p>
         </div>
 
+        {/* Detalhes de Estádio e Local */}
         <div className="mt-3 sm:mt-4 flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-[9px] sm:text-[10px] md:text-[11px] uppercase tracking-widest text-white/75">
           <span className="flex items-center gap-1.5">
             <MapPin className="h-3 w-3 text-accent" /> {String(featured.estadio ?? "")}

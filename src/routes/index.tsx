@@ -33,9 +33,9 @@ function Index() {
           alt="Estádio do CD Aves cheio numa noite de jogo"
           width={1920}
           height={1080}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 pointer-events-none" />
         
         {/* Conteúdo Principal do Hero - Disposição Original */}
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-8 md:pb-12">

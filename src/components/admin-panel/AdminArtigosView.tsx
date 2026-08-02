@@ -20,6 +20,7 @@ import {
   FileText,
   Play,
   Sparkles,
+  GripVertical,
 } from "lucide-react";
 import { toast } from "sonner";
 import { addRow, removeRow, updateRow, useAdmin, Row } from "@/admin/store";
@@ -71,6 +72,20 @@ export function AdminArtigosView() {
   const [resumo, setResumo] = useState("");
   const [imagemCapa, setImagemCapa] = useState("");
   const [blocks, setBlocks] = useState<ArticleBlock[]>([]);
+
+  // Drag & Drop de blocos
+  const dragIndex = useRef<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  function reorderBlocks(fromIndex: number, toIndex: number) {
+    if (fromIndex === toIndex) return;
+    setBlocks((prev) => {
+      const updated = [...prev];
+      const [moved] = updated.splice(fromIndex, 1);
+      updated.splice(toIndex, 0, moved);
+      return updated;
+    });
+  }
 
   const filtered = (noticias ?? []).filter((n) => {
     const matchSearch = String(n.titulo ?? "").toLowerCase().includes(search.toLowerCase());
@@ -392,8 +407,8 @@ export function AdminArtigosView() {
               </div>
             </div>
 
-            {/* Renderização dos Blocos */}
-            <div className="space-y-4">
+            {/* Renderização dos Blocos com Drag & Drop */}
+            <div className="space-y-2">
               {blocks.length === 0 ? (
                 <div className="py-12 border-2 border-dashed border-border rounded-xl text-center font-mono text-xs text-muted-foreground space-y-3">
                   <FileText size={32} className="mx-auto text-muted-foreground/60" />
@@ -403,17 +418,63 @@ export function AdminArtigosView() {
                 blocks.map((block, index) => (
                   <div
                     key={block.id}
-                    className="bg-secondary/40 border border-border rounded-xl p-4 transition-all hover:border-primary/40 space-y-3"
+                    draggable
+                    onDragStart={(e) => {
+                      dragIndex.current = index;
+                      e.dataTransfer.effectAllowed = "move";
+                      // Pequeno atraso para o browser criar o ghost antes de aplicar opacidade
+                      requestAnimationFrame(() => {
+                        (e.target as HTMLElement).style.opacity = "0.4";
+                      });
+                    }}
+                    onDragEnd={(e) => {
+                      (e.target as HTMLElement).style.opacity = "1";
+                      dragIndex.current = null;
+                      setDragOverIndex(null);
+                    }}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.dataTransfer.dropEffect = "move";
+                      setDragOverIndex(index);
+                    }}
+                    onDragLeave={() => {
+                      if (dragOverIndex === index) setDragOverIndex(null);
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      if (dragIndex.current !== null && dragIndex.current !== index) {
+                        reorderBlocks(dragIndex.current, index);
+                      }
+                      setDragOverIndex(null);
+                      dragIndex.current = null;
+                    }}
+                    style={{ transition: "transform 150ms ease, box-shadow 150ms ease" }}
+                    className={[
+                      "bg-secondary/40 border rounded-xl p-4 space-y-3 select-none",
+                      dragOverIndex === index && dragIndex.current !== index
+                        ? "border-primary ring-2 ring-primary/30 bg-primary/5 scale-[1.01]"
+                        : "border-border hover:border-primary/40",
+                    ].join(" ")}
                   >
+                    {/* BARRA DE TÍTULO COM HANDLE DE DRAG */}
                     <div className="flex items-center justify-between border-b border-border/60 pb-2 text-xs font-mono">
-                      <span className="font-bold uppercase text-primary flex items-center gap-1.5">
-                        {block.type === "paragraph" && <Type size={14} />}
-                        {block.type === "heading" && <Type size={14} />}
-                        {block.type === "image" && <ImageIcon size={14} />}
-                        {block.type === "video" && <VideoIcon size={14} className="text-amber-600" />}
-                        {block.type === "quote" && <Quote size={14} />}
-                        Bloco #{index + 1} · {block.type === "paragraph" ? "Parágrafo de Texto" : block.type === "heading" ? "Sub-título (H2)" : block.type === "image" ? "Fotografia no Texto" : block.type === "video" ? "Vídeo Incorporado (YouTube)" : "Citação / Destaque"}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        {/* Handle drag & drop */}
+                        <span
+                          className="cursor-grab active:cursor-grabbing text-muted-foreground/50 hover:text-muted-foreground transition-colors p-0.5 rounded"
+                          title="Arraste para reordenar"
+                        >
+                          <GripVertical size={16} />
+                        </span>
+                        <span className="font-bold uppercase text-primary flex items-center gap-1.5">
+                          {block.type === "paragraph" && <Type size={14} />}
+                          {block.type === "heading" && <Type size={14} />}
+                          {block.type === "image" && <ImageIcon size={14} />}
+                          {block.type === "video" && <VideoIcon size={14} className="text-amber-600" />}
+                          {block.type === "quote" && <Quote size={14} />}
+                          Bloco #{index + 1} · {block.type === "paragraph" ? "Parágrafo" : block.type === "heading" ? "Sub-título (H2)" : block.type === "image" ? "Fotografia" : block.type === "video" ? "Vídeo (YouTube)" : "Citação"}
+                        </span>
+                      </div>
 
                       <div className="flex items-center gap-1">
                         <button
@@ -445,14 +506,15 @@ export function AdminArtigosView() {
                       </div>
                     </div>
 
-                    {/* EDICAO DE CADA BLOCO */}
+                    {/* EDIÇÃO DE CADA BLOCO */}
                     {block.type === "paragraph" && (
                       <textarea
                         rows={3}
                         placeholder="Escreva aqui o parágrafo..."
                         value={block.text ?? ""}
                         onChange={(e) => updateBlock(block.id, { text: e.target.value })}
-                        className="w-full bg-card border border-border rounded-lg p-3 text-xs text-foreground font-sans leading-relaxed focus:outline-none focus:border-primary"
+                        onMouseDown={(e) => e.stopPropagation()}
+                        className="w-full bg-card border border-border rounded-lg p-3 text-xs text-foreground font-sans leading-relaxed focus:outline-none focus:border-primary cursor-text"
                       />
                     )}
 
@@ -462,7 +524,8 @@ export function AdminArtigosView() {
                         placeholder="Sub-título da secção..."
                         value={block.text ?? ""}
                         onChange={(e) => updateBlock(block.id, { text: e.target.value })}
-                        className="w-full bg-card border border-border rounded-lg p-3 text-sm font-display uppercase tracking-tight text-foreground focus:outline-none focus:border-primary"
+                        onMouseDown={(e) => e.stopPropagation()}
+                        className="w-full bg-card border border-border rounded-lg p-3 text-sm font-display uppercase tracking-tight text-foreground focus:outline-none focus:border-primary cursor-text"
                       />
                     )}
 
@@ -481,14 +544,16 @@ export function AdminArtigosView() {
                           placeholder="Texto da citação..."
                           value={block.text ?? ""}
                           onChange={(e) => updateBlock(block.id, { text: e.target.value })}
-                          className="w-full bg-card border border-border rounded-lg p-2.5 text-foreground italic font-sans sm:col-span-2"
+                          onMouseDown={(e) => e.stopPropagation()}
+                          className="w-full bg-card border border-border rounded-lg p-2.5 text-foreground italic font-sans sm:col-span-2 cursor-text"
                         />
                         <input
                           type="text"
                           placeholder="Autor da citação"
                           value={block.author ?? ""}
                           onChange={(e) => updateBlock(block.id, { author: e.target.value })}
-                          className="w-full bg-card border border-border rounded-lg p-2 text-foreground font-mono"
+                          onMouseDown={(e) => e.stopPropagation()}
+                          className="w-full bg-card border border-border rounded-lg p-2 text-foreground font-mono cursor-text"
                         />
                       </div>
                     )}

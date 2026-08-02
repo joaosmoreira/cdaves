@@ -197,14 +197,16 @@ export function AdminArtigosView() {
   }
 
   function moveBlock(index: number, direction: "up" | "down") {
-    if (direction === "up" && index === 0) return;
-    if (direction === "down" && index === blocks.length - 1) return;
-    const targetIndex = direction === "up" ? index - 1 : index + 1;
-    const updated = [...blocks];
-    const temp = updated[index];
-    updated[index] = updated[targetIndex];
-    updated[targetIndex] = temp;
-    setBlocks(updated);
+    setBlocks((prev) => {
+      if (direction === "up" && index === 0) return prev;
+      if (direction === "down" && index === prev.length - 1) return prev;
+      const targetIndex = direction === "up" ? index - 1 : index + 1;
+      const updated = [...prev];
+      const temp = updated[index];
+      updated[index] = updated[targetIndex];
+      updated[targetIndex] = temp;
+      return updated;
+    });
   }
 
   // ----------------------------------------------------
@@ -400,7 +402,7 @@ export function AdminArtigosView() {
               ) : (
                 blocks.map((block, index) => (
                   <div
-                    key={block.id || index}
+                    key={block.id}
                     className="bg-secondary/40 border border-border rounded-xl p-4 transition-all hover:border-primary/40 space-y-3"
                   >
                     <div className="flex items-center justify-between border-b border-border/60 pb-2 text-xs font-mono">

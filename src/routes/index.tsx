@@ -33,18 +33,19 @@ function Index() {
           alt="Estádio do CD Aves cheio numa noite de jogo"
           width={1920}
           height={1080}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+          style={{ objectPosition: "center 30%" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/60 to-transparent" />
-        <div className="relative mx-auto w-full max-w-7xl px-4 pb-20">
-          <p className="text-xs font-bold uppercase tracking-[0.35em] text-accent">Desde {CLUB.founded}</p>
-          <h1 className="mt-4 max-w-4xl font-display text-5xl uppercase leading-[0.85] tracking-tight text-background md:text-8xl">
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/50 to-transparent" />
+        <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 md:pb-20">
+          <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-accent md:text-xs">Desde {CLUB.founded}</p>
+          <h1 className="mt-3 max-w-4xl font-display text-4xl uppercase leading-[0.88] tracking-tight text-background sm:text-5xl md:text-8xl">
             Vermelho e branco <span className="text-accent">no coração</span>
           </h1>
-          <p className="mt-5 max-w-xl text-sm text-background/80 md:text-lg">
+          <p className="mt-4 max-w-xl text-sm text-background/80 md:text-lg">
             {CLUB.fullName}. Uma cidade, um clube, milhares de famílias. Junta-te a nós na bancada.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-3 md:mt-8">
             <Button asChild variant="hero" size="lg">
               <Link to="/socios">Tornar-me Sócio</Link>
             </Button>
